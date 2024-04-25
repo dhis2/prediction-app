@@ -5,11 +5,32 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-04-25T09:06:19.642Z\n"
-"PO-Revision-Date: 2024-04-25T09:06:19.642Z\n"
+"POT-Creation-Date: 2024-04-25T09:40:01.422Z\n"
+"PO-Revision-Date: 2024-04-25T09:40:01.422Z\n"
 
 msgid "About this app"
 msgstr "About this app"
+
+msgid "Data element"
+msgstr "Data element"
+
+msgid "No match found"
+msgstr "No match found"
+
+msgid "Data element to import data to"
+msgstr "Data element to import data to"
+
+msgid "Organisation unit level"
+msgstr "Organisation unit level"
+
+msgid "Organisation unit level to import data to"
+msgstr "Organisation unit level to import data to"
+
+msgid "Parent organisation unit"
+msgstr "Parent organisation unit"
+
+msgid "Org unit parent needs to be above or equal to the org unit level"
+msgstr "Org unit parent needs to be above or equal to the org unit level"
 
 msgid "Make prediction"
 msgstr "Make prediction"
