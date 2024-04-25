@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import i18n from "@dhis2/d2-i18n";
+import { Button } from "@dhis2/ui";
 import OrgUnits from "./OrgUnits";
 import DataElement from "./DataElement";
 import MonthlyPeriodSelect from "./MonthlyPeriodSelect";
+import DownloadData from "./DownloadData";
 import styles from "./styles/PredictionPage.module.css";
 
 const defaultPeriod = {
@@ -17,6 +19,20 @@ const PredictionPage = () => {
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState();
+  const [startDownload, setStartDownload] = useState(false); // TODO: false
+
+  /*
+  const isValid = Boolean(
+    predictionTarget &&
+      populationData &&
+      temperatureData &&
+      precipitationData &&
+      period &&
+      orgUnits
+  );
+  */
+
+  const isValid = true;
 
   return (
     <div className={styles.container}>
@@ -49,6 +65,23 @@ const PredictionPage = () => {
         onChange={setPrecipitationData}
       />
       <MonthlyPeriodSelect period={period} onChange={setPeriod} />
+      <Button
+        primary
+        disabled={!isValid}
+        onClick={() => setStartDownload(true)}
+      >
+        Download prediction data
+      </Button>
+      {startDownload && isValid && (
+        <DownloadData
+          predictionTarget={predictionTarget}
+          populationData={populationData}
+          temperatureData={temperatureData}
+          precipitationData={precipitationData}
+          period={period}
+          orgUnits={orgUnits}
+        />
+      )}
     </div>
   );
 };

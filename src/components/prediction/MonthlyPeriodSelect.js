@@ -4,7 +4,6 @@ import MonthPicker from "./MonthPicker";
 import styles from "./styles/Period.module.css";
 
 const MonthlyPeriodSelect = ({ period, onChange }) => {
-  console.log("MonthlyPeriodSelect", period);
   const { startMonth, endMonth } = period;
 
   return (
