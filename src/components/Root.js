@@ -8,6 +8,7 @@ import styles from "./styles/Root.module.css";
 export const appPages = [
   { path: "/", name: "Home" },
   { path: "/prediction", name: "Make prediction" },
+  { path: "/results", name: "See prediction" },
   { path: "/settings", name: "Settings" },
 ];
 

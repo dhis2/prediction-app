@@ -16,7 +16,9 @@
   "dependencies": {
     "@dhis2/app-runtime": "^3.10.4",
     "file-saver": "^2.0.5",
+    "highcharts": "^11.4.1",
     "jszip": "^3.10.1",
+    "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.23.0"
   }
 }
