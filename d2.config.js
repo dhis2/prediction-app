@@ -1,9 +1,9 @@
 const config = {
-    type: 'app',
+  type: "app",
+  title: "CHAP",
+  entryPoints: {
+    app: "./src/App.js",
+  },
+};
 
-    entryPoints: {
-        app: './src/App.js',
-    },
-}
-
-module.exports = config
+module.exports = config;

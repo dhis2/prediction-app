@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"POT-Creation-Date: 2024-04-25T09:06:19.642Z\n"
+"PO-Revision-Date: 2024-04-25T09:06:19.642Z\n"
+
+msgid "About this app"
+msgstr "About this app"
+
+msgid "Make prediction"
+msgstr "Make prediction"
+
+msgid "App settings"
+msgstr "App settings"
