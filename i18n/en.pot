@@ -5,20 +5,23 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-04-25T09:40:01.422Z\n"
-"PO-Revision-Date: 2024-04-25T09:40:01.422Z\n"
+"POT-Creation-Date: 2024-04-25T10:50:52.785Z\n"
+"PO-Revision-Date: 2024-04-25T10:50:52.785Z\n"
 
 msgid "About this app"
 msgstr "About this app"
 
-msgid "Data element"
-msgstr "Data element"
-
 msgid "No match found"
 msgstr "No match found"
 
-msgid "Data element to import data to"
-msgstr "Data element to import data to"
+msgid "Period"
+msgstr "Period"
+
+msgid "Start month"
+msgstr "Start month"
+
+msgid "End month"
+msgstr "End month"
 
 msgid "Organisation unit level"
 msgstr "Organisation unit level"
@@ -34,6 +37,30 @@ msgstr "Org unit parent needs to be above or equal to the org unit level"
 
 msgid "Make prediction"
 msgstr "Make prediction"
+
+msgid "Prediction target"
+msgstr "Prediction target"
+
+msgid "Select data element"
+msgstr "Select data element"
+
+msgid "Population data"
+msgstr "Population data"
+
+msgid "Select population data element"
+msgstr "Select population data element"
+
+msgid "Temperature data"
+msgstr "Temperature data"
+
+msgid "Select temperature data element"
+msgstr "Select temperature data element"
+
+msgid "Precipitation data"
+msgstr "Precipitation data"
+
+msgid "Select precipitation data element"
+msgstr "Select precipitation data element"
 
 msgid "App settings"
 msgstr "App settings"

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import i18n from "@dhis2/d2-i18n";
 import { useDataQuery } from "@dhis2/app-runtime";
@@ -14,17 +15,29 @@ const dataElementQuery = {
   },
 };
 
-const DataElement = ({ selected, onChange }) => {
+const DataElement = ({ title, label, selected, dataElementCode, onChange }) => {
   const { loading, error, data } = useDataQuery(dataElementQuery);
   const dataElements = data?.results?.dataElements;
 
+  useEffect(() => {
+    if (!selected && dataElementCode && dataElements) {
+      const defaultDataElement = dataElements.find(
+        (d) => d.code === dataElementCode
+      );
+
+      if (defaultDataElement) {
+        onChange(defaultDataElement);
+      }
+    }
+  }, [selected, dataElementCode, dataElements, onChange]);
+
   return (
     <div>
-      <h2>{i18n.t("Prediction target")}</h2>
+      <h2>{title}</h2>
       <SingleSelectField
         filterable
         noMatchText={i18n.t("No match found")}
-        label={i18n.t("Select data element")}
+        label={label}
         selected={selected?.id}
         loading={loading}
         error={!!error}
@@ -42,7 +55,10 @@ const DataElement = ({ selected, onChange }) => {
 };
 
 DataElement.propTypes = {
+  title: PropTypes.string,
+  label: PropTypes.string,
   selected: PropTypes.object,
+  dataset: PropTypes.object,
   onChange: PropTypes.func.isRequired,
 };
 

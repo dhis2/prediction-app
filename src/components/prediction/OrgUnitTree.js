@@ -26,7 +26,7 @@ const OrgUnitTree = ({ orgUnit, onChange }) => {
         selected={orgUnit?.selected}
         onChange={onChange}
         singleSelection={true}
-        initiallyExpanded={roots.map((r) => r.path)}
+        // initiallyExpanded={roots.map((r) => r.path)}
       />
     </div>
   ) : error ? (
