@@ -1,15 +1,28 @@
 import PropTypes from "prop-types";
-// import i18n from "@dhis2/d2-i18n";
+import { useEffect } from "react";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import useOrgUnits from "../../hooks/useOrgUnits";
-// import useEarthEngineData from "../../hooks/useEarthEngineData";
-// import ErrorMessage from "../shared/ErrorMessage";
-// import styles from "./styles/ExtractData.module.css";
 
 const DownloadData = ({ dataset, period, orgUnits, dataElement }) => {
   const { parent, level } = orgUnits;
   const { features } = useOrgUnits(parent.id, level);
 
-  console.log("features", features);
+  useEffect(() => {
+    if (features) {
+      const zip = new JSZip();
+      zip.file(
+        "orgunits.geojson",
+        JSON.stringify({
+          type: "FeatureCollection",
+          features,
+        })
+      );
+      zip.generateAsync({ type: "blob" }).then((content) => {
+        saveAs(content, "chapdata.zip");
+      });
+    }
+  }, [features]);
 
   return null;
 };
