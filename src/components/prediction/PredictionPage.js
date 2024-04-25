@@ -19,9 +19,8 @@ const PredictionPage = () => {
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState();
-  const [startDownload, setStartDownload] = useState(false); // TODO: false
+  const [startDownload, setStartDownload] = useState(false);
 
-  /*
   const isValid = Boolean(
     predictionTarget &&
       populationData &&
@@ -30,9 +29,6 @@ const PredictionPage = () => {
       period &&
       orgUnits
   );
-  */
-
-  const isValid = true;
 
   return (
     <div className={styles.container}>
