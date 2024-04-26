@@ -1,6 +1,6 @@
 const config = {
   type: "app",
-  title: "CHAP",
+  title: "Preditction",
   entryPoints: {
     app: "./src/App.js",
   },
