@@ -1,29 +1,17 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { CssVariables, CssReset, Menu, MenuItem } from "@dhis2/ui";
-import { Outlet, useResolvedPath, useNavigate } from "react-router-dom";
+import { Outlet, useResolvedPath } from "react-router-dom";
 import styles from "./styles/Root.module.css";
-// import OrgUnitTree from "./explore/OrgUnitTree";
-// import useAppSettings from "../hooks/useAppSettings";
 
 export const appPages = [
   { path: "/", name: "Home" },
-  { path: "/prediction", name: "Make prediction" },
+  { path: "/prediction", name: "Make prediction data" },
   { path: "/results", name: "See prediction" },
   { path: "/settings", name: "Settings" },
 ];
 
 const Root = () => {
-  // const { settings } = useAppSettings();
   const { pathname } = useResolvedPath();
-  // const navigate = useNavigate();
-
-  /*
-  useEffect(() => {
-    if (pathname === "/" && settings.startPage) {
-      navigate(settings.startPage);
-    }
-  }, [settings]);
-  */
 
   return (
     <>

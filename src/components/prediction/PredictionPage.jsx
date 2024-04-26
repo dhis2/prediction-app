@@ -32,7 +32,7 @@ const PredictionPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>{i18n.t("Make prediction")}</h1>
+      <h1>{i18n.t("Make prediction data")}</h1>
       <DataElement
         title={i18n.t("Prediction target")}
         label={i18n.t("Select data element")}
