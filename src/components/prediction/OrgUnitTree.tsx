@@ -3,32 +3,39 @@ import i18n from "@dhis2/d2-i18n";
 import { useEffect } from "react";
 import { OrganisationUnitTree } from "@dhis2/ui";
 import useOrgUnitRoots from "../../hooks/useOrgUnitRoots";
+import React from "react";
 
-const OrgUnitTree = ({ orgUnit, onChange }) => {
+interface OrgUnitTreeProps {
+  selectedOrgUnits : any[],
+  onChange : (orgUnit : any) => void
+}
+
+const OrgUnitTree = ({ selectedOrgUnits, onChange } : OrgUnitTreeProps) => {
   const { roots, error } = useOrgUnitRoots();
 
   // Set for root node as default
   useEffect(() => {
-    if (roots && !orgUnit) {
+    if (roots && !selectedOrgUnits) {
       const [root] = roots;
       onChange({ ...root, selected: [root.path] });
     }
-  }, [roots, orgUnit, onChange]);
+  }, [roots]);
 
   // The warnings "The query should be static, don't create it within the render loop!"
   // comes from the OrganisationUnitTree component:
   // https://dhis2.slack.com/archives/C0BP0RABF/p1641544953003000
   return roots ? (
     <div>
-      <h2>{i18n.t("Parent organisation unit")}</h2>
+      <h2>{i18n.t("Select organisation unit")}</h2>
       <OrganisationUnitTree
-        roots={roots.map((r) => r.id)}
-        selected={orgUnit?.selected}
+        roots={roots.map((r : any) => r.id)}
+        selected={selectedOrgUnits?.map((e : any) => e.path)}
         onChange={onChange}
-        singleSelection={true}
-        // initiallyExpanded={roots.map((r) => r.path)}
+      
+        initiallyExpanded={roots.map((r : any) => r.path)}
       />
     </div>
+    
   ) : error ? (
     <div>{error.message}</div>
   ) : null;

@@ -15,7 +15,7 @@ const useOrgUnitRoots = () => {
   const { loading, error, data } = useDataQuery(ORG_UNIT_ROOTS_QUERY);
 
   return {
-    roots: data?.roots?.organisationUnits,
+    roots: (data?.roots as any)?.organisationUnits,
     error,
     loading,
   };
