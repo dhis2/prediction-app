@@ -22,6 +22,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   //Concat selected orgUnits (district, chiefdoms, facililities..) with the id of selected levels
   const mergedOrgUnits = orgUnitLevels.map(level => "LEVEL-"+level).join(";")+";"+orgUnits.map((ou : any) => ou.id).join(";")
 
+  //Convert the period selected to a DHIS2-standard list of months
   const fillPeriodesMonths = (period : any) => {
         const currentDate = new Date(period.startMonth);
         const endDate = new Date(period.endMonth);
@@ -46,15 +47,19 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   const {data : temperature} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const { geoJsons } = useOrgUnits(orgUnits);
 
+  const createGeoJSON = (zip : any) => {
+    (geoJsons as any[]).forEach((content : any) => {
+      zip.file(
+        `${content.id}".geojson`, JSON.stringify({type: "FeatureCollection", features: content.features})
+      );
+    })
+  }
 
   const downloadZip = ()  => {
     const zip = new JSZip();
     //Add all geojsons to the zip
-    (geoJsons as any[]).forEach((f : any) => {
-      zip.file(
-        f.id+".geojson", JSON.stringify({type: "FeatureCollection", features: f.features})
-      );
-    })
+    createGeoJSON(zip)
+
     zip.file("precipitation.json", JSON.stringify(precipitation))
     zip.file("population.json", JSON.stringify(population))
     zip.file("temperature.json", JSON.stringify(temperature))
