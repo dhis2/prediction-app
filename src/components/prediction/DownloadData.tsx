@@ -7,7 +7,6 @@ import useOrgUnits from "../../hooks/useOrgUnits";
 import React from "react";
 
 interface DownloadDataProps {
-  dataset: any;
   period: any;
   orgUnitLevels: any[];
   orgUnits: any;
@@ -19,7 +18,7 @@ interface DownloadDataProps {
 
 const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData}: DownloadDataProps) => {
   
-  //Concat selected orgUnits (district, chiefdoms, facililities..) with the id of selected levels
+  //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
   const mergedOrgUnits = orgUnitLevels.map(level => "LEVEL-"+level).join(";")+";"+orgUnits.map((ou : any) => ou.id).join(";")
 
   //Convert the period selected to a DHIS2-standard list of months
@@ -72,15 +71,6 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
 
   return (<p>Downloading data..</p>);
 
-};
-
-DownloadData.propTypes = {
-  predictionTarget: PropTypes.object.isRequired,
-  populationData: PropTypes.object.isRequired,
-  temperatureData: PropTypes.object.isRequired,
-  precipitationData: PropTypes.object.isRequired,
-  period: PropTypes.object.isRequired,
-  orgUnits: PropTypes.array.isRequired,
 };
 
 export default DownloadData;

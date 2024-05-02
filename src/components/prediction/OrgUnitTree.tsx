@@ -26,7 +26,7 @@ const OrgUnitTree = ({ selectedOrgUnits, onChange } : OrgUnitTreeProps) => {
   // https://dhis2.slack.com/archives/C0BP0RABF/p1641544953003000
   return roots ? (
     <div>
-      <h2>{i18n.t("Select organisation unit")}</h2>
+      <h2>{i18n.t("Select organisation units")}</h2>
       <OrganisationUnitTree
         roots={roots.map((r : any) => r.id)}
         selected={selectedOrgUnits?.map((e : any) => e.path)}

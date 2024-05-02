@@ -3,7 +3,6 @@ import i18n from "@dhis2/d2-i18n";
 import { useEffect } from "react";
 import { MultiSelectField, MultiSelectOption  } from "@dhis2/ui";
 import  useOrgUnitLevels from "../../hooks/useOrgUnitLevels";
-
 import React from "react";
 
 interface OrgUnitLevelProps {
