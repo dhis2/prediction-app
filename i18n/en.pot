@@ -32,8 +32,8 @@ msgstr "Organisation unit level to import data to"
 msgid "Select organisation units"
 msgstr "Select organisation units"
 
-msgid "Make prediction"
-msgstr "Make prediction"
+msgid "Make prediction data"
+msgstr "Make prediction data"
 
 msgid "Prediction target"
 msgstr "Prediction target"
@@ -58,6 +58,30 @@ msgstr "Precipitation data"
 
 msgid "Select precipitation data element"
 msgstr "Select precipitation data element"
+
+msgid "{{name}}: Daily temperatures {{period}}"
+msgstr "{{name}}: Daily temperatures {{period}}"
+
+msgid "Mean temperature"
+msgstr "Mean temperature"
+
+msgid "Temperature range"
+msgstr "Temperature range"
+
+msgid "Org unit"
+msgstr "Org unit"
+
+msgid "Median"
+msgstr "Median"
+
+msgid "Quantile low"
+msgstr "Quantile low"
+
+msgid "Quantile high"
+msgstr "Quantile high"
+
+msgid "Prediction results"
+msgstr "Prediction results"
 
 msgid "App settings"
 msgstr "App settings"
