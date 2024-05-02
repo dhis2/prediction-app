@@ -45,21 +45,12 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   const {data : precipitation} = useAnalyticRequest(precipitationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : population} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : temperature} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  const { geoJsons } = useOrgUnits(orgUnits);
-
-  const createGeoJSON = (zip : any) => {
-    (geoJsons as any[]).forEach((content : any) => {
-      zip.file(
-        `${content.id}".geojson`, JSON.stringify({type: "FeatureCollection", features: content.features})
-      );
-    })
-  }
+  const { orgUnits: allOrgUnits } = useOrgUnits();
 
   const downloadZip = ()  => {
     const zip = new JSZip();
-    //Add all geojsons to the zip
-    createGeoJSON(zip)
-
+    //Add orgUnits to zip
+    zip.file("orgUnits.json", JSON.stringify(allOrgUnits))
     zip.file("precipitation.json", JSON.stringify(precipitation))
     zip.file("population.json", JSON.stringify(population))
     zip.file("temperature.json", JSON.stringify(temperature))
@@ -72,11 +63,11 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
 
   useEffect(() => {
     //download zip when all data is fetched
-    if (geoJsons && precipitation && population && temperature) {
+    if (allOrgUnits && precipitation && population && temperature) {
       downloadZip();
       setStartDownload(false)
     }
-  }, [geoJsons, precipitation, population, temperature]);
+  }, [allOrgUnits, precipitation, population, temperature]);
 
 
   return (<p>Downloading data..</p>);
