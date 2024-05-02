@@ -20,7 +20,6 @@ const PredictionPage = () => {
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
   const [orgUnitLevels, setOrgUnitLevels] = useState(["wjP19dkFeIk"]);
-
   const [startDownload, setStartDownload] = useState(false);
 
   const isValid = Boolean(
