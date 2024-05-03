@@ -26,8 +26,8 @@ const MonthlyPeriodSelect = ({ period, onChange }) => {
 };
 
 MonthlyPeriodSelect.propTypes = {
-  currentPeriod: PropTypes.object.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  period: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default MonthlyPeriodSelect;

@@ -13,12 +13,13 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
-  const [predictionTarget, setPredictionTarget] = useState();
-  const [populationData, setPopulationData] = useState();
+  const [predictionTarget, setPredictionTarget] = useState({displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'});
+  const [populationData, setPopulationData] = useState({"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"});
   const [temperatureData, setTemperatureData] = useState();
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
-  const [orgUnits, setOrgUnits] = useState();
+  const [orgUnits, setOrgUnits] = useState([]);
+  const [orgUnitLevels, setOrgUnitLevels] = useState(["wjP19dkFeIk"]);
   const [startDownload, setStartDownload] = useState(false);
 
   const isValid = Boolean(
@@ -27,7 +28,7 @@ const PredictionPage = () => {
       temperatureData &&
       precipitationData &&
       period &&
-      orgUnits
+      (orgUnits.length > 0 || orgUnitLevels.length > 0)
   );
 
   return (
@@ -39,8 +40,9 @@ const PredictionPage = () => {
         selected={predictionTarget}
         onChange={setPredictionTarget}
       />
-      <OrgUnits selected={orgUnits} onChange={setOrgUnits} />
+      <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} setOrgUnitLevels={setOrgUnitLevels} orgUnitLevels={orgUnitLevels} />
       <DataElement
+        
         title={i18n.t("Population data")}
         label={i18n.t("Select population data element")}
         selected={populationData}
@@ -63,19 +65,22 @@ const PredictionPage = () => {
       <MonthlyPeriodSelect period={period} onChange={setPeriod} />
       <Button
         primary
-        disabled={!isValid}
+        loading={startDownload}
+        disabled={!isValid || startDownload}
         onClick={() => setStartDownload(true)}
       >
         Download prediction data
       </Button>
       {startDownload && isValid && (
         <DownloadData
+          setStartDownload={setStartDownload}
           predictionTarget={predictionTarget}
           populationData={populationData}
           temperatureData={temperatureData}
           precipitationData={precipitationData}
           period={period}
           orgUnits={orgUnits}
+          orgUnitLevels={orgUnitLevels}
         />
       )}
     </div>

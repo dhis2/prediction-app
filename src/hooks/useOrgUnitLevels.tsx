@@ -15,7 +15,7 @@ const useOrgUnitLevels = () => {
   const { loading, error, data } = useDataQuery(ORG_UNIT_LEVELS_QUERY);
 
   return {
-    levels: data?.levels?.organisationUnitLevels,
+    levels: (data?.levels as any)?.organisationUnitLevels,
     error,
     loading,
   };

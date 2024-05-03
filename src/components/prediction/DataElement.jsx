@@ -31,7 +31,7 @@ const DataElement = ({ title, label, selected, dataElementCode, onChange }) => {
     }
   }, [selected, dataElementCode, dataElements, onChange]);
 
-  return (
+  return !loading && (
     <div>
       <h2>{title}</h2>
       <SingleSelectField
