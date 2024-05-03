@@ -1,6 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
 import styles from "./styles/AboutPage.module.css";
-import useAnalyticRequest from "../hooks/useAnalyticRequest";
 
 const AboutPage = () => {
 
