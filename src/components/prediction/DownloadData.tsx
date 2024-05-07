@@ -13,10 +13,11 @@ interface DownloadDataProps {
   temperatureData: any;
   precipitationData: any;
   populationData: any;
+  predictionData: any;
   setStartDownload: (startDownload : boolean) => void
 }
 
-const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData}: DownloadDataProps) => {
+const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData, predictionData}: DownloadDataProps) => {
   
   //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
   const mergedOrgUnits = orgUnitLevels.map(level => "LEVEL-"+level).join(";")+";"+orgUnits.map((ou : any) => ou.id).join(";")
@@ -44,6 +45,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   const {data : precipitation} = useAnalyticRequest(precipitationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : population} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : temperature} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : prediction} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const { orgUnits: allOrgUnits } = useOrgUnits();
 
   const downloadZip = ()  => {
@@ -53,6 +55,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
     zip.file("precipitation.json", JSON.stringify(precipitation))
     zip.file("population.json", JSON.stringify(population))
     zip.file("temperature.json", JSON.stringify(temperature))
+    zip.file("prediction.json", JSON.stringify(prediction))
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "chapdata.zip");
