@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-03T08:53:57.949Z\n"
-"PO-Revision-Date: 2024-05-03T08:53:57.949Z\n"
+"POT-Creation-Date: 2024-05-07T06:32:20.595Z\n"
+"PO-Revision-Date: 2024-05-07T06:32:20.596Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -59,23 +59,47 @@ msgstr "Precipitation data"
 msgid "Select precipitation data element"
 msgstr "Select precipitation data element"
 
-msgid "{{name}}: Daily temperatures {{period}}"
-msgstr "{{name}}: Daily temperatures {{period}}"
+msgid "Name"
+msgstr "Name"
 
-msgid "Mean temperature"
-msgstr "Mean temperature"
+msgid "Short name"
+msgstr "Short name"
 
-msgid "Temperature range"
-msgstr "Temperature range"
+msgid "Code"
+msgstr "Code"
+
+msgid "Domain type"
+msgstr "Domain type"
+
+msgid "Aggregate"
+msgstr "Aggregate"
+
+msgid "Aggregation type"
+msgstr "Aggregation type"
+
+msgid "Sum"
+msgstr "Sum"
+
+msgid "Aggregation levels"
+msgstr "Aggregation levels"
+
+msgid "Assign all org unit levels"
+msgstr "Assign all org unit levels"
+
+msgid "Predicted cases"
+msgstr "Predicted cases"
+
+msgid "Predication range"
+msgstr "Predication range"
 
 msgid "Org unit"
 msgstr "Org unit"
 
-msgid "Median"
-msgstr "Median"
-
 msgid "Quantile low"
 msgstr "Quantile low"
+
+msgid "Median"
+msgstr "Median"
 
 msgid "Quantile high"
 msgstr "Quantile high"

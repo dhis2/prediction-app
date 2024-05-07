@@ -14,3 +14,13 @@
   font-size: 16px;
   margin: 20px 0 8px;
 }
+
+.prediction{
+  margin-top: 20px;
+  min-height: 550px;
+}
+
+.warning{
+  color: orange;
+  font-weight: 500;
+}

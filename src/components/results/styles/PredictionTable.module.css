@@ -1,5 +1,4 @@
 .table {
-  margin-top: 20px;
   width: 100%;
 }
 
@@ -18,4 +17,12 @@
 
 .table tbody td {
   text-align: right;
+}
+
+.quantile_low{
+  color: #ababab;
+}
+
+.quantile_high{
+  color: #ababab;
 }
