@@ -48,14 +48,18 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   const {data : prediction} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const { orgUnits: allOrgUnits } = useOrgUnits();
 
+  const objectToPrettyJson = (object : any) => {
+    return JSON.stringify(object, null, 2)
+  }
+
   const downloadZip = ()  => {
     const zip = new JSZip();
     //Add orgUnits to zip
-    zip.file("orgUnits.json", JSON.stringify(allOrgUnits))
-    zip.file("precipitation.json", JSON.stringify(precipitation))
-    zip.file("population.json", JSON.stringify(population))
-    zip.file("temperature.json", JSON.stringify(temperature))
-    zip.file("disease.json", JSON.stringify(prediction))
+    zip.file("orgUnits.json", objectToPrettyJson(allOrgUnits))
+    zip.file("precipitation.json", objectToPrettyJson(precipitation))
+    zip.file("population.json", objectToPrettyJson(population))
+    zip.file("temperature.json", objectToPrettyJson(temperature))
+    zip.file("disease.json", objectToPrettyJson(prediction))
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "chapdata.zip");
