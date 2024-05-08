@@ -13,10 +13,11 @@ interface DownloadDataProps {
   temperatureData: any;
   precipitationData: any;
   populationData: any;
+  predictionData: any;
   setStartDownload: (startDownload : boolean) => void
 }
 
-const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData}: DownloadDataProps) => {
+const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData, predictionData}: DownloadDataProps) => {
   
   //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
   const mergedOrgUnits = orgUnitLevels.map(level => "LEVEL-"+level).join(";")+";"+orgUnits.map((ou : any) => ou.id).join(";")
@@ -44,15 +45,21 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   const {data : precipitation} = useAnalyticRequest(precipitationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : population} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : temperature} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : prediction} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const { orgUnits: allOrgUnits } = useOrgUnits();
+
+  const objectToPrettyJson = (object : any) => {
+    return JSON.stringify(object, null, 2)
+  }
 
   const downloadZip = ()  => {
     const zip = new JSZip();
     //Add orgUnits to zip
-    zip.file("orgUnits.json", JSON.stringify(allOrgUnits))
-    zip.file("precipitation.json", JSON.stringify(precipitation))
-    zip.file("population.json", JSON.stringify(population))
-    zip.file("temperature.json", JSON.stringify(temperature))
+    zip.file("orgUnits.json", objectToPrettyJson(allOrgUnits))
+    zip.file("precipitation.json", objectToPrettyJson(precipitation))
+    zip.file("population.json", objectToPrettyJson(population))
+    zip.file("temperature.json", objectToPrettyJson(temperature))
+    zip.file("disease.json", objectToPrettyJson(prediction))
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "chapdata.zip");

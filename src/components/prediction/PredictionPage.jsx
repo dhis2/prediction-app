@@ -74,7 +74,7 @@ const PredictionPage = () => {
       {startDownload && isValid && (
         <DownloadData
           setStartDownload={setStartDownload}
-          predictionTarget={predictionTarget}
+          predictionData={predictionTarget}
           populationData={populationData}
           temperatureData={temperatureData}
           precipitationData={precipitationData}

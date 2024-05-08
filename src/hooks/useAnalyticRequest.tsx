@@ -2,7 +2,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 
 const ORG_UNIT_LEVELS_QUERY = ({ dataElements = [], periodes = [], orgUnit = {} } = {}) => {
   return {
-    levels: {
+    request: {
       resource: "analytics",
       params: {
         paging: false,
@@ -17,7 +17,7 @@ const useAnalyticRequest = (dataElements: any, periodes: any, orgUnit: any) => {
   const { loading, error, data } = useDataQuery(ORG_UNIT_LEVELS_QUERY({ dataElements, periodes, orgUnit }));
 
   return {
-    data,
+    data : data ? (data as any).request : data,
     error,
     loading,
   };
