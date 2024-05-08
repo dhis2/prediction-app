@@ -55,7 +55,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
     zip.file("precipitation.json", JSON.stringify(precipitation))
     zip.file("population.json", JSON.stringify(population))
     zip.file("temperature.json", JSON.stringify(temperature))
-    zip.file("prediction.json", JSON.stringify(prediction))
+    zip.file("disease.json", JSON.stringify(prediction))
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "chapdata.zip");
