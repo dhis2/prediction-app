@@ -6,6 +6,7 @@ const REQUEST = (code : string) => {
     resource: "dataElements",
     params: {
       paging : false,
+      fields : ["code", "displayName", "id"],
       //Get everyting that starts with CHAP-prefix (CHAP_LOW, CHAP_MEDIAN and CHAP_HIGH)
       filter : `code:ilike:${code}`,
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import i18n from "@dhis2/d2-i18n";
 import StyledDropzone from "./StyledDropzone";
 import PredictionTable from "./PredictionTable";
@@ -44,6 +44,18 @@ const ResultsPage = () => {
     }
     return false;
   }
+
+  useEffect(() => {
+    if(dataElementsLow && dataElementsMedian && dataElementsHigh && predictionTargetName) {
+      const low = dataElementsLow.find((de : any) => de.code === `CHAP_LOW_${predictionTargetName.toLocaleUpperCase().replaceAll(" ", "_")}`);
+      if (low) setqLowDataElementId(low);
+      const median = dataElementsMedian.find((de : any) => de.code === `CHAP_MEDIAN_${predictionTargetName.toLocaleUpperCase().replaceAll(" ", "_")}`);
+      if (median) setqMedianDataElementId(median);
+      const high = dataElementsHigh.find((de : any) => de.code === `CHAP_HIGH_${predictionTargetName.toLocaleUpperCase().replaceAll(" ", "_")}`);
+      if (high) setqHighDataElementId(high);
+    }
+  }, [dataElementsLow, dataElementsMedian, dataElementsHigh, predictionTargetName])
+  
 
   //If user has selcted to import prediction into a data element that not contain the predictionName, give a warning to the user.
   const warnAboutUnequalDiseaseAndDataElement = () => {

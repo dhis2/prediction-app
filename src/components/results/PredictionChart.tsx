@@ -32,6 +32,9 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
     xAxis: {
       type: "category"
     },
+    credits: {
+      text : "CHAP"
+    },
     chart: {
       height: 490,
       marginBottom: 125,
