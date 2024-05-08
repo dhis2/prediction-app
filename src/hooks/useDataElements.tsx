@@ -6,18 +6,17 @@ const REQUEST = (code : string) => {
     resource: "dataElements",
     params: {
       paging : false,
+      //Get everyting that starts with CHAP-prefix (CHAP_LOW, CHAP_MEDIAN and CHAP_HIGH)
       filter : `code:ilike:${code}`,
-      //fields : ['id','displayName','level','parent']
     }
   }
 }
 }
 
-const useDataElements = (code : string) => {
+const useDataElements = (codePrefix : "CHAP_LOW" | "CHAP_MEDIAN" | "CHAP_HIGH") => {
   const [dataElements, setDataElements] = useState<any[]>();
 
-  const { loading, error } = useDataQuery(REQUEST(code), {
-    
+  const { loading, error } = useDataQuery(REQUEST(codePrefix), {
     onComplete: (data : any) => setDataElements(data.dataElements.dataElements),
   });
 

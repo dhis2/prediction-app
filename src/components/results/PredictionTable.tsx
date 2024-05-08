@@ -7,31 +7,34 @@ const getValue = (values : any, ou : any, key : any) => {
   return item ? Math.round(item.value) : null;
 };
 
-const PredictionTable = ({ data } : any) => {
+const PredictionTable = ({ data, periode, predictionTargetName } : any) => {
   const values = data.dataValues;
   const orgUnits = [...new Set(values.map((v : any) => v.orgUnit))];
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>{i18n.t("Org unit")}</th>
-          <th>{i18n.t("Quantile low")}</th>
-          <th>{i18n.t("Median")}</th>
-          <th>{i18n.t("Quantile high")}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orgUnits.map((ou : any) => (
-          <tr key={ou}>
-            <th>{values.find((o : any) => o.orgUnit === ou).displayName}</th>    
-            <td className={styles.quantile_low}>{getValue(values, ou, "quantile_low")}</td>
-            <td>{getValue(values, ou, "median")}</td>
-            <td className={styles.quantile_high}>{getValue(values, ou, "quantile_high")}</td>
+    <>
+      <h3>{i18n.t(`Prediction for ${predictionTargetName} for periode ${periode}`)}</h3>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>{i18n.t("Org unit")}</th>
+            <th>{i18n.t("Quantile low")}</th>
+            <th>{i18n.t("Median")}</th>
+            <th>{i18n.t("Quantile high")}</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {orgUnits.map((ou : any) => (
+            <tr key={ou}>
+              <th>{values.find((o : any) => o.orgUnit === ou).displayName}</th>    
+              <td className={styles.quantile_low}>{getValue(values, ou, "quantile_low")}</td>
+              <td>{getValue(values, ou, "median")}</td>
+              <td className={styles.quantile_high}>{getValue(values, ou, "quantile_high")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 

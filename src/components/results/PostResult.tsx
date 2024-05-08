@@ -8,40 +8,30 @@ interface PostResultProps {
   lowDataValueId : string
   medianDataValueId : string
   highDataValueId : string
+  setPostStatus : (value : "loading" | "finish" | "error" | "initial") => void;
+  setPostHttpError : (value : string) => void;
 }
 
+const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValueId, setPostHttpError, setPostStatus} : PostResultProps) => {
 
-
-
-const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValueId} : PostResultProps) => {
-
-  //const [body, setBody] = useState<any>(createBodyRequest(prediction));
-
-  const mapQuantiesToDataElement = (quantile : string) : string => {
-    let retrunValue = "";
-    if(quantile === "quantile_low") retrunValue = lowDataValueId;
-    if(quantile === "median") retrunValue = medianDataValueId;
-    if(quantile === "quantile_high") retrunValue = highDataValueId;
-    return retrunValue
-
+  const mapQuantiesToDataElement = (quantile : string) => {
+    if(quantile === "quantile_low") return lowDataValueId;
+    if(quantile === "median") return medianDataValueId;
+    if(quantile === "quantile_high") return highDataValueId;
   }
 
   const createBodyRequest = (prediction : any) => {
-    const dataValues = prediction.dataValues.map((d : any) => {
-      const de = mapQuantiesToDataElement(d.dataElement);
-      console.log(de);
+    return prediction.dataValues.map((d : any) => {
       return {
-        dataElement: "de",
+        dataElement: mapQuantiesToDataElement(d.dataElement),
         period: d.period,
         orgUnit: d.orgUnit,
         value: d.value
       };
     });
-    console.log(dataValues);
-    return dataValues;
   }
   
-  const myMutation = (data : any) => {
+  const mutatePrediction = (data : any) => {
     return {
       resource: 'dataValueSets',
       type: 'create',
@@ -51,25 +41,34 @@ const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValu
     }
   }
 
-  const [mutate, { loading }] = useDataMutation(myMutation(createBodyRequest(prediction)))
+  const [mutate, { error, loading, called }] = useDataMutation(mutatePrediction(createBodyRequest(prediction)) as any)
 
   const sendPrediction = async () => {
-
-    await mutate();
-
-
+    await mutate()
   }
+
+  useEffect(() => {
+    sendPrediction()
+  }, [])
+
+  //this effect updates the status of the post
+  useEffect(() => {
+    if(!called) return;
+    if(loading) return;
+
+    if(error){
+      setPostHttpError("Something went wrong when posting the prediction.")
+      setPostStatus("error");
+    }
+    if(!error){
+      setPostHttpError("");
+      setPostStatus("finish");
+    }
+    
+  }, [loading])
   
-
-  return (
-    <>  
- 
-    <div className={styles.footer}>
-        <Button onClick={() => sendPrediction()} disabled={loading} loading={loading} icon={<IconArrowRight24/>} primary>Send prediction</Button>
-    </div>
-
-    </>
-  )
+  
+  return null;
 }
 
 export default PostResult

@@ -31,7 +31,7 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const StyledDropzone = ({ onLoad } : any) => {
+const StyledDropzone = ({ onLoad, disabled } : any) => {
 
   const onDrop = useCallback(
     ([file]: any) => {
@@ -50,6 +50,7 @@ const StyledDropzone = ({ onLoad } : any) => {
         "application/json": [".json"],
       },
       multiple: false,
+      disabled : disabled,
       onDrop,
     });
 
@@ -67,7 +68,7 @@ const StyledDropzone = ({ onLoad } : any) => {
     <div className="container">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop the prediction file, or click to select it</p>
+        {disabled ? <p>Loading..</p> : <p>Drag 'n' drop the prediction file, or click to select it</p>}
       </div>
     </div>
   );

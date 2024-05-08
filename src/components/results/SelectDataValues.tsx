@@ -29,7 +29,7 @@ const SelectDataValues = ({value, onChange, label, disease, dataElements} : Sele
       <div className={styles.select}>
         <div className={styles.selectWrapper}>   
           <span>{label}</span>
-          <SingleSelect disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
+          <SingleSelect placeholder='Select data element' disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
             {dataElements?.map((de : any) => (
               <SingleSelectOption key={de.id} label={de.displayName} value={de.id} />
             ))}

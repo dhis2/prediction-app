@@ -25,7 +25,7 @@ const SetupInstruction = ({ disease, warning }: SetupInstructionProps) => {
           {warning && 
           <> 
             <p>
-              It seems like you missing CHAP predication Data Elements for "{disease}".
+              It seems like you missing Data Elements for CHAP predication.
             </p>
           </>}
         </div>

@@ -4,68 +4,42 @@ import accessibility from "highcharts/modules/accessibility";
 import highchartsMore from "highcharts/highcharts-more";
 import exporting from "highcharts/modules/exporting";
 import styles from "./styles/PredictionChart.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef, useLayoutEffect } from 'react';
-
+import HighchartsReact from 'highcharts-react-official';
+  
+//var Chart = require('./Highcharts.react')
 accessibility(Highcharts);
 exporting(Highcharts);
 highchartsMore(Highcharts);
 
-const getChart = (data : any, period : string) : Highcharts.Options => {
-  console.log(data);
+const getChart = (data : any, period : string, predictionTargetName : string) : Highcharts.Options => {
 
-  const toCelcius = (e : any) => {
-    console.log(e);
-    return e;
-  }
-
-  const getDailyPeriod = (data : any) => {
-    return "The periode of the data"
-  }
 
   const series = data.filter((d : any) => d.dataElement == "median").map((d : any) => ([
-    d.displayName,//new Date(d.id).getTime(),
-    d.value//toCelcius(d["temperature_2m"]),
+    d.displayName,
+    d.value
   ]));
 
   const minMax = data.filter((d : any) => d.dataElement == "quantile_low").map((d : any) => [
-    //d.orgUnit,//new Date(d.id).getTime(),
     d.value,
-    //get the corresponding max value
     data.filter((o : any) => o.dataElement === "quantile_high" && o.orgUnit === d.orgUnit)[0].value
   ]);
 
   return {
     title: {
-      text: i18n.t(` for periode ${period}`, {
-        name,
-        period: getDailyPeriod(data),
-        nsSeparator: ";",
-      }),
+      text: i18n.t(`Prediction for ${predictionTargetName} for periode ${period}`),
     },
     tooltip: {
-      //crosshairs: true,
-      shared: true,
-      valueSuffix: "°C",
+      shared: true
     },
     xAxis: {
-      //categories : data.map((d : any) => d.displayName),
       type: "category"
       
     },
-    yAxis: {
-      
-      //title: false,
-    },
     chart: {
       height: 480,
-      marginBottom: 75,
-      //zoomType: "x",
-    },
-    plotOptions: {
-      series: {
-        //animation,
-      },
+      marginBottom: 110,
     },
     series: [
       {
@@ -81,6 +55,7 @@ const getChart = (data : any, period : string) : Highcharts.Options => {
       },
       {
         type: "errorbar",
+        
         name: i18n.t("Predication range"),
         data: minMax,
         //color: colors.red200,
@@ -92,19 +67,22 @@ const getChart = (data : any, period : string) : Highcharts.Options => {
   };
 };
 
-const PredictionChart = ({ data } : any) => {
+interface PredicationChartProps {
+  data : any
+  predictionTargetName : string
+  periode : string
 
-  const periode = data.dataValues[0].period || "";
+}
 
-  const config = getChart(data.dataValues, periode);
+const PredictionChart = ({ data, predictionTargetName, periode } : PredicationChartProps) => {
 
-  const chartRef = useRef();
+  const config = getChart(data.dataValues, periode, predictionTargetName);
 
-  useLayoutEffect(() => {
-    Highcharts.chart(chartRef.current as any, config as any);
-  }, [config, chartRef]);
-
-  return <div ref={chartRef as any} />;
+  return <HighchartsReact
+      highcharts={Highcharts}
+      constructorType={'chart'}
+      options={config}
+    />
 };
 
 export default PredictionChart;

@@ -17,10 +17,29 @@
 
 .prediction{
   margin-top: 20px;
-  min-height: 550px;
+  min-height: 500px;
 }
 
 .warning{
   color: orange;
+  font-weight: 500;
+}
+
+.footer{
+  display: flex;
+  justify-content: right;
+}
+
+.post{
+  text-align: right;
+}
+
+.redText{
+  color : red;
+  font-weight: 500;
+}
+
+.greenText{
+  color : green;
   font-weight: 500;
 }

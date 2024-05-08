@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-07T06:32:20.595Z\n"
-"PO-Revision-Date: 2024-05-07T06:32:20.596Z\n"
+"POT-Creation-Date: 2024-05-08T08:06:31.754Z\n"
+"PO-Revision-Date: 2024-05-08T08:06:31.755Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -59,6 +59,16 @@ msgstr "Precipitation data"
 msgid "Select precipitation data element"
 msgstr "Select precipitation data element"
 
+msgid ""
+"This app requires specific DHIS2 Data Elements to import data into. If you "
+"have not already added them, go to the"
+msgstr ""
+"This app requires specific DHIS2 Data Elements to import data into. If you "
+"have not already added them, go to the"
+
+msgid "and create the Data Elements listed below."
+msgstr "and create the Data Elements listed below."
+
 msgid "Name"
 msgstr "Name"
 
@@ -73,12 +83,6 @@ msgstr "Domain type"
 
 msgid "Aggregate"
 msgstr "Aggregate"
-
-msgid "Aggregation type"
-msgstr "Aggregation type"
-
-msgid "Sum"
-msgstr "Sum"
 
 msgid "Aggregation levels"
 msgstr "Aggregation levels"
@@ -106,6 +110,9 @@ msgstr "Quantile high"
 
 msgid "Prediction results"
 msgstr "Prediction results"
+
+msgid "Prediction has been imported."
+msgstr "Prediction has been imported."
 
 msgid "App settings"
 msgstr "App settings"

@@ -13,24 +13,33 @@ interface ModalInstructionProps {
 const ModalInstruction = ({setIsModalOpen, modalOpen, disease} : ModalInstructionProps) => {
   const config = useConfig()
 
-  return (modalOpen && <Modal large onClose={() => setIsModalOpen(false)}>
-      <ModalContent>
+  return (
+    modalOpen && (
+      <Modal large onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <h2>Add required Data Elements</h2>
 
-      <h2>Add required Data Elements</h2>
+          <p>
+            {i18n.t("This app requires specific DHIS2 Data Elements to import data into. If you have not already added them, go to the")} 
+            <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>Maintenance</a>
+            {i18n.t("and create the Data Elements listed below.")}
+          </p>
+          <p className={styles.warning}>
+            NB! Make sure the CODE property is exactly the same as listed below.
+          </p>
+          <p>
+            Properties in the new Data Element form not specified in the tables below should have the default value.
+          </p>
 
-      <p>
-          This app needs spesific DHIS2 Data Elements to import data into. If you have not alredy added them, go to
-          the <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>
-          Maintanace</a> and create the Data Elements listed below.
-      </p>
-
-      <div className={styles.dataValueTables}>
-          <DataValueTable q={'Low'} disease={disease} />
-          <DataValueTable q={'Median'} disease={disease} />
-          <DataValueTable q={'High'} disease={disease} />
-      </div>
-      </ModalContent>
-  </Modal>);
+          <div className={styles.dataValueTables}>
+            <DataValueTable q={'Low'} disease={disease} />
+            <DataValueTable q={'Median'} disease={disease} />
+            <DataValueTable q={'High'} disease={disease} />
+          </div>
+        </ModalContent>
+      </Modal>
+    )
+  );
 }
 
 export default ModalInstruction;
@@ -54,15 +63,11 @@ const DataValueTable = ({ q, disease }: DataValueTableProps) => {
         </tr>
         <tr>
           <th>{i18n.t("Code")}</th>
-          <td>{`CHAP_${q.toUpperCase()}_${disease.toLocaleUpperCase()}`}</td>
+          <td>{`CHAP_${q.toUpperCase()}_${disease.toLocaleUpperCase().replaceAll(" ", "_")}`}</td>
         </tr>
         <tr>
           <th>{i18n.t("Domain type")}</th>
           <td>{i18n.t("Aggregate")}</td>
-        </tr>
-        <tr>
-          <th>{i18n.t("Aggregation type")}</th>
-          <td>{i18n.t("Sum")}</td>
         </tr>
         <tr>
           <th>{i18n.t("Aggregation levels")}</th>
