@@ -131,7 +131,7 @@ const ResultsPage = () => {
           </div>
 
           {postStatus === "loading" &&
-            <PostResult setPostHttpError={setPostHttpError} setPostStatus={setPostStatus} prediction={prediction} lowDataValueId={qLowDataElement?.id as string} medianDataValueId={qMedianDataElement?.id as string} highDataValueId={qHighDataElement?.id as string} />
+            <PostResult setPostHttpError={setPostHttpError} setPostStatus={setPostStatus} prediction={prediction} qLowDataElementId={qLowDataElement?.id as string} qMedianDataElementId={qMedianDataElement?.id as string} qHighDataElementId={qHighDataElement?.id as string} />
           }
 
           <div className={styles.post}>

@@ -10,7 +10,7 @@ interface SetupInstructionProps {
 }
 
 const SetupInstruction = ({ predictionTarget, warning }: SetupInstructionProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setModalOpen] = useState(false)
 
   return (
     <>
@@ -24,10 +24,10 @@ const SetupInstruction = ({ predictionTarget, warning }: SetupInstructionProps) 
           </>}
         </div>
         <div>
-          <Button icon={<IconAdd24 />} onClick={() => setIsModalOpen(true)}>{i18n.t("Add data elements")}</Button>
+          <Button icon={<IconAdd24 />} onClick={() => setModalOpen(true)}>{i18n.t("Add data elements")}</Button>
         </div>
       </div>
-      <ModalInstruction modalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} predictionTarget={predictionTarget}/>
+      <ModalInstruction modalOpen={isModalOpen} setModalOpen={setModalOpen} predictionTarget={predictionTarget}/>
     </>
   )
 }

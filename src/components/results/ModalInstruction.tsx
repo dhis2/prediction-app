@@ -6,16 +6,16 @@ import styles from './styles/ModalInstruction.module.css'
 
 interface ModalInstructionProps {
   modalOpen : boolean
-  setIsModalOpen : (open : boolean) => void,
+  setModalOpen : (open : boolean) => void,
   predictionTarget: string
 }
 
-const ModalInstruction = ({setIsModalOpen, modalOpen, predictionTarget} : ModalInstructionProps) => {
+const ModalInstruction = ({setModalOpen, modalOpen, predictionTarget} : ModalInstructionProps) => {
   const config = useConfig()
 
   return (
     modalOpen && (
-      <Modal large onClose={() => setIsModalOpen(false)}>
+      <Modal large onClose={() => setModalOpen(false)}>
         <ModalContent>
           <h2>{i18n.t("Add required Data Elements")}</h2>
           <p>

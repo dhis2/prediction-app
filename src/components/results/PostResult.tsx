@@ -3,19 +3,19 @@ import { useDataMutation } from '@dhis2/app-runtime'
 
 interface PostResultProps {
   prediction : any,
-  lowDataValueId : string
-  medianDataValueId : string
-  highDataValueId : string
+  qLowDataElementId : string
+  qMedianDataElementId : string
+  qHighDataElementId : string
   setPostStatus : (value : "loading" | "finish" | "error" | "initial") => void;
   setPostHttpError : (value : string) => void;
 }
 
-const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValueId, setPostHttpError, setPostStatus} : PostResultProps) => {
+const PostResult = ({prediction, qLowDataElementId, qMedianDataElementId, qHighDataElementId, setPostHttpError, setPostStatus} : PostResultProps) => {
 
   const mapQuantiesToDataElement = (quantile : string) => {
-    if(quantile === "quantile_low") return lowDataValueId;
-    if(quantile === "median") return medianDataValueId;
-    if(quantile === "quantile_high") return highDataValueId;
+    if(quantile === "quantile_low") return qLowDataElementId;
+    if(quantile === "median") return qMedianDataElementId;
+    if(quantile === "quantile_high") return qHighDataElementId;
   }
 
   const createBodyRequest = (prediction : any) => {

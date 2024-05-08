@@ -12,6 +12,7 @@ const ORG_UNIT_LEVELS_QUERY = ({ dataElements = [], periodes = [], orgUnit = {} 
   };
 };
 
+
 const useAnalyticRequest = (dataElements: any, periodes: any, orgUnit: any) => {
   const { loading, error, data } = useDataQuery(ORG_UNIT_LEVELS_QUERY({ dataElements, periodes, orgUnit }));
 

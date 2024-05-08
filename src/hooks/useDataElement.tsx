@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
 
 const REQUEST = (id : string) => {
-  return { dataElements : {
-    resource: "dataElements",
-    params: {
-      paging : false,
-      filter : `id:eq:${id}`,
+    return { dataElements : {
+      resource: "dataElements",
+      params: {
+        paging : false,
+        filter : `id:eq:${id}`,
+      }
     }
   }
-}
 }
 
 const useDataElement = (id : string | null) => {
 
-  const [displayName, setDisplayName] = useState<string>();
+  const [displayName, setDisplayName] = useState<any>();
   const { loading, error, engine } = useDataQuery({});
   
   useEffect(() => {

@@ -45,7 +45,7 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
       },
       {
         type: "errorbar",   
-        name: i18n.t("Predication range"),
+        name: i18n.t("Prediction range"),
         data: minMax,
         zIndex: 1,
       },
