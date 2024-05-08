@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-03T08:53:57.949Z\n"
-"PO-Revision-Date: 2024-05-03T08:53:57.949Z\n"
+"POT-Creation-Date: 2024-05-08T11:54:11.128Z\n"
+"PO-Revision-Date: 2024-05-08T11:54:11.129Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -59,29 +59,101 @@ msgstr "Precipitation data"
 msgid "Select precipitation data element"
 msgstr "Select precipitation data element"
 
-msgid "{{name}}: Daily temperatures {{period}}"
-msgstr "{{name}}: Daily temperatures {{period}}"
+msgid "Add required Data Elements"
+msgstr "Add required Data Elements"
 
-msgid "Mean temperature"
-msgstr "Mean temperature"
+msgid ""
+"This app requires specific DHIS2 Data Elements to import data into. If you "
+"have not already added them, go to the "
+msgstr ""
+"This app requires specific DHIS2 Data Elements to import data into. If you "
+"have not already added them, go to the "
 
-msgid "Temperature range"
-msgstr "Temperature range"
+msgid "-app and create the Data Elements listed below."
+msgstr "-app and create the Data Elements listed below."
+
+msgid ""
+"NB! Make sure the CODE property for each data element is exactly the same "
+"as below."
+msgstr ""
+"NB! Make sure the CODE property for each data element is exactly the same "
+"as below."
+
+msgid ""
+"Properties in the new Data Element form not specified in the tables below "
+"should have the default value."
+msgstr ""
+"Properties in the new Data Element form not specified in the tables below "
+"should have the default value."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Short name"
+msgstr "Short name"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Domain type"
+msgstr "Domain type"
+
+msgid "Aggregate"
+msgstr "Aggregate"
+
+msgid "Aggregation levels"
+msgstr "Aggregation levels"
+
+msgid "Assign all org unit levels"
+msgstr "Assign all org unit levels"
+
+msgid "Predicted cases"
+msgstr "Predicted cases"
+
+msgid "Prediction range"
+msgstr "Prediction range"
 
 msgid "Org unit"
 msgstr "Org unit"
 
-msgid "Median"
-msgstr "Median"
-
 msgid "Quantile low"
 msgstr "Quantile low"
+
+msgid "Median"
+msgstr "Median"
 
 msgid "Quantile high"
 msgstr "Quantile high"
 
 msgid "Prediction results"
 msgstr "Prediction results"
+
+msgid "Select data element for low quantile"
+msgstr "Select data element for low quantile"
+
+msgid "Select data element for medium quantile"
+msgstr "Select data element for medium quantile"
+
+msgid "Select data element for high quantile"
+msgstr "Select data element for high quantile"
+
+msgid "Import prediction"
+msgstr "Import prediction"
+
+msgid "Prediction has been imported."
+msgstr "Prediction has been imported."
+
+msgid "It seems like you missing Data Elements for CHAP prediction."
+msgstr "It seems like you missing Data Elements for CHAP prediction."
+
+msgid "Add data elements"
+msgstr "Add data elements"
+
+msgid "Loading.."
+msgstr "Loading.."
+
+msgid "Drag 'n' drop the prediction file, or click to select it"
+msgstr "Drag 'n' drop the prediction file, or click to select it"
 
 msgid "App settings"
 msgstr "App settings"

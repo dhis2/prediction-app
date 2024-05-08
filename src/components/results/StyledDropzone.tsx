@@ -1,5 +1,7 @@
 import { useMemo, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import React from "react";
+import i18n from "@dhis2/d2-i18n";
 
 const baseStyle = {
   flex: 1,
@@ -29,10 +31,11 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const StyledDropzone = ({ onLoad }) => {
+const StyledDropzone = ({ onLoad, disabled } : any) => {
+
   const onDrop = useCallback(
-    ([file]) => {
-      const reader = new FileReader();
+    ([file]: any) => {
+      const reader: any = new FileReader();
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
       reader.onload = () => onLoad(JSON.parse(reader.result));
@@ -47,10 +50,11 @@ const StyledDropzone = ({ onLoad }) => {
         "application/json": [".json"],
       },
       multiple: false,
+      disabled : disabled,
       onDrop,
     });
 
-  const style = useMemo(
+  const style : any = useMemo(
     () => ({
       ...baseStyle,
       ...(isFocused ? focusedStyle : {}),
@@ -64,7 +68,8 @@ const StyledDropzone = ({ onLoad }) => {
     <div className="container">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop the prediction file, or click to select it</p>
+        {/*If fetching orgUnits is loading, disable field.*/}
+        {disabled ? <p>{i18n.t("Loading..")}</p> : <p>{i18n.t("Drag 'n' drop the prediction file, or click to select it")}</p>}
       </div>
     </div>
   );
