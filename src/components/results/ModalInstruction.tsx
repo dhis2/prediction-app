@@ -19,12 +19,12 @@ const ModalInstruction = ({setIsModalOpen, modalOpen, predictionTarget} : ModalI
         <ModalContent>
           <h2>{i18n.t("Add required Data Elements")}</h2>
           <p>
-            {i18n.t("This app requires specific DHIS2 Data Elements to import data into. If you have not already added them, go to the")} 
-            <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>Maintenance app</a>
-            {i18n.t("and create the Data Elements listed below.")}
+            {i18n.t("This app requires specific DHIS2 Data Elements to import data into. If you have not already added them, go to the ")} 
+            <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>Maintenance</a>
+            {i18n.t("-app and create the Data Elements listed below.")}
           </p>
           <p className={styles.warning}>
-            {i18n.t("NB! Make sure the CODE property is exactly the same as listed below.")}
+            {i18n.t("NB! Make sure the CODE property for each data element is exactly the same as below.")}
           </p>
           <p>
             {i18n.t("Properties in the new Data Element form not specified in the tables below should have the default value.")}

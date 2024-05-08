@@ -12,12 +12,9 @@ const REQUEST = (id : string) => {
 }
 }
 
-
-const q = {}
-
 const useDataElement = (id : string | null) => {
 
-  const [displayName, setDisplayName] = useState<any>();
+  const [displayName, setDisplayName] = useState<string>();
   const { loading, error, engine } = useDataQuery({});
   
   useEffect(() => {

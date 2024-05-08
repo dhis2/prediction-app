@@ -13,7 +13,7 @@ const PredictionTable = ({ data, periode, predictionTargetName } : any) => {
 
   return (
     <>
-      <h3>{i18n.t(`Prediction for ${predictionTargetName} for periode ${periode}`)}</h3>
+      <h3>{i18n.t(`Prediction for ${predictionTargetName} for period ${periode}`)}</h3>
       <table className={styles.table}>
         <thead>
           <tr>

@@ -117,7 +117,7 @@ const ResultsPage = () => {
             }
           </div>
 
-          <h3>{i18n.t("Select whiche data element predication should be imported to:")}</h3>
+          <h3>{i18n.t("Select which data element prediction should be imported to:")}</h3>
           <SetupInstruction warning={noCHAPDataElementExists()} predictionTarget={predictionTargetName} />
 
           <SelectDataValues label={i18n.t("Select data element for low quantile")} dataElements={dataElementsLow} onChange={setqLowDataElementId} value={qLowDataElement} />

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-08T08:06:31.754Z\n"
-"PO-Revision-Date: 2024-05-08T08:06:31.755Z\n"
+"POT-Creation-Date: 2024-05-08T11:26:48.911Z\n"
+"PO-Revision-Date: 2024-05-08T11:26:48.912Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -59,15 +59,32 @@ msgstr "Precipitation data"
 msgid "Select precipitation data element"
 msgstr "Select precipitation data element"
 
+msgid "Add required Data Elements"
+msgstr "Add required Data Elements"
+
 msgid ""
 "This app requires specific DHIS2 Data Elements to import data into. If you "
-"have not already added them, go to the"
+"have not already added them, go to the "
 msgstr ""
 "This app requires specific DHIS2 Data Elements to import data into. If you "
-"have not already added them, go to the"
+"have not already added them, go to the "
 
-msgid "and create the Data Elements listed below."
-msgstr "and create the Data Elements listed below."
+msgid "-app and create the Data Elements listed below."
+msgstr "-app and create the Data Elements listed below."
+
+msgid ""
+"NB! Make sure the CODE property for each data element is exactly the same "
+"as below."
+msgstr ""
+"NB! Make sure the CODE property for each data element is exactly the same "
+"as below."
+
+msgid ""
+"Properties in the new Data Element form not specified in the tables below "
+"should have the default value."
+msgstr ""
+"Properties in the new Data Element form not specified in the tables below "
+"should have the default value."
 
 msgid "Name"
 msgstr "Name"
@@ -111,8 +128,32 @@ msgstr "Quantile high"
 msgid "Prediction results"
 msgstr "Prediction results"
 
+msgid "Select data element for low quantile"
+msgstr "Select data element for low quantile"
+
+msgid "Select data element for medium quantile"
+msgstr "Select data element for medium quantile"
+
+msgid "Select data element for high quantile"
+msgstr "Select data element for high quantile"
+
+msgid "Import prediction"
+msgstr "Import prediction"
+
 msgid "Prediction has been imported."
 msgstr "Prediction has been imported."
+
+msgid "It seems like you missing Data Elements for CHAP prediction."
+msgstr "It seems like you missing Data Elements for CHAP prediction."
+
+msgid "Add data elements"
+msgstr "Add data elements"
+
+msgid "Loading.."
+msgstr "Loading.."
+
+msgid "Drag 'n' drop the prediction file, or click to select it"
+msgstr "Drag 'n' drop the prediction file, or click to select it"
 
 msgid "App settings"
 msgstr "App settings"
