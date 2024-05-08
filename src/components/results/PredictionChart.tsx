@@ -3,25 +3,21 @@ import Highcharts from "highcharts";
 import accessibility from "highcharts/modules/accessibility";
 import highchartsMore from "highcharts/highcharts-more";
 import exporting from "highcharts/modules/exporting";
-import styles from "./styles/PredictionChart.module.css";
-import React, { useEffect } from "react";
-import { useRef, useLayoutEffect } from 'react';
+import React from "react";
 import HighchartsReact from 'highcharts-react-official';
   
-//var Chart = require('./Highcharts.react')
 accessibility(Highcharts);
 exporting(Highcharts);
 highchartsMore(Highcharts);
 
-const getChart = (data : any, period : string, predictionTargetName : string) : Highcharts.Options => {
+const getChartOptions = (data : any, period : string, predictionTargetName : string) : Highcharts.Options => {
 
-
-  const series = data.filter((d : any) => d.dataElement == "median").map((d : any) => ([
+  const series = data.filter((d : any) => d.dataElement === "median").map((d : any) => ([
     d.displayName,
     d.value
   ]));
 
-  const minMax = data.filter((d : any) => d.dataElement == "quantile_low").map((d : any) => [
+  const minMax = data.filter((d : any) => d.dataElement === "quantile_low").map((d : any) => [
     d.value,
     data.filter((o : any) => o.dataElement === "quantile_high" && o.orgUnit === d.orgUnit)[0].value
   ]);
@@ -35,32 +31,22 @@ const getChart = (data : any, period : string, predictionTargetName : string) : 
     },
     xAxis: {
       type: "category"
-      
     },
     chart: {
-      height: 480,
-      marginBottom: 110,
+      height: 490,
+      marginBottom: 125,
     },
     series: [
       {
         type: "bar",
-        //data : [["2024W14", 4], ["eokver", 6]],
         data: series,
         name: i18n.t("Predicted cases"),
-        
-        //color: colors.red800,
-        //negativeColor: colors.blue800,
-        //lineWidth: 1.5,
         zIndex: 0,
       },
       {
-        type: "errorbar",
-        
+        type: "errorbar",   
         name: i18n.t("Predication range"),
         data: minMax,
-        //color: colors.red200,
-        //negativeColor: colors.blue200,
-
         zIndex: 1,
       },
     ],
@@ -71,17 +57,15 @@ interface PredicationChartProps {
   data : any
   predictionTargetName : string
   periode : string
-
 }
 
 const PredictionChart = ({ data, predictionTargetName, periode } : PredicationChartProps) => {
-
-  const config = getChart(data.dataValues, periode, predictionTargetName);
+  const options = getChartOptions(data.dataValues, periode, predictionTargetName);
 
   return <HighchartsReact
       highcharts={Highcharts}
       constructorType={'chart'}
-      options={config}
+      options={options}
     />
 };
 

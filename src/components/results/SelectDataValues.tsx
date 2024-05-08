@@ -1,22 +1,17 @@
-import React, { useState } from 'react'
-import { SingleSelect, IconAdd24, SingleSelectOption, Button }  from "@dhis2/ui";
+import React from 'react';
+import { SingleSelect, SingleSelectOption } from "@dhis2/ui";
 import styles from "./styles/SelectDataValues.module.css";
-import useDataElements from '../../hooks/useDataElements';
-import ModalInstruction from './ModalInstruction';
-
+import i18n from "@dhis2/d2-i18n";
 
 interface SelectDataValuesProps {
     label : string,
     dataElements : any[] | undefined,
     value : {displayName : string, id : string} | null,
-    disease : string,
     onChange : (v : {displayName : string, id : string}) => void
 }
 
-const SelectDataValues = ({value, onChange, label, disease, dataElements} : SelectDataValuesProps) => {
+const SelectDataValues = ({value, onChange, label, dataElements} : SelectDataValuesProps) => {
  
-  const [modalOpen, setModalOpen] = useState(false);
-
   const onChangeSelect = (e : any) => {
     onChange({displayName : dataElements?.find((d : any) => d.id === e.selected).displayName, id : e.selected})
   }
@@ -25,23 +20,18 @@ const SelectDataValues = ({value, onChange, label, disease, dataElements} : Sele
 
   return (
     <div>
-    <div  >
-      <div className={styles.select}>
-        <div className={styles.selectWrapper}>   
-          <span>{label}</span>
-          <SingleSelect placeholder='Select data element' disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
-            {dataElements?.map((de : any) => (
-              <SingleSelectOption key={de.id} label={de.displayName} value={de.id} />
-            ))}
-          </SingleSelect>
+      <div>
+        <div className={styles.select}>
+          <div className={styles.selectWrapper}>   
+            <span>{label}</span>
+            <SingleSelect placeholder={i18n.t('Select data element')} disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
+              {dataElements?.map((de : any) => (
+                <SingleSelectOption key={de.id} label={de.displayName} value={de.id} />
+              ))}
+            </SingleSelect>
+          </div>
         </div>
-
       </div>
-      
-      
-    </div>
-   
-
     </div>
   )
 }

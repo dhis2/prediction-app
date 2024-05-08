@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, IconInfo24, Modal, ModalContent } from "@dhis2/ui";
+import { Modal, ModalContent } from "@dhis2/ui";
 import i18n from "@dhis2/d2-i18n";
 import { useConfig } from '@dhis2/app-runtime';
 import styles from './styles/ModalInstruction.module.css'
@@ -7,34 +7,32 @@ import styles from './styles/ModalInstruction.module.css'
 interface ModalInstructionProps {
   modalOpen : boolean
   setIsModalOpen : (open : boolean) => void,
-  disease: string
+  predictionTarget: string
 }
 
-const ModalInstruction = ({setIsModalOpen, modalOpen, disease} : ModalInstructionProps) => {
+const ModalInstruction = ({setIsModalOpen, modalOpen, predictionTarget} : ModalInstructionProps) => {
   const config = useConfig()
 
   return (
     modalOpen && (
       <Modal large onClose={() => setIsModalOpen(false)}>
         <ModalContent>
-          <h2>Add required Data Elements</h2>
-
+          <h2>{i18n.t("Add required Data Elements")}</h2>
           <p>
             {i18n.t("This app requires specific DHIS2 Data Elements to import data into. If you have not already added them, go to the")} 
-            <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>Maintenance</a>
+            <a target='_blank' href={`${config.baseUrl}/dhis-web-maintenance/index.html#/list/dataElementSection/dataElement`}>Maintenance app</a>
             {i18n.t("and create the Data Elements listed below.")}
           </p>
           <p className={styles.warning}>
-            NB! Make sure the CODE property is exactly the same as listed below.
+            {i18n.t("NB! Make sure the CODE property is exactly the same as listed below.")}
           </p>
           <p>
-            Properties in the new Data Element form not specified in the tables below should have the default value.
+            {i18n.t("Properties in the new Data Element form not specified in the tables below should have the default value.")}
           </p>
-
           <div className={styles.dataValueTables}>
-            <DataValueTable q={'Low'} disease={disease} />
-            <DataValueTable q={'Median'} disease={disease} />
-            <DataValueTable q={'High'} disease={disease} />
+            <DataValueTable q={'Low'} disease={predictionTarget} />
+            <DataValueTable q={'Median'} disease={predictionTarget} />
+            <DataValueTable q={'High'} disease={predictionTarget} />
           </div>
         </ModalContent>
       </Modal>

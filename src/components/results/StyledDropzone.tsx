@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import React from "react";
-import useOrgUnits from "../../hooks/useOrgUnits";
+import i18n from "@dhis2/d2-i18n";
 
 const baseStyle = {
   flex: 1,
@@ -68,7 +68,8 @@ const StyledDropzone = ({ onLoad, disabled } : any) => {
     <div className="container">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        {disabled ? <p>Loading..</p> : <p>Drag 'n' drop the prediction file, or click to select it</p>}
+        {/*If fetching orgUnits is loading, disable field.*/}
+        {disabled ? <p>{i18n.t("Loading..")}</p> : <p>{i18n.t("Drag 'n' drop the prediction file, or click to select it")}</p>}
       </div>
     </div>
   );

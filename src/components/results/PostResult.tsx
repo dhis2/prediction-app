@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { Button, IconArrowRight24 } from "@dhis2/ui";
-import styles from "./styles/PostResult.module.css";
+import { useEffect } from 'react'
 import { useDataMutation } from '@dhis2/app-runtime'
 
 interface PostResultProps {
@@ -51,7 +49,7 @@ const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValu
     sendPrediction()
   }, [])
 
-  //this effect updates the status of the post
+  //Run when loading change state
   useEffect(() => {
     if(!called) return;
     if(loading) return;
@@ -66,8 +64,7 @@ const PostResult = ({prediction, lowDataValueId, medianDataValueId, highDataValu
     }
     
   }, [loading])
-  
-  
+    
   return null;
 }
 

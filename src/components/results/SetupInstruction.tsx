@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
 import styles from './styles/SetupInstruction.module.css'
-import { Button, IconAdd24, Modal, ModalContent } from "@dhis2/ui";
-import { useConfig } from '@dhis2/app-runtime';
-import i18n from "@dhis2/d2-i18n";
+import { Button , IconAdd24 } from "@dhis2/ui";
 import ModalInstruction from './ModalInstruction';
-
+import i18n from "@dhis2/d2-i18n";
 
 interface SetupInstructionProps {
-  disease: string
+  predictionTarget: string
   warning: boolean
 }
 
-
-
-const SetupInstruction = ({ disease, warning }: SetupInstructionProps) => {
-
-  
+const SetupInstruction = ({ predictionTarget, warning }: SetupInstructionProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
@@ -25,15 +19,15 @@ const SetupInstruction = ({ disease, warning }: SetupInstructionProps) => {
           {warning && 
           <> 
             <p>
-              It seems like you missing Data Elements for CHAP predication.
+              {i18n.t("It seems like you missing Data Elements for CHAP prediction.")}
             </p>
           </>}
         </div>
         <div>
-          <Button icon={<IconAdd24 />} onClick={() => setIsModalOpen(true)}>Add data elements</Button>
+          <Button icon={<IconAdd24 />} onClick={() => setIsModalOpen(true)}>{i18n.t("Add data elements")}</Button>
         </div>
       </div>
-      <ModalInstruction modalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} disease={disease}/>
+      <ModalInstruction modalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} predictionTarget={predictionTarget}/>
     </>
   )
 }
