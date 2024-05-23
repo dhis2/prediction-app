@@ -5,7 +5,7 @@ import  useOrgUnitLevels from "../../hooks/useOrgUnitLevels";
 import React from "react";
 
 interface OrgUnitLevelProps {
-  orgUnitLevels : {id : string, level : number},
+  orgUnitLevels : {id : string, level : number} | undefined,
   onChange : (selected_level : {id : string, level : number}) => void
 }
 

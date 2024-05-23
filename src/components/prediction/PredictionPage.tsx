@@ -100,7 +100,7 @@ const PredictionPage = () => {
           period={period}
           setErrorMessages={setErrorMessages}
           orgUnits={orgUnits}
-          orgUnitLevel={orgUnitLevel}
+          orgUnitLevel={orgUnitLevel as {id : string, level : number}}
         />
       )}
       {errorMessages.map((error : ErrorResponse, index) => (
