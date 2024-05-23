@@ -15,7 +15,7 @@ const parseOrgUnits = (data : any) => {
     features : data.geojson.features.map(({ type, id, geometry, properties } : any) => ({
         type,
         id,
-        properties: { name: properties.name },
+        properties: properties,
         geometry
   })),
   ...data,}
