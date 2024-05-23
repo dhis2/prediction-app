@@ -19,8 +19,8 @@ const OrgUnitLevel = ({ orgUnitLevels, onChange } : OrgUnitLevelProps) => {
 
   // Set second level as default
   useEffect(() => {
-    if (levels?.length > 1 && !orgUnitLevels) {
-      //onChange([levels[1]]);
+    if (levels?.length > 2 && !orgUnitLevels) {
+      onChange({id : (levels as any)[1]?.id, level : (levels as any)[1].level});
     }
   }, [levels, orgUnitLevels, onChange]);
 
@@ -29,7 +29,7 @@ const OrgUnitLevel = ({ orgUnitLevels, onChange } : OrgUnitLevelProps) => {
       <h2>{i18n.t("Organisation unit level")}</h2>
       <span>{i18n.t("Organisation unit level to import data to")}</span>
       <SingleSelect
-        selected={orgUnitLevels.id}
+        selected={orgUnitLevels?.id}
         loading={loading}
         error={!!error}
         onChange={onChangeLevel}

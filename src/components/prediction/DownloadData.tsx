@@ -53,9 +53,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
   const {data : population, error : populationError, loading : populationLoading} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : temperature, error : temperatureError, loading : temperatureLoading} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
   const {data : prediction, error : predictionError,loading : predictionLoading} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  //const {orgUnits: allOrgUnits, error : orgUnitsError, loading : allOrgUnitsLoading } = useOrgUnits();
   const {data : geoJson, error : geoJsonError, loading : geoJsonLoading} = useGeoJson(orgUnitLevel.level);
-
 
   const objectToPrettyJson = (object : any) => {
     return JSON.stringify(object, null, 2)
@@ -74,7 +72,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
 
   const downloadZip = ()  => {
     const zip = new JSZip();
-    //Add orgUnits to zip
+    //Add data to zip
     zip.file("geoJson.json", objectToPrettyJson(filterOrgUnits()))
     zip.file("precipitation.json", objectToPrettyJson(precipitation))
     zip.file("population.json", objectToPrettyJson(population))
@@ -88,8 +86,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
   }
 
   useEffect(() => {
-    console.log(precipitationLoading, populationLoading, temperatureLoading, predictionLoading, geoJsonLoading)
-    console.log(geoJson, precipitation, population, temperature, prediction)
+    //if one of the data is still loading, return
     if(precipitationLoading || populationLoading || temperatureLoading || predictionLoading || geoJsonLoading) return;
     //All data is fetched
     if (precipitation && population && temperature && prediction && geoJson) {
@@ -97,7 +94,6 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
       downloadZip();
       setStartDownload(false)
     }
-
 
     //if an error occured
     if(precipitationError || populationError || temperatureError || predictionError || geoJsonError || geoJsonError){
@@ -107,7 +103,6 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
       temperatureError && errorMessages.push({error : temperatureError, element : "Temperature"})
       predictionError && errorMessages.push({error : predictionError, element : "Prediction"})
       geoJsonError && errorMessages.push({error : geoJsonError, element : "OrgUnits"})
-      console.log(errorMessages)
       setErrorMessages(errorMessages)
       setStartDownload(false)
     }

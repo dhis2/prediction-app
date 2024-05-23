@@ -22,7 +22,7 @@ const PredictionPage = () => {
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
-  const [orgUnitLevel, setOrgUnitLevel] = useState<{id : string, level : number}>({id : "wjP19dkFeIk", level : 2});
+  const [orgUnitLevel, setOrgUnitLevel] = useState<{id : string, level : number}>();
   const [startDownload, setStartDownload] = useState(false);
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([])
 
@@ -35,13 +35,13 @@ const PredictionPage = () => {
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
 
+  //checks that all selected orgUnits are on the same level
   function orgUnitsSelectedIsValid() {
     if (orgUnits.length === 0) {
       return true;
     }
   
     const firstElement = (orgUnits[0] as any).path.split("/").length;
-  
     return orgUnits.every(innerArray => (innerArray as any).path.split("/").length === firstElement);
   }
 

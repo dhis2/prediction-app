@@ -31,6 +31,7 @@ const OrgUnitTree = ({ selectedOrgUnits, onChange } : OrgUnitTreeProps) => {
         roots={roots.map((r : any) => r.id)}
         selected={selectedOrgUnits?.map((e : any) => e.path)}
         onChange={onChange}
+        
         initiallyExpanded={roots.map((r : any) => r.path)}
       />
     </div>
