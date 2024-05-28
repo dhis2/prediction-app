@@ -1,26 +1,31 @@
- import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import useAnalyticRequest from "../../hooks/useAnalyticRequest";
-import useOrgUnits from "../../hooks/useOrgUnits";
 import React from "react";
+import useGeoJson from "../../hooks/useGeoJson";
 
 interface DownloadDataProps {
   period: any;
-  orgUnitLevels: any[];
+  orgUnitLevel: {id : string, level : number};
   orgUnits: any;
   temperatureData: any;
   precipitationData: any;
   populationData: any;
   predictionData: any;
   setStartDownload: (startDownload : boolean) => void
+  setErrorMessages(errorMessages : ErrorResponse[]) : void
 }
 
-const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, temperatureData, precipitationData, populationData, predictionData}: DownloadDataProps) => {
+export interface ErrorResponse {
+  error : any,
+  element : string
+}
+
+const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temperatureData, precipitationData, populationData, predictionData, setErrorMessages}: DownloadDataProps) => {
   
   //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
-  const mergedOrgUnits = orgUnitLevels.map(level => "LEVEL-"+level).join(";")+";"+orgUnits.map((ou : any) => ou.id).join(";")
+  const mergedOrgUnits = "LEVEL-"+orgUnitLevel.id+";"+orgUnits.map((ou : any) => ou.id).join(";")
 
   //Convert the period selected to a DHIS2-standard list of months
   const fillPeriodesMonths = (period : any) => {
@@ -42,20 +47,31 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
         return months;
     };
 
-  const {data : precipitation} = useAnalyticRequest(precipitationData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  const {data : population} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  const {data : temperature} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  const {data : prediction} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
-  const { orgUnits: allOrgUnits } = useOrgUnits();
+  const {data : precipitation, error : precipitationError, loading : precipitationLoading} = useAnalyticRequest(precipitationData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : population, error : populationError, loading : populationLoading} = useAnalyticRequest(populationData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : temperature, error : temperatureError, loading : temperatureLoading} = useAnalyticRequest(temperatureData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : prediction, error : predictionError,loading : predictionLoading} = useAnalyticRequest(predictionData.id, fillPeriodesMonths(period), mergedOrgUnits)
+  const {data : geoJson, error : geoJsonError, loading : geoJsonLoading} = useGeoJson(orgUnitLevel.level);
 
   const objectToPrettyJson = (object : any) => {
     return JSON.stringify(object, null, 2)
   }
 
+  //Avoid to export all the orgUnits to JSON, only inlcude those returned from one of the analytic requests (precipitation)
+  const filterOrgUnits = () => {
+    return {
+      type : "FeatureCollection",
+      features : (geoJson as any).features.filter((o : any) => {
+        return precipitation.metaData.dimensions.ou.some((id : string) => id === o.id);
+      })
+    }
+  }
+
+
   const downloadZip = ()  => {
     const zip = new JSZip();
-    //Add orgUnits to zip
-    zip.file("orgUnits.json", objectToPrettyJson(allOrgUnits))
+    //Add data to zip
+    zip.file("orgUnits.geojson", objectToPrettyJson(filterOrgUnits()))
     zip.file("precipitation.json", objectToPrettyJson(precipitation))
     zip.file("population.json", objectToPrettyJson(population))
     zip.file("temperature.json", objectToPrettyJson(temperature))
@@ -68,12 +84,28 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevels, orgUnits, tempe
   }
 
   useEffect(() => {
-    //download zip when all data is fetched
-    if (allOrgUnits && precipitation && population && temperature) {
+    //if one of the data is still loading, return
+    if(precipitationLoading || populationLoading || temperatureLoading || predictionLoading || geoJsonLoading) return;
+    //All data is fetched
+    if (precipitation && population && temperature && prediction && geoJson) {
+      setErrorMessages([])
       downloadZip();
       setStartDownload(false)
     }
-  }, [allOrgUnits, precipitation, population, temperature]);
+
+    //if an error occured
+    if(precipitationError || populationError || temperatureError || predictionError || geoJsonError || geoJsonError){
+      const errorMessages : ErrorResponse[] = []
+      precipitationError && errorMessages.push({error : precipitationError, element : "Precipitation"})
+      populationError && errorMessages.push({error : populationError, element : "Population"})
+      temperatureError && errorMessages.push({error : temperatureError, element : "Temperature"})
+      predictionError && errorMessages.push({error : predictionError, element : "Prediction"})
+      geoJsonError && errorMessages.push({error : geoJsonError, element : "OrgUnits"})
+      setErrorMessages(errorMessages)
+      setStartDownload(false)
+    }
+    
+  }, [precipitationLoading, populationLoading, temperatureLoading, predictionLoading, geoJsonLoading]);
 
 
   return (<p>Downloading data..</p>);

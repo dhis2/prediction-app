@@ -1,18 +1,13 @@
-import PropTypes from "prop-types";
-import i18n from "@dhis2/d2-i18n";
 import OrgUnitTree from "./OrgUnitTree";
-import OrgUnitLevel from "./OrgUnitLevel";
 import React from "react";
 
 
 interface OrgUnitsProps {
   orgUnits : any[],
   setOrgUnits : (orgUnits : any) => void
-  orgUnitLevels : any[],
-  setOrgUnitLevels : (orgUnitLevels : any) => void
 }
 
-const OrgUnits = ({ orgUnits, setOrgUnits, orgUnitLevels, setOrgUnitLevels } : OrgUnitsProps) => {
+const OrgUnits = ({ orgUnits, setOrgUnits} : OrgUnitsProps) => {
 
   const onChangeOrgUnitTree = (selected : any) => {
     if(selected.checked){
@@ -31,10 +26,7 @@ const OrgUnits = ({ orgUnits, setOrgUnits, orgUnitLevels, setOrgUnitLevels } : O
         selectedOrgUnits={orgUnits}
         onChange={(selected : any) => {onChangeOrgUnitTree(selected)}}
       />
-      <OrgUnitLevel
-        orgUnitLevels={orgUnitLevels}
-        onChange={(levels) => setOrgUnitLevels(levels.selected)}
-          />
+
     </>
   );
 };

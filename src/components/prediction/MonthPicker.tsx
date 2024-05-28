@@ -4,12 +4,12 @@ import React, { useRef, useLayoutEffect } from "react";
 import styles from "./styles/MonthPicker.module.css";
 
 // Fallback on browser native until full DatePicker support in @dhis2/ui
-const MonthPicker = ({ label, name, defaultVal, onChange, className }) => {
+const MonthPicker = ({ label, name, defaultVal, onChange, className } : any) => {
   const inputEl = useRef(null);
 
   useLayoutEffect(() => {
     if (inputEl.current && defaultVal) {
-      inputEl.current.defaultValue = defaultVal.slice(0, 10);
+      (inputEl.current as any).defaultValue = defaultVal.slice(0, 10);
     }
   }, [defaultVal]);
 

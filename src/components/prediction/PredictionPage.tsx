@@ -1,11 +1,14 @@
 import { useState } from "react";
 import i18n from "@dhis2/d2-i18n";
-import { Button } from "@dhis2/ui";
+import { Button, IconError24, IconDownload24 } from "@dhis2/ui";
 import OrgUnits from "./OrgUnits";
 import DataElement from "./DataElement";
 import MonthlyPeriodSelect from "./MonthlyPeriodSelect";
 import DownloadData from "./DownloadData";
 import styles from "./styles/PredictionPage.module.css";
+import OrgUnitLevel from "./OrgUnitLevel";
+import { ErrorResponse } from "./DownloadData"
+import React from "react";
 
 const defaultPeriod = {
   startMonth: "2023-04",
@@ -19,8 +22,9 @@ const PredictionPage = () => {
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
-  const [orgUnitLevels, setOrgUnitLevels] = useState(["wjP19dkFeIk"]);
+  const [orgUnitLevel, setOrgUnitLevel] = useState<{id : string, level : number}>();
   const [startDownload, setStartDownload] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([])
 
   const isValid = Boolean(
     predictionTarget &&
@@ -28,8 +32,18 @@ const PredictionPage = () => {
       temperatureData &&
       precipitationData &&
       period &&
-      (orgUnits.length > 0 || orgUnitLevels.length > 0)
+      (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
+
+  //checks that all selected orgUnits are on the same level
+  function orgUnitsSelectedIsValid() {
+    if (orgUnits.length === 0) {
+      return true;
+    }
+  
+    const firstElement = (orgUnits[0] as any).path.split("/").length;
+    return orgUnits.every(innerArray => (innerArray as any).path.split("/").length === firstElement);
+  }
 
   return (
     <div className={styles.container}>
@@ -40,9 +54,13 @@ const PredictionPage = () => {
         selected={predictionTarget}
         onChange={setPredictionTarget}
       />
-      <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} setOrgUnitLevels={setOrgUnitLevels} orgUnitLevels={orgUnitLevels} />
+      <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits}  />
+      {!orgUnitsSelectedIsValid() && <p className={styles.error}>Only select organization units that are one the same level.</p>}
+      <OrgUnitLevel
+        orgUnitLevels={orgUnitLevel}
+        onChange={setOrgUnitLevel}
+          />
       <DataElement
-        
         title={i18n.t("Population data")}
         label={i18n.t("Select population data element")}
         selected={populationData}
@@ -64,9 +82,10 @@ const PredictionPage = () => {
       />
       <MonthlyPeriodSelect period={period} onChange={setPeriod} />
       <Button
+        icon={<IconDownload24/>}
         primary
         loading={startDownload}
-        disabled={!isValid || startDownload}
+        disabled={!isValid || startDownload || !orgUnitsSelectedIsValid()}
         onClick={() => setStartDownload(true)}
       >
         Download prediction data
@@ -79,10 +98,20 @@ const PredictionPage = () => {
           temperatureData={temperatureData}
           precipitationData={precipitationData}
           period={period}
+          setErrorMessages={setErrorMessages}
           orgUnits={orgUnits}
-          orgUnitLevels={orgUnitLevels}
+          orgUnitLevel={orgUnitLevel as {id : string, level : number}}
         />
       )}
+      {errorMessages.map((error : ErrorResponse, index) => (
+        <div key={index} className={styles.errorBar}>
+          <div className={styles.errorHeader}>
+            <IconError24/>
+            <span>{error.element} request failed</span>
+          </div>
+            <span className={styles.detailedError}>{JSON.stringify(error.error, null, 2)}</span>
+        </div>
+      ))}
     </div>
   );
 };

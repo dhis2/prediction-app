@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import i18n from "@dhis2/d2-i18n";
 import MonthPicker from "./MonthPicker";
 import styles from "./styles/Period.module.css";
+import React from "react";
 
-const MonthlyPeriodSelect = ({ period, onChange }) => {
+const MonthlyPeriodSelect = ({ period, onChange } : any) => {
   const { startMonth, endMonth } = period;
 
   return (
