@@ -1,9 +1,7 @@
- import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import useAnalyticRequest from "../../hooks/useAnalyticRequest";
-import useOrgUnits from "../../hooks/useOrgUnits";
 import React from "react";
 import useGeoJson from "../../hooks/useGeoJson";
 
@@ -73,7 +71,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
   const downloadZip = ()  => {
     const zip = new JSZip();
     //Add data to zip
-    zip.file("geoJson.json", objectToPrettyJson(filterOrgUnits()))
+    zip.file("orgUnits.geojson", objectToPrettyJson(filterOrgUnits()))
     zip.file("precipitation.json", objectToPrettyJson(precipitation))
     zip.file("population.json", objectToPrettyJson(population))
     zip.file("temperature.json", objectToPrettyJson(temperature))

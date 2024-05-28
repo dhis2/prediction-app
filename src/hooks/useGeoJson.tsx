@@ -26,8 +26,6 @@ const useGeoJson = (level : number) => {
     const { data, loading, error } = useDataQuery(ORG_UNITS_QUERY as any, {
       variables: { level }});
 
-    console.log(loading);
-  
     return {
       data : data ? parseOrgUnits(data) : data,
       error,
