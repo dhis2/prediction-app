@@ -16,8 +16,8 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
-  const [predictionTarget, setPredictionTarget] = useState({displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'});
-  const [populationData, setPopulationData] = useState({"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"});
+  const [predictionTarget, setPredictionTarget] = useState(/*{displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'}*/);
+  const [populationData, setPopulationData] = useState(/*{"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"}*/);
   const [temperatureData, setTemperatureData] = useState();
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
