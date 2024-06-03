@@ -19,18 +19,18 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
   const colors : string[] = Highcharts.getOptions().colors as string[];
 
   const median = data.filter((d : any) => d.dataElement === "median").map((d : any) => ([
-    d.periode,
+    d.period,
     d.value
   ]));
 
   const quantile_high = data.filter((d : any) => d.dataElement === "quantile_high").map((d : any) => ([
-    d.periode,
+    d.period,
     d.value,
     data.filter((x : any) => x.dataElement === "median" && x.period === d.period)[0].value
   ]));
 
   const quantile_low = data.filter((d : any) => d.dataElement === "quantile_low").map((d : any) => ([
-    d.periode,
+    d.period,
     data.filter((x : any) => x.dataElement === "median" && x.period === d.period)[0].value,
     d.value,
   ]));
@@ -38,7 +38,7 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
 
   return {
     title: {
-      text: i18n.t(`Prediction for ${predictionTargetName} for periode ${period}`),
+      text: i18n.t(`Prediction for ${predictionTargetName} for ${data[0].displayName}`),
     },
     tooltip: {
       shared: true
@@ -106,10 +106,11 @@ const PredictionChart = ({ data, predictionTargetName, periode } : PredicationCh
   const matrix = groupByOrgUnit(data.dataValues);
 
   const [options, setOptions] = useState<Highcharts.Options | undefined>(getChartOptions(matrix[0], periode, predictionTargetName))
-
+  const [indexOfSelectedOrgUnit, setIndexOfSelectedOrgUnit] = useState(0)
   
 
   const onSelectOrgUnit = (index : number) => { 
+    setIndexOfSelectedOrgUnit(index)
     setOptions(getChartOptions(matrix[index], periode, predictionTargetName))
   }
 
@@ -118,20 +119,22 @@ const PredictionChart = ({ data, predictionTargetName, periode } : PredicationCh
 
     <>
       <div className={styles.chartContainer}>
-        <div className={styles.menu}>
+        <div >
           <Menu dense>
             {matrix.map((orgUnitData : any, index : number) => (
-              <MenuItem key={index} label={orgUnitData[0].orgUnit} onClick={() => onSelectOrgUnit(index)}/>
+              <MenuItem className={styles.menu} active={indexOfSelectedOrgUnit == index} key={index} label={orgUnitData[0].displayName} onClick={() => onSelectOrgUnit(index)}/>
             ))}
           </Menu>
         </div>
+        <div className={styles.chart}>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType={'chart'}
+            options={options}
+          />
+        </div>
         
-      
-        <HighchartsReact
-          highcharts={Highcharts}
-          constructorType={'chart'}
-          options={options}
-        />
+
       </div>
     </>
   );

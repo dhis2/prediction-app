@@ -4,9 +4,9 @@ import { Outlet, useResolvedPath } from "react-router-dom";
 import styles from "./styles/Root.module.css";
 
 export const appPages = [
-  { path: "/", name: "Home" },
-  { path: "/prediction", name: "Make prediction data" },
-  { path: "/results", name: "See prediction" },
+  { path: "/", name: "1 | Make prediction data" },
+  { path: "/status", name: "2 | Upload data to CHAP" },
+  { path: "/results", name: "3 | See prediction" },
   { path: "/settings", name: "Settings" },
 ];
 

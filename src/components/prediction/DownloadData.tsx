@@ -4,6 +4,7 @@ import { saveAs } from "file-saver";
 import useAnalyticRequest from "../../hooks/useAnalyticRequest";
 import React from "react";
 import useGeoJson from "../../hooks/useGeoJson";
+import styles from "./styles/DownloadData.module.css"
 
 interface DownloadDataProps {
   period: any;
@@ -13,8 +14,10 @@ interface DownloadDataProps {
   precipitationData: any;
   populationData: any;
   predictionData: any;
-  setStartDownload: (startDownload : boolean) => void
+  setStartDownload: (option : {downloadLocal : boolean, startDownlaod : boolean}) => void
   setErrorMessages(errorMessages : ErrorResponse[]) : void
+  startDownload : {downloadLocal : boolean, startDownlaod : boolean}
+  setZipResult : (result : any) => void
 }
 
 export interface ErrorResponse {
@@ -22,7 +25,7 @@ export interface ErrorResponse {
   element : string
 }
 
-const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temperatureData, precipitationData, populationData, predictionData, setErrorMessages}: DownloadDataProps) => {
+const DownloadData = ({ period, setStartDownload, startDownload, setZipResult, orgUnitLevel, orgUnits, temperatureData, precipitationData, populationData, predictionData, setErrorMessages}: DownloadDataProps) => {
   
   //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
   const mergedOrgUnits = "LEVEL-"+orgUnitLevel.id+";"+orgUnits.map((ou : any) => ou.id).join(";")
@@ -78,7 +81,13 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
     zip.file("disease.json", objectToPrettyJson(prediction))
 
     zip.generateAsync({ type: "blob" }).then((content) => {
-      saveAs(content, "chapdata.zip");
+      if(startDownload.downloadLocal) {
+        saveAs(content, "chapdata.zip");
+      } 
+      else{
+        setZipResult(content);
+      }
+      
     });
     
   }
@@ -90,7 +99,7 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
     if (precipitation && population && temperature && prediction && geoJson) {
       setErrorMessages([])
       downloadZip();
-      setStartDownload(false)
+      setStartDownload({downloadLocal : true, startDownlaod : false})
     }
 
     //if an error occured
@@ -102,13 +111,13 @@ const DownloadData = ({ period, setStartDownload, orgUnitLevel, orgUnits, temper
       predictionError && errorMessages.push({error : predictionError, element : "Prediction"})
       geoJsonError && errorMessages.push({error : geoJsonError, element : "OrgUnits"})
       setErrorMessages(errorMessages)
-      setStartDownload(false)
+      setStartDownload({downloadLocal : true, startDownlaod : false})
     }
     
   }, [precipitationLoading, populationLoading, temperatureLoading, predictionLoading, geoJsonLoading]);
 
 
-  return (<p>Downloading data..</p>);
+  return (<p className={styles.text}>Downloading data..</p>);
 
 };
 
