@@ -11,8 +11,14 @@ import SelectDataValues from "./SelectDataValues";
 import SetupInstruction from './SetupInstruction';
 import useDataElements from "../../hooks/useDataElements";
 import useDataElement from "../../hooks/useDataElement";
+import { useLocation } from "react-router-dom";
+
 
 const ResultsPage = () => {
+
+  
+  const location = useLocation();
+
   const [prediction, setPrediction] = useState<any>();
   const [selectedTab, setSelectedTab] = useState<"chart" | "table">("chart");
 
@@ -44,6 +50,20 @@ const ResultsPage = () => {
     }
     return false;
   }
+
+
+  //if id is passed in
+  useEffect(() => {
+    if(location?.state?.data && orgUnits){
+      onFileUpload(location.state.data)
+      
+
+
+
+      
+    }
+  }, [location?.state?.data, orgUnits])
+  
 
   useEffect(() => {
     if(dataElementsLow && dataElementsMedian && dataElementsHigh && predictionTargetName) {
@@ -106,6 +126,8 @@ const ResultsPage = () => {
     <div className={styles.container}>
       <h1>{i18n.t("Prediction results")}</h1>
       <StyledDropzone disabled={orgUnitLoading} onLoad={onFileUpload} />
+
+      
       
       {
       //If predication is null, show only "Upload file"-area
@@ -115,9 +137,9 @@ const ResultsPage = () => {
             <Tab selected={selectedTab === "chart"} onClick={() => setSelectedTab("chart")}>
               Chart
             </Tab>
-            <Tab selected={selectedTab === "table"} onClick={() => setSelectedTab("table")}>
+            {/*<Tab selected={selectedTab === "table"} onClick={() => setSelectedTab("table")}>
               Table
-            </Tab>
+            </Tab>*/}
           </TabBar>
 
           <div className={styles.prediction}>

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import i18n from "@dhis2/d2-i18n";
-import { Button, IconError24, IconDownload24 } from "@dhis2/ui";
+import { Button, IconError24, IconDownload24, IconArrowRight24 } from "@dhis2/ui";
 import OrgUnits from "./OrgUnits";
 import DataElement from "./DataElement";
 import MonthlyPeriodSelect from "./MonthlyPeriodSelect";
@@ -9,6 +9,8 @@ import styles from "./styles/PredictionPage.module.css";
 import OrgUnitLevel from "./OrgUnitLevel";
 import { ErrorResponse } from "./DownloadData"
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { DefaultService } from "../../httpfunctions";
 
 const defaultPeriod = {
   startMonth: "2023-04",
@@ -16,15 +18,22 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
-  const [predictionTarget, setPredictionTarget] = useState({displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'});
-  const [populationData, setPopulationData] = useState({"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"});
+
+  const [predictionTarget, setPredictionTarget] = useState(/*{displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'}*/);
+  const [populationData, setPopulationData] = useState(/*{"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"}*/);
   const [temperatureData, setTemperatureData] = useState();
   const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
   const [orgUnitLevel, setOrgUnitLevel] = useState<{id : string, level : number}>();
-  const [startDownload, setStartDownload] = useState(false);
+  const [errorChapMsg, setErrorChapMsg] = useState("")
+  
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([])
+  const [sendingDataToChap, setSendingDataToChap] = useState<boolean>(false)
+
+  const [zipResult, setZipResult] = useState<any>(undefined);
+
+  const [startDownload, setStartDownload] = useState<{downloadLocal : boolean, startDownlaod : boolean}>({downloadLocal : true, startDownlaod : false});
 
   const isValid = Boolean(
     predictionTarget &&
@@ -34,6 +43,37 @@ const PredictionPage = () => {
       period &&
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
+
+  const onClickDownloadData = () => {
+    setZipResult(undefined);
+    setStartDownload({downloadLocal : true, startDownlaod : true});
+  }
+
+  const onClickSendDataToChap = () => {
+    setZipResult(undefined);
+    setStartDownload({downloadLocal : false, startDownlaod : true});
+    setSendingDataToChap(true);
+  }
+  let navigate = useNavigate();
+  const sendToChap = async () => {
+    await DefaultService.postZipFilePostZipFilePost({file : zipResult}).then((response : any) => {
+      setErrorChapMsg("");
+      setSendingDataToChap(false);
+      return navigate("/status");
+    }).catch((error : any) => {
+        setSendingDataToChap(false) 
+        console.log(error?.body?.detail);
+        setErrorChapMsg(error?.body?.detail);
+      }) 
+    };
+
+  
+  useEffect(() => {
+    if(zipResult){
+      sendToChap();
+    }
+  }, [zipResult])
+  
 
   //checks that all selected orgUnits are on the same level
   function orgUnitsSelectedIsValid() {
@@ -81,17 +121,32 @@ const PredictionPage = () => {
         onChange={setPrecipitationData}
       />
       <MonthlyPeriodSelect period={period} onChange={setPeriod} />
-      <Button
-        icon={<IconDownload24/>}
-        primary
-        loading={startDownload}
-        disabled={!isValid || startDownload || !orgUnitsSelectedIsValid()}
-        onClick={() => setStartDownload(true)}
-      >
-        Download prediction data
+      <div className={styles.buttons}>
+        <Button
+          icon={<IconDownload24/>}
+          loading={startDownload.startDownlaod}
+          disabled={!isValid || startDownload.startDownlaod || !orgUnitsSelectedIsValid()}
+          onClick={onClickDownloadData}
+        >
+          Download data
+        </Button>
+        <Button
+          icon={<IconArrowRight24/>}
+          primary
+          loading={sendingDataToChap}
+          disabled={!isValid || sendingDataToChap || !orgUnitsSelectedIsValid()}
+          onClick={onClickSendDataToChap}
+        >
+          Send data to CHAP
       </Button>
-      {startDownload && isValid && (
+      </div>
+
+      {<p className={styles.errorChap}>{errorChapMsg}</p>}
+
+      {startDownload.startDownlaod && isValid && (
         <DownloadData
+          setZipResult={setZipResult}
+          startDownload={startDownload}
           setStartDownload={setStartDownload}
           predictionData={predictionTarget}
           populationData={populationData}

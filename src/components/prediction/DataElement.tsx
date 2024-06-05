@@ -35,9 +35,9 @@ const DataElement = ({ title, label, selected, dataElementCode, onChange } : any
     <div>
       <h2>{title}</h2>
       <SingleSelectField
+        placeholder={label}
         filterable
         noMatchText={i18n.t("No match found")}
-        label={label}
         selected={selected?.id}
         loading={loading}
         error={!!error}
