@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import i18n from "@dhis2/d2-i18n";
-import { CalendarInput } from "@dhis2/ui";
-import styles from "./styles/Period.module.css";
-import { DataProvider } from "@dhis2/app-runtime";
-import { PeriodDimension } from "@dhis2/analytics";
+import PropTypes from 'prop-types';
+import i18n from '@dhis2/d2-i18n';
+import { CalendarInput } from '@dhis2/ui';
+import styles from './styles/Period.module.css';
+import { DataProvider } from '@dhis2/app-runtime';
+import { PeriodDimension } from '@dhis2/analytics';
 
 const Period = ({ calendar, period, onChange }) => {
   const handleStartDateChange = (selectedDate) => {
@@ -14,7 +14,7 @@ const Period = ({ calendar, period, onChange }) => {
   let selectedItems = [];
 
   const handleSelectedPeriod = (selectedPeriods) => {
-    console.log("selected periods:  ", selectedPeriods);
+    console.log('selected periods:  ', selectedPeriods);
   };
 
   const handleEndDateChange = (selectedDate) => {
@@ -24,10 +24,10 @@ const Period = ({ calendar, period, onChange }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{i18n.t("Period")}</h2>
+      <h2>{i18n.t('Period')}</h2>
 
       <div className={styles.pickers}>
-        <CalendarInput
+        {/* <CalendarInput
           onDateSelect={handleStartDateChange}
           date={period.startDate}
           calendar={calendar}
@@ -39,15 +39,14 @@ const Period = ({ calendar, period, onChange }) => {
           date={period.endDate}
           calendar={calendar}
           label={i18n.t("End date")}
-        />
+        /> */}
 
-        {/*
         <PeriodDimension
           selectedPeriods={selectedItems}
           onSelect={handleSelectedPeriod}
           excludedPeriodTypes={[]}
           // TODO: infoBoxMessage should ideally be implemented for all dimensions
-  />*/}
+        />
       </div>
     </div>
   );
