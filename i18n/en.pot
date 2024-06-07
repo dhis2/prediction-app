@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-06-06T13:00:45.396Z\n"
-"PO-Revision-Date: 2024-06-06T13:00:45.397Z\n"
+"POT-Creation-Date: 2024-06-07T10:13:03.778Z\n"
+"PO-Revision-Date: 2024-06-07T10:13:03.778Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -31,9 +31,6 @@ msgstr "Organisation unit level to import data to"
 
 msgid "Select organisation units"
 msgstr "Select organisation units"
-
-msgid "Daily values will be imported between start and end dates"
-msgstr "Daily values will be imported between start and end dates"
 
 msgid "Start date"
 msgstr "Start date"

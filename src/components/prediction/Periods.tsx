@@ -4,17 +4,19 @@ import { CalendarInput } from '@dhis2/ui';
 import styles from './styles/Period.module.css';
 import { DataProvider } from '@dhis2/app-runtime';
 import { PeriodDimension } from '@dhis2/analytics';
+import { useState } from 'react';
 
 const Period = ({ calendar, period, onChange }) => {
+  //useState, useEffect
+  const [selectedItems, setselectedItems] = useState();
+
   const handleStartDateChange = (selectedDate) => {
     period.startDate = selectedDate?.calendarDateString;
     onChange({ ...period, selectedDate });
   };
 
-  let selectedItems = [];
-
   const handleSelectedPeriod = (selectedPeriods) => {
-    console.log('selected periods:  ', selectedPeriods);
+    setselectedItems(selectedPeriods.items);
   };
 
   const handleEndDateChange = (selectedDate) => {

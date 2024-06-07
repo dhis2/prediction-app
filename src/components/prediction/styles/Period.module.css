@@ -10,7 +10,8 @@
 }
 
 .pickers > div {
-  width: 49%;
+  /* width: 49%; */
+  width: 100%;
 }
 
 .pickers input {
