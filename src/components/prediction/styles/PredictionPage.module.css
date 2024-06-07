@@ -10,7 +10,7 @@
   font-weight: 500;
 }
 
-.errorChap{
+.errorChap {
   text-align: right;
   color: red;
 }
@@ -20,14 +20,14 @@
   margin: 20px 0 8px;
 }
 
-.error{
-  color : red;
+.error {
+  color: red;
   font-weight: 500;
   border: 1px solid red;
   padding: 1rem;
 }
 
-.errorBar{
+.errorBar {
   font-weight: 500;
   background-color: #f2f2f2;
   color: red;
@@ -36,21 +36,38 @@
   margin-top: 1rem;
 }
 
-.errorHeader{
+.errorHeader {
   display: flex;
-  align-items:center;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.7rem;
 }
 
-.detailedError{
+.detailedError {
   color: rgb(102, 102, 102);
   font-weight: 400;
   font-size: 0.9rem;
 }
 
-.buttons{
+.buttons {
   display: flex;
   justify-content: right;
   gap: 1rem;
+}
+
+.pickers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 1rem; */
+}
+
+.pickers > div {
+  /* width: 49%; */
+  width: 100%;
+}
+
+.pickers input {
+  height: 36px;
 }

@@ -1,35 +1,34 @@
-import { useEffect, useState } from "react";
-import i18n from "@dhis2/d2-i18n";
+import { useEffect, useState } from 'react';
+import i18n from '@dhis2/d2-i18n';
 import {
   Button,
   IconError24,
   IconDownload24,
   IconArrowRight24,
-} from "@dhis2/ui";
-import OrgUnits from "./OrgUnits";
-import DataElement from "./DataElement";
-import MonthlyPeriodSelect from "./MonthlyPeriodSelect";
-import DownloadData from "./DownloadData";
-import styles from "./styles/PredictionPage.module.css";
-import OrgUnitLevel from "./OrgUnitLevel";
-import { ErrorResponse } from "./DownloadData";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { DefaultService } from "../../httpfunctions";
-import { useConfig } from "@dhis2/app-runtime";
-import Period from "./Periods";
+} from '@dhis2/ui';
+import OrgUnits from './OrgUnits';
+import DataElement from './DataElement';
+import MonthlyPeriodSelect from './MonthlyPeriodSelect';
+import DownloadData from './DownloadData';
+import styles from './styles/PredictionPage.module.css';
+import OrgUnitLevel from './OrgUnitLevel';
+import { ErrorResponse } from './DownloadData';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DefaultService } from '../../httpfunctions';
+import { useConfig } from '@dhis2/app-runtime';
+import Period from './Periods';
+import { PeriodDimension } from '@dhis2/analytics';
 
 const defaultPeriod = {
-  startMonth: "2023-04",
-  endMonth: "2024-03",
+  startMonth: '2023-04',
+  endMonth: '2024-03',
 };
 
 const PredictionPage = () => {
   const { systemInfo = {} } = useConfig();
 
-  const { calendar = "gregory" } = systemInfo;
-
-  console.log("calendar:  ", calendar);
+  const { calendar = 'gregory' } = systemInfo;
 
   const [predictionTarget, setPredictionTarget] =
     useState(/*{displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'}*/);
@@ -43,12 +42,13 @@ const PredictionPage = () => {
     id: string;
     level: number;
   }>();
-  const [errorChapMsg, setErrorChapMsg] = useState("");
+  const [errorChapMsg, setErrorChapMsg] = useState('');
 
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([]);
   const [sendingDataToChap, setSendingDataToChap] = useState<boolean>(false);
 
   const [zipResult, setZipResult] = useState<any>(undefined);
+  const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
   const [startDownload, setStartDownload] = useState<{
     downloadLocal: boolean;
@@ -60,9 +60,14 @@ const PredictionPage = () => {
       populationData &&
       temperatureData &&
       precipitationData &&
-      period &&
+      selectedPeriodItems &&
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
+
+  const handleSelectedPeriod = (selectedPeriods) => {
+    setSelectedPeriodItems(selectedPeriods.items);
+    console.log('selectedPeriods', selectedPeriods.items);
+  };
 
   const onClickDownloadData = () => {
     setZipResult(undefined);
@@ -78,9 +83,9 @@ const PredictionPage = () => {
   const sendToChap = async () => {
     await DefaultService.postZipFilePostZipFilePost({ file: zipResult })
       .then((response: any) => {
-        setErrorChapMsg("");
+        setErrorChapMsg('');
         setSendingDataToChap(false);
-        return navigate("/status");
+        return navigate('/status');
       })
       .catch((error: any) => {
         setSendingDataToChap(false);
@@ -101,19 +106,19 @@ const PredictionPage = () => {
       return true;
     }
 
-    const firstElement = (orgUnits[0] as any).path.split("/").length;
+    const firstElement = (orgUnits[0] as any).path.split('/').length;
     return orgUnits.every(
       (innerArray) =>
-        (innerArray as any).path.split("/").length === firstElement
+        (innerArray as any).path.split('/').length === firstElement
     );
   }
 
   return (
     <div className={styles.container}>
-      <h1>{i18n.t("Make prediction data")}</h1>
+      <h1>{i18n.t('Make prediction data')}</h1>
       <DataElement
-        title={i18n.t("Prediction target")}
-        label={i18n.t("Select data element")}
+        title={i18n.t('Prediction target')}
+        label={i18n.t('Select data element')}
         selected={predictionTarget}
         onChange={setPredictionTarget}
       />
@@ -125,26 +130,38 @@ const PredictionPage = () => {
       )}
       <OrgUnitLevel orgUnitLevels={orgUnitLevel} onChange={setOrgUnitLevel} />
       <DataElement
-        title={i18n.t("Population data")}
-        label={i18n.t("Select population data element")}
+        title={i18n.t('Population data')}
+        label={i18n.t('Select population data element')}
         selected={populationData}
         onChange={setPopulationData}
       />
       <DataElement
-        title={i18n.t("Temperature data")}
-        label={i18n.t("Select temperature data element")}
-        dataElementCode={"ERA5_LAND_TEMPERATURE"}
+        title={i18n.t('Temperature data')}
+        label={i18n.t('Select temperature data element')}
+        dataElementCode={'ERA5_LAND_TEMPERATURE'}
         selected={temperatureData}
         onChange={setTemperatureData}
       />
       <DataElement
-        title={i18n.t("Precipitation data")}
-        label={i18n.t("Select precipitation data element")}
-        dataElementCode={"ERA5_LAND_PRECIPITATION"}
+        title={i18n.t('Precipitation data')}
+        label={i18n.t('Select precipitation data element')}
+        dataElementCode={'ERA5_LAND_PRECIPITATION'}
         selected={precipitationData}
         onChange={setPrecipitationData}
       />
-      <Period calendar={calendar} period={period} onChange={setPeriod} />
+
+      <div className={styles.container}>
+        <h2>{i18n.t('Period')}</h2>
+
+        <div className={styles.pickers}>
+          <PeriodDimension
+            selectedPeriods={selectedPeriodItems}
+            onSelect={handleSelectedPeriod}
+            excludedPeriodTypes={[]}
+          />
+        </div>
+      </div>
+
       <div className={styles.buttons}>
         <Button
           icon={<IconDownload24 />}
@@ -168,9 +185,7 @@ const PredictionPage = () => {
           Send data to CHAP
         </Button>
       </div>
-
       {<p className={styles.errorChap}>{errorChapMsg}</p>}
-
       {startDownload.startDownlaod && isValid && (
         <DownloadData
           setZipResult={setZipResult}
@@ -180,7 +195,7 @@ const PredictionPage = () => {
           populationData={populationData}
           temperatureData={temperatureData}
           precipitationData={precipitationData}
-          period={period}
+          period={selectedPeriodItems}
           setErrorMessages={setErrorMessages}
           orgUnits={orgUnits}
           orgUnitLevel={orgUnitLevel as { id: string; level: number }}
