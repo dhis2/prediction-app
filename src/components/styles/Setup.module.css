@@ -1,0 +1,14 @@
+.outerContainer{
+    margin-top: 3rem;
+}
+
+.container{
+    max-width: 500px;
+    margin: auto;
+}
+
+.sendButton{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: right;
+}

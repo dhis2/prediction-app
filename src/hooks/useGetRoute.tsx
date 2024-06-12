@@ -6,7 +6,7 @@ const REQUEST = {
     resource: "routes",
     params: {
       paging : false,
-      filter : `code:eq:chap`
+      filter : `code:eq:chaps`
     },
   }
 }
@@ -15,8 +15,9 @@ const useGetRoute = () => {
 
   const { data : route, loading, error } = useDataQuery(REQUEST);
 
+
   return {
-    route,
+    routeId : (route as any)?.routes?.routes[0]?.id,
     error,
     loading,
   };
