@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-05-30T09:35:02.181Z\n"
-"PO-Revision-Date: 2024-05-30T09:35:02.181Z\n"
+"POT-Creation-Date: 2024-06-07T10:13:03.778Z\n"
+"PO-Revision-Date: 2024-06-07T10:13:03.778Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -31,6 +31,12 @@ msgstr "Organisation unit level to import data to"
 
 msgid "Select organisation units"
 msgstr "Select organisation units"
+
+msgid "Start date"
+msgstr "Start date"
+
+msgid "End date"
+msgstr "End date"
 
 msgid "Make prediction data"
 msgstr "Make prediction data"

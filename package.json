@@ -14,7 +14,10 @@
     "@dhis2/cli-app-scripts": "^11.1.1"
   },
   "dependencies": {
+    "@dhis2/analytics": "^26.6.14",
     "@dhis2/app-runtime": "^3.10.4",
+    "@dhis2/multi-calendar-dates": "^1.1.1",
+    "@dhis2/ui": "^9.8.0",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
@@ -27,5 +30,8 @@
     "openapi-typescript-codegen": "^0.29.0",
     "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.23.0"
+  },
+  "resolutions": {
+    "@js-temporal/polyfill": "0.4.3"
   }
 }
