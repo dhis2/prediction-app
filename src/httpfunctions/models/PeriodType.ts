@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type State = {
-    ready: boolean;
-    status: string;
-    progress?: number;
-};
-
+export enum PeriodType {
+    WEEK = 'week',
+    MONTH = 'month',
+    ANY = 'any',
+    YEAR = 'year',
+}

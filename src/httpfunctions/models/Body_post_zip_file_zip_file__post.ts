@@ -2,9 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type State = {
-    ready: boolean;
-    status: string;
-    progress?: number;
+export type Body_post_zip_file_zip_file__post = {
+    file?: (Blob | null);
 };
 

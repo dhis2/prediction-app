@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type State = {
-    ready: boolean;
-    status: string;
-    progress?: number;
+export type PredictionResponse = {
+    value: number;
+    orgUnit: string;
+    dataElement: string;
+    period: string;
 };
 

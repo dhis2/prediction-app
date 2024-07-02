@@ -4,26 +4,44 @@
         "title": "FastAPI",
         "version": "0.1.0"
     },
+    "servers": [
+        {
+            "url": "/v1"
+        }
+    ],
     "paths": {
-        "/post_zip_file/": {
-            "post": {
-                "summary": "Post Zip File",
-                "description": "Post a zip file containing the data needed for training and evaluation, and start the training",
-                "operationId": "post_zip_file_post_zip_file__post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/Body_post_zip_file_post_zip_file__post"
-                                    }
-                                ],
-                                "title": "Body"
+        "favicon.ico": {
+            "get": {
+                "summary": "Favicon",
+                "operationId": "faviconfavicon_ico_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
                             }
                         }
                     }
-                },
+                }
+            }
+        },
+        "/set-model-path/": {
+            "post": {
+                "summary": "Set Model Path",
+                "description": "Set the model to be used for training and evaluation\nhttps://github.com/knutdrand/external_rmodel_example.git",
+                "operationId": "set_model_path_set_model_path__post",
+                "parameters": [
+                    {
+                        "name": "model_path",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Model Path"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -31,7 +49,7 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "title": "Response Post Zip File Post Zip File  Post"
+                                    "title": "Response Set Model Path Set Model Path  Post"
                                 }
                             }
                         }
@@ -49,7 +67,97 @@
                 }
             }
         },
-        "/get_results/": {
+        "/zip-file/": {
+            "post": {
+                "summary": "Post Zip File",
+                "description": "Post a zip file containing the data needed for training and evaluation, and start the training",
+                "operationId": "post_zip_file_zip_file__post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Body_post_zip_file_zip_file__post"
+                                    }
+                                ],
+                                "title": "Body"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Post Zip File Zip File  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/list-models": {
+            "get": {
+                "summary": "List Models",
+                "description": "List all available models. These are not validated. Should set up test suite to validate them",
+                "operationId": "list_models_list_models_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ModelSpec"
+                                    },
+                                    "type": "array",
+                                    "title": "Response List Models List Models Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/list-features": {
+            "get": {
+                "summary": "List Features",
+                "description": "List all available features",
+                "operationId": "list_features_list_features_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Feature"
+                                    },
+                                    "type": "array",
+                                    "title": "Response List Features List Features Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/get-results/": {
             "get": {
                 "summary": "Get Results",
                 "description": "Retrieve results made by the model",
@@ -60,11 +168,27 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "items": {
-                                        "type": "object"
-                                    },
-                                    "type": "array",
-                                    "title": "Response Get Results Get Results  Get"
+                                    "$ref": "#/components/schemas/FullPredictionResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cancel/": {
+            "post": {
+                "summary": "Cancel",
+                "description": "Cancel the current training",
+                "operationId": "cancel_cancel__post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Cancel Cancel  Post"
                                 }
                             }
                         }
@@ -94,7 +218,7 @@
     },
     "components": {
         "schemas": {
-            "Body_post_zip_file_post_zip_file__post": {
+            "Body_post_zip_file_zip_file__post": {
                 "properties": {
                     "file": {
                         "anyOf": [
@@ -110,7 +234,51 @@
                     }
                 },
                 "type": "object",
-                "title": "Body_post_zip_file_post_zip_file__post"
+                "title": "Body_post_zip_file_zip_file__post"
+            },
+            "Feature": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "description"
+                ],
+                "title": "Feature"
+            },
+            "FullPredictionResponse": {
+                "properties": {
+                    "diseaseId": {
+                        "type": "string",
+                        "title": "Diseaseid"
+                    },
+                    "dataValues": {
+                        "items": {
+                            "$ref": "#/components/schemas/PredictionResponse"
+                        },
+                        "type": "array",
+                        "title": "Datavalues"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "diseaseId",
+                    "dataValues"
+                ],
+                "title": "FullPredictionResponse"
             },
             "HTTPValidationError": {
                 "properties": {
@@ -125,6 +293,88 @@
                 "type": "object",
                 "title": "HTTPValidationError"
             },
+            "ModelSpec": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "title": "Parameters"
+                    },
+                    "features": {
+                        "items": {
+                            "$ref": "#/components/schemas/Feature"
+                        },
+                        "type": "array",
+                        "title": "Features"
+                    },
+                    "period": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/PeriodType"
+                            }
+                        ],
+                        "default": "any"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "default": "No Description yet"
+                    },
+                    "author": {
+                        "type": "string",
+                        "title": "Author",
+                        "default": "Unknown Author"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "parameters",
+                    "features"
+                ],
+                "title": "ModelSpec"
+            },
+            "PeriodType": {
+                "type": "string",
+                "enum": [
+                    "week",
+                    "month",
+                    "any",
+                    "year"
+                ],
+                "title": "PeriodType"
+            },
+            "PredictionResponse": {
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "title": "Value"
+                    },
+                    "orgUnit": {
+                        "type": "string",
+                        "title": "Orgunit"
+                    },
+                    "dataElement": {
+                        "type": "string",
+                        "title": "Dataelement"
+                    },
+                    "period": {
+                        "type": "string",
+                        "title": "Period"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "value",
+                    "orgUnit",
+                    "dataElement",
+                    "period"
+                ],
+                "title": "PredictionResponse"
+            },
             "State": {
                 "properties": {
                     "ready": {
@@ -134,6 +384,11 @@
                     "status": {
                         "type": "string",
                         "title": "Status"
+                    },
+                    "progress": {
+                        "type": "number",
+                        "title": "Progress",
+                        "default": 0
                     }
                 },
                 "type": "object",

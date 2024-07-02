@@ -36,6 +36,12 @@ You must run `yarn build` before running `yarn deploy`.<br />
 
 See the section about [deploying](https://platform.dhis2.nu/#/scripts/deploy) for more information.
 
+### `yarn generate`
+
+Would update OpenAPI-functions with latest openapi-spec from in ./public/openapi.json
+
+
+
 ## Learn More
 
 You can learn more about the platform in the [DHIS2 Application Platform Documentation](https://platform.dhis2.nu/).
