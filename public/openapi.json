@@ -26,11 +26,11 @@
                 }
             }
         },
-        "/set-model-path/": {
+        "/set-model-path": {
             "post": {
                 "summary": "Set Model Path",
                 "description": "Set the model to be used for training and evaluation\nhttps://github.com/knutdrand/external_rmodel_example.git",
-                "operationId": "set_model_path_set_model_path__post",
+                "operationId": "set_model_path_set_model_path_post",
                 "parameters": [
                     {
                         "name": "model_path",
@@ -49,7 +49,7 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "title": "Response Set Model Path Set Model Path  Post"
+                                    "title": "Response Set Model Path Set Model Path Post"
                                 }
                             }
                         }
@@ -157,11 +157,11 @@
                 }
             }
         },
-        "/get-results/": {
+        "/get-results": {
             "get": {
                 "summary": "Get Results",
                 "description": "Retrieve results made by the model",
-                "operationId": "get_results_get_results__get",
+                "operationId": "get_results_get_results_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -176,11 +176,11 @@
                 }
             }
         },
-        "/cancel/": {
+        "/cancel": {
             "post": {
                 "summary": "Cancel",
                 "description": "Cancel the current training",
-                "operationId": "cancel_cancel__post",
+                "operationId": "cancel_cancel_post",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -188,7 +188,7 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "title": "Response Cancel Cancel  Post"
+                                    "title": "Response Cancel Cancel Post"
                                 }
                             }
                         }
@@ -196,11 +196,11 @@
                 }
             }
         },
-        "/status/": {
+        "/status": {
             "get": {
                 "summary": "Get Status",
                 "description": "Retrieve the current status of the model",
-                "operationId": "get_status_status__get",
+                "operationId": "get_status_status_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",

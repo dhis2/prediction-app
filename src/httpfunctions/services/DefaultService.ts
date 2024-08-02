@@ -35,7 +35,7 @@ export class DefaultService {
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/set-model-path/',
+            url: '/set-model-path',
             query: {
                 'model_path': modelPath,
             },
@@ -97,7 +97,7 @@ export class DefaultService {
     public static getResultsGetResultsGet(): CancelablePromise<FullPredictionResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/get-results/',
+            url: '/get-results',
         });
     }
     /**
@@ -109,7 +109,7 @@ export class DefaultService {
     public static cancelCancelPost(): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/cancel/',
+            url: '/cancel',
         });
     }
     /**
@@ -121,7 +121,7 @@ export class DefaultService {
     public static getStatusStatusGet(): CancelablePromise<State> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/status/',
+            url: '/status',
         });
     }
 }

@@ -19,6 +19,7 @@ import { DefaultService } from '../../httpfunctions';
 import { useConfig } from '@dhis2/app-runtime';
 import Period from './Periods';
 import { PeriodDimension } from '@dhis2/analytics';
+import useGetRoute from '../../hooks/useGetRoute';
 
 const defaultPeriod = {
   startMonth: '2023-04',
@@ -26,6 +27,16 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
+  const { loading, routeId, error } = useGetRoute();
+
+
+  const navigate = useNavigate();
+  if(!routeId && !loading){
+    navigate('/route/create-route')
+  }
+
+  //IF NOT SUCCESSFUL STATS, SEND USER TO PAGE WHERE ROUTE IS CONFIGURED, BUT NO CONNECTION TO CHAP
+
   const { systemInfo = {} } = useConfig();
 
   const { calendar = 'gregory' } = systemInfo;
@@ -64,7 +75,7 @@ const PredictionPage = () => {
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
 
-  const handleSelectedPeriod = (selectedPeriods) => {
+  const handleSelectedPeriod = (selectedPeriods : any) => {
     setSelectedPeriodItems(selectedPeriods.items);
     console.log('selectedPeriods', selectedPeriods.items);
   };
@@ -79,9 +90,9 @@ const PredictionPage = () => {
     setStartDownload({ downloadLocal: false, startDownlaod: true });
     setSendingDataToChap(true);
   };
-  let navigate = useNavigate();
+
   const sendToChap = async () => {
-    await DefaultService.postZipFilePostZipFilePost({ file: zipResult })
+    await DefaultService.postZipFileZipFilePost({ file: zipResult })
       .then((response: any) => {
         setErrorChapMsg('');
         setSendingDataToChap(false);

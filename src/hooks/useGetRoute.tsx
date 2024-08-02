@@ -6,7 +6,7 @@ const REQUEST = {
     resource: "routes",
     params: {
       paging : false,
-      filter : `code:eq:chaps`
+      filter : `code:eq:chap`
     },
   }
 }
