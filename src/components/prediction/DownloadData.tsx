@@ -10,8 +10,6 @@ interface DownloadDataProps {
   period: any;
   orgUnitLevel: { id: string; level: number };
   orgUnits: any;
-  temperatureData: any;
-  precipitationData: any;
   populationData: any;
   predictionData: any;
   setStartDownload: (option: {
@@ -35,8 +33,6 @@ const DownloadData = ({
   setZipResult,
   orgUnitLevel,
   orgUnits,
-  temperatureData,
-  precipitationData,
   populationData,
   predictionData,
   setErrorMessages,
@@ -73,29 +69,11 @@ const DownloadData = ({
   };
 
   const {
-    data: precipitation,
-    error: precipitationError,
-    loading: precipitationLoading,
-  } = useAnalyticRequest(
-    precipitationData.id,
-    flatternDhis2Periods(period),
-    mergedOrgUnits
-  );
-  const {
     data: population,
     error: populationError,
     loading: populationLoading,
   } = useAnalyticRequest(
     populationData.id,
-    flatternDhis2Periods(period),
-    mergedOrgUnits
-  );
-  const {
-    data: temperature,
-    error: temperatureError,
-    loading: temperatureLoading,
-  } = useAnalyticRequest(
-    temperatureData.id,
     flatternDhis2Periods(period),
     mergedOrgUnits
   );
@@ -123,7 +101,7 @@ const DownloadData = ({
     return {
       type: 'FeatureCollection',
       features: (geoJson as any).features.filter((o: any) => {
-        return precipitation.metaData.dimensions.ou.some(
+        return population.metaData.dimensions.ou.some(
           (id: string) => id === o.id
         );
       }),
@@ -134,9 +112,7 @@ const DownloadData = ({
     const zip = new JSZip();
     //Add data to zip
     zip.file('orgUnits.geojson', objectToPrettyJson(filterOrgUnits()));
-    zip.file('precipitation.json', objectToPrettyJson(precipitation));
     zip.file('population.json', objectToPrettyJson(population));
-    zip.file('temperature.json', objectToPrettyJson(temperature));
     zip.file('disease.json', objectToPrettyJson(prediction));
 
     zip.generateAsync({ type: 'blob' }).then((content) => {
@@ -151,15 +127,13 @@ const DownloadData = ({
   useEffect(() => {
     //if one of the data is still loading, return
     if (
-      precipitationLoading ||
       populationLoading ||
-      temperatureLoading ||
       predictionLoading ||
       geoJsonLoading
     )
       return;
     //All data is fetched
-    if (precipitation && population && temperature && prediction && geoJson) {
+    if (population && prediction && geoJson) {
       setErrorMessages([]);
       downloadZip();
       setStartDownload({ downloadLocal: true, startDownlaod: false });
@@ -167,23 +141,15 @@ const DownloadData = ({
 
     //if an error occured
     if (
-      precipitationError ||
       populationError ||
-      temperatureError ||
       predictionError ||
       geoJsonError ||
       geoJsonError
     ) {
       const errorMessages: ErrorResponse[] = [];
-      precipitationError &&
-        errorMessages.push({
-          error: precipitationError,
-          element: 'Precipitation',
-        });
+
       populationError &&
         errorMessages.push({ error: populationError, element: 'Population' });
-      temperatureError &&
-        errorMessages.push({ error: temperatureError, element: 'Temperature' });
       predictionError &&
         errorMessages.push({ error: predictionError, element: 'Prediction' });
       geoJsonError &&
@@ -192,9 +158,7 @@ const DownloadData = ({
       setStartDownload({ downloadLocal: true, startDownlaod: false });
     }
   }, [
-    precipitationLoading,
     populationLoading,
-    temperatureLoading,
     predictionLoading,
     geoJsonLoading,
   ]);

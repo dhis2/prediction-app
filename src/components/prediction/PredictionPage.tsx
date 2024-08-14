@@ -45,8 +45,6 @@ const PredictionPage = () => {
     useState(/*{displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'}*/);
   const [populationData, setPopulationData] =
     useState(/*{"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"}*/);
-  const [temperatureData, setTemperatureData] = useState();
-  const [precipitationData, setPrecipitationData] = useState();
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
   const [orgUnitLevel, setOrgUnitLevel] = useState<{
@@ -69,8 +67,6 @@ const PredictionPage = () => {
   const isValid = Boolean(
     predictionTarget &&
       populationData &&
-      temperatureData &&
-      precipitationData &&
       selectedPeriodItems &&
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
@@ -128,6 +124,11 @@ const PredictionPage = () => {
     <div className={styles.container}>
       <h1>{i18n.t('Make prediction data')}</h1>
       <DataElement
+        title={i18n.t('Select model')} onChange={function (...args: any[]) {
+          throw new Error('Function not implemented.');
+        } }      ></DataElement>
+
+      <DataElement
         title={i18n.t('Prediction target')}
         label={i18n.t('Select data element')}
         selected={predictionTarget}
@@ -145,20 +146,6 @@ const PredictionPage = () => {
         label={i18n.t('Select population data element')}
         selected={populationData}
         onChange={setPopulationData}
-      />
-      <DataElement
-        title={i18n.t('Temperature data')}
-        label={i18n.t('Select temperature data element')}
-        dataElementCode={'ERA5_LAND_TEMPERATURE'}
-        selected={temperatureData}
-        onChange={setTemperatureData}
-      />
-      <DataElement
-        title={i18n.t('Precipitation data')}
-        label={i18n.t('Select precipitation data element')}
-        dataElementCode={'ERA5_LAND_PRECIPITATION'}
-        selected={precipitationData}
-        onChange={setPrecipitationData}
       />
 
       <div className={styles.container}>
@@ -204,8 +191,6 @@ const PredictionPage = () => {
           setStartDownload={setStartDownload}
           predictionData={predictionTarget}
           populationData={populationData}
-          temperatureData={temperatureData}
-          precipitationData={precipitationData}
           period={selectedPeriodItems}
           setErrorMessages={setErrorMessages}
           orgUnits={orgUnits}

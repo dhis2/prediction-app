@@ -56,7 +56,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   const config = useConfig()
-  OpenAPI.BASE = config.baseUrl+'/api/routes/chap/run'
+  OpenAPI.BASE = config.baseUrl+'/api/routes/QSlJyIFGruH'
   OpenAPI.WITH_CREDENTIALS = true
 
   return (
