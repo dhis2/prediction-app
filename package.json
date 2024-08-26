@@ -9,13 +9,13 @@
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
-    "generate" : "yarn openapi --input ./public/openapi.json --output ./src/httpfunctions"
+    "generate": "yarn openapi --input ./public/openapi.json --output ./src/httpfunctions"
   },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^11.1.1"
   },
   "dependencies": {
-    "@dhis2/analytics": "^26.6.14",
+    "@dhis2/analytics": "^26.8.1",
     "@dhis2/app-runtime": "^3.10.4",
     "@dhis2/multi-calendar-dates": "^1.1.1",
     "@dhis2/ui": "^9.8.0",

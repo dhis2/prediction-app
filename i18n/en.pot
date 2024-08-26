@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-08-09T12:39:16.022Z\n"
-"PO-Revision-Date: 2024-08-09T12:39:16.022Z\n"
+"POT-Creation-Date: 2024-08-19T08:42:31.302Z\n"
+"PO-Revision-Date: 2024-08-19T08:42:31.305Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -41,32 +41,14 @@ msgstr "End date"
 msgid "Make prediction data"
 msgstr "Make prediction data"
 
-msgid "Select model"
-msgstr "Select model"
-
 msgid "Prediction target"
 msgstr "Prediction target"
 
 msgid "Select data element"
 msgstr "Select data element"
 
-msgid "Population data"
-msgstr "Population data"
-
-msgid "Select population data element"
-msgstr "Select population data element"
-
-msgid "Temperature data"
-msgstr "Temperature data"
-
-msgid "Select temperature data element"
-msgstr "Select temperature data element"
-
-msgid "Precipitation data"
-msgstr "Precipitation data"
-
-msgid "Select precipitation data element"
-msgstr "Select precipitation data element"
+msgid "Select a model"
+msgstr "Select a model"
 
 msgid "Add required Data Elements"
 msgstr "Add required Data Elements"

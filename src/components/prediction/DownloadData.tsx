@@ -5,13 +5,13 @@ import useAnalyticRequest from '../../hooks/useAnalyticRequest';
 import React from 'react';
 import useGeoJson from '../../hooks/useGeoJson';
 import styles from './styles/DownloadData.module.css';
+import { RequestV1 } from '../../httpfunctions';
 
 interface DownloadDataProps {
   period: any;
   orgUnitLevel: { id: string; level: number };
   orgUnits: any;
-  populationData: any;
-  predictionData: any;
+  modelSpesificSelectedDataElements : any
   setStartDownload: (option: {
     downloadLocal: boolean;
     startDownlaod: boolean;
@@ -19,6 +19,7 @@ interface DownloadDataProps {
   setErrorMessages(errorMessages: ErrorResponse[]): void;
   startDownload: { downloadLocal: boolean; startDownlaod: boolean };
   setZipResult: (result: any) => void;
+  setRequest : (r : RequestV1) => void;
 }
 
 export interface ErrorResponse {
@@ -33,8 +34,8 @@ const DownloadData = ({
   setZipResult,
   orgUnitLevel,
   orgUnits,
-  populationData,
-  predictionData,
+  modelSpesificSelectedDataElements,
+  setRequest,
   setErrorMessages,
 }: DownloadDataProps) => {
   //Concat selected orgUnits (either national, a district, chiefdom or facility) with the id of selected levels (districts, chiefdoms, facilities)
@@ -68,36 +69,16 @@ const DownloadData = ({
     return periods.map((period) => period.id);
   };
 
-  const {
-    data: population,
-    error: populationError,
-    loading: populationLoading,
-  } = useAnalyticRequest(
-    populationData.id,
-    flatternDhis2Periods(period),
-    mergedOrgUnits
-  );
-  const {
-    data: prediction,
-    error: predictionError,
-    loading: predictionLoading,
-  } = useAnalyticRequest(
-    predictionData.id,
-    flatternDhis2Periods(period),
-    mergedOrgUnits
-  );
-  const {
-    data: geoJson,
-    error: geoJsonError,
-    loading: geoJsonLoading,
-  } = useGeoJson(orgUnitLevel.level);
+  const { data: population, error: populationError, loading: populationLoading} = useAnalyticRequest(modelSpesificSelectedDataElements.population.selected_data_element, flatternDhis2Periods(period), mergedOrgUnits);
+  const { data: prediction, error: predictionError, loading: predictionLoading } = useAnalyticRequest(modelSpesificSelectedDataElements.diseases.selected_data_element, flatternDhis2Periods(period), mergedOrgUnits);
+  const { data: geoJson, error: geoJsonError, loading: geoJsonLoading } = useGeoJson(orgUnitLevel.level);
 
   const objectToPrettyJson = (object: any) => {
     return JSON.stringify(object, null, 2);
   };
 
   //Avoid to export all the orgUnits to JSON, only inlcude those returned from one of the analytic requests (precipitation)
-  const filterOrgUnits = () => {
+  const filterOrgUnits = (geoJson : any) => {
     return {
       type: 'FeatureCollection',
       features: (geoJson as any).features.filter((o: any) => {
@@ -111,7 +92,7 @@ const DownloadData = ({
   const downloadZip = () => {
     const zip = new JSZip();
     //Add data to zip
-    zip.file('orgUnits.geojson', objectToPrettyJson(filterOrgUnits()));
+    zip.file('orgUnits.geojson', objectToPrettyJson(filterOrgUnits(geoJson)));
     zip.file('population.json', objectToPrettyJson(population));
     zip.file('disease.json', objectToPrettyJson(prediction));
 
@@ -123,6 +104,26 @@ const DownloadData = ({
       }
     });
   };
+
+  const convertDhis2AnlyticsToChap = (data: [[string, string, string, string]]) : any[]=> {
+    return data.map((row) => {
+      return {
+        ou: row[1],
+        pe: row[2],
+        value: parseInt(row[3])
+      };
+    })
+  }
+
+  const fillDummyPopulation = (population : [string, string, string, string]) => {
+    return population.map((row) => {
+      return {
+        ou: row[1],
+        pe: row[2],
+        value: 1000_0000
+      };
+    })
+  }
 
   useEffect(() => {
     //if one of the data is still loading, return
@@ -136,6 +137,22 @@ const DownloadData = ({
     if (population && prediction && geoJson) {
       setErrorMessages([]);
       downloadZip();
+      setRequest({
+        features : [
+          {
+            featureId : "population",
+            dhis2Id : "evvc434",
+            data : fillDummyPopulation(prediction.rows) as any,
+          },
+          {
+            featureId : "diseases",
+            dhis2Id : "Kewpwev",//population.metadata.dimensions.dx[0]
+            data : convertDhis2AnlyticsToChap(prediction.rows)//,convertDhis2AnlyticsToChap(prediction.rows) as any,
+           
+          },
+        ],
+        orgUnitsGeoJson : geoJson//filterOrgUnits(geoJson),
+      })
       setStartDownload({ downloadLocal: true, startDownlaod: false });
     }
 
