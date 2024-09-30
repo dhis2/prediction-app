@@ -1,23 +1,56 @@
 import { useDataQuery } from "@dhis2/app-runtime";
+import { ModelFeatureDataElementMap } from "../interfaces/ModelFeatureDataElement";
 
-const ORG_UNIT_LEVELS_QUERY = ({ dataElements = [], periodes = [], orgUnit = {} } = {}) => {
+const ANALYTICS_QUERY = ({ dataElements = [], periodes = [], orgUnit = {} } = {}) => {
   return {
     request: {
       resource: "analytics",
       params: {
         paging: false,
-        dimension: `dx:${dataElements},ou:${orgUnit},pe:${periodes.join(";")}`
+        dimension: `dx:${dataElements.join(";")},ou:${orgUnit},pe:${periodes.join(";")}`
       },
     },
   };
 };
 
+const convertDhis2AnlyticsToChap = (data: [[string, string, string, string]], dataElementId : string) : any[]=> {
+  return data.filter(x => x[0] === dataElementId).map((row) => {
+    return {
+      ou: row[1],
+      pe: row[2],
+      value: parseInt(row[3])
+    };
+  })
+}
 
-const useAnalyticRequest = (dataElements: any, periodes: any, orgUnit: any) => {
-  const { loading, error, data } = useDataQuery(ORG_UNIT_LEVELS_QUERY({ dataElements, periodes, orgUnit }));
+const useAnalyticRequest = (modelSpesificSelectedDataElements: ModelFeatureDataElementMap, periodes: any, orgUnit: any) => {
+  
+  const modelSpesificSelectedDataElementsArray = Array.from(modelSpesificSelectedDataElements);
+  
+  //filter out every DHIS2 dataElement ids
+  const dataElements = modelSpesificSelectedDataElementsArray.map(([key, value ]) => (value.selected_data_element)) as any; 
+  
+  const { loading, error, data } = useDataQuery(ANALYTICS_QUERY({ dataElements, periodes, orgUnit }));
+
+  if(!loading && data && !error){
+    //divide the respons into the features (for instance population, diseases, etc)
+    const featureRequest = modelSpesificSelectedDataElementsArray.map(([key, value]) => {
+      return {
+        featureId: key,
+        dhis2Id : value.selected_data_element,
+        data : convertDhis2AnlyticsToChap((data?.request as any).rows, value.selected_data_element)
+      }
+    });
+
+    return {
+      data : featureRequest,
+      error,
+      loading,
+    };
+  }
 
   return {
-    data : data ? (data as any).request : data,
+    data,
     error,
     loading,
   };

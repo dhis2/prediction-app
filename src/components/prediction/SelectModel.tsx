@@ -8,15 +8,38 @@ interface SelectModelProps {
   setSelectedModel : (m : ModelSpec) => void
 }
 
+const offlineModel : ModelSpec = {
+  name : "Download data (use this option when you run CHAP locally or would like to share data with others)",
+  parameters : [],
+  features : [
+  {
+    id : "population",
+    description : "Select the data element for population",
+    name : "Population"
+  },
+  {
+    id : "disease",
+    description : "Select the data element for disease cases",
+    name : "Disease cases"
+  }
+]
+}
+
 const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
 
   const [models, setModels] = useState<ModelSpec[]>([])
+  
     
   const getModels = async () => {
     await DefaultService.listModelsListModelsGet()
       .then((response : ModelSpec[]) => {
-        setModels(response)
-      })
+        const models = [offlineModel].concat(response)
+        setModels(models)
+      }).catch((error : any) => {
+        //route probarly not set up, warning should be shown
+        setModels([offlineModel])
+        setSelectedModel(offlineModel)
+    })
   }
 
   const onChangeModel = (event : any) => {

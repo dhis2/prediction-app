@@ -10,7 +10,7 @@ const Setup = () => {
   const routeDocUrl = "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-241/route.html"
   const chapInfoUrl = "https://github.com/dhis2/chap-core"
 
-  const [url, setUrl] = useState("http://chap:8000/v1/**")
+  const [url, setUrl] = useState("http://chap:8000/**")
 
   
 

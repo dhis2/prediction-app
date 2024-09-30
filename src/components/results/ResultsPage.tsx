@@ -54,14 +54,19 @@ const ResultsPage = () => {
 
   //if id is passed in
   useEffect(() => {
-    if(location?.state?.data && orgUnits){
-      onFileUpload(location.state.data)
-      
+    //if(location?.state?.data && orgUnits){
 
+      const fetchData = async () => {
+        try {
+          const response = await fetch("/override_respons.json");
+          const data = await response.json();
+          onFileUpload(data)
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
 
-
-      
-    }
   }, [location?.state?.data, orgUnits])
   
 
@@ -91,7 +96,8 @@ const ResultsPage = () => {
   }
 
   const onFileUpload = (data : any) => {
-    setPredictionTarget(data.diseaseId);
+    setPredictionTarget("GPEAQwddr16")
+    //setPredictionTarget(data.diseaseId);
     setPostHttpError("");
     setPostStatus("initial");
     setPrediction(fillWithOrgUnit(data))
@@ -137,9 +143,6 @@ const ResultsPage = () => {
             <Tab selected={selectedTab === "chart"} onClick={() => setSelectedTab("chart")}>
               Chart
             </Tab>
-            {/*<Tab selected={selectedTab === "table"} onClick={() => setSelectedTab("table")}>
-              Table
-            </Tab>*/}
           </TabBar>
 
           <div className={styles.prediction}>

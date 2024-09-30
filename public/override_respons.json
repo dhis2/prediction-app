@@ -1,0 +1,77 @@
+{
+  "diseaseId": "Kewpwev",
+  "dataValues": [
+    {
+      "value": 4100,
+      "orgUnit": "MnK7wTQx9wc",
+      "dataElement": "median",
+      "period": "202408"
+  },
+  {
+      "value": 4100,
+      "orgUnit": "MnK7wTQx9wc",
+      "dataElement": "quantile_high",
+      "period": "202408"
+  },
+  {
+      "value": 4100,
+      "orgUnit": "MnK7wTQx9wc",
+      "dataElement": "quantile_low",
+      "period": "202408"
+  },
+      {
+          "value": 6490,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "median",
+          "period": "202409"
+      },
+      {
+          "value": 8450,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_high",
+          "period": "202409"
+      },
+      {
+          "value": 4800,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_low",
+          "period": "202409"
+      },
+      {
+          "value": 12600,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "median",
+          "period": "202410"
+      },
+      {
+          "value": 16400,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_high",
+          "period": "202410"
+      },
+      {
+          "value": 8800,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_low",
+          "period": "202410"
+      },
+      {
+          "value": 14560,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "median",
+          "period": "202411"
+      },
+      {
+          "value": 21000,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_high",
+          "period": "202411"
+      },
+      {
+          "value": 9600,
+          "orgUnit": "MnK7wTQx9wc",
+          "dataElement": "quantile_low",
+          "period": "202411"
+      }
+  ]
+}

@@ -22,6 +22,9 @@ import { PeriodDimension } from '@dhis2/analytics';
 import useGetRoute from '../../hooks/useGetRoute';
 import SelectModel from './SelectModel';
 import ModelFeatures from './ModelFeatures';
+import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
+import SwitchClimateSources from '../climateSource/SwitchClimateSources';
+import saveAs from 'file-saver';
 
 const defaultPeriod = {
   startMonth: '2023-04',
@@ -38,10 +41,10 @@ const PredictionPage = () => {
 
   const { systemInfo = {} } = useConfig();
 
-  const { calendar = 'gregory' } = systemInfo;
+  //const { calendar = 'gregory' } = systemInfo;
 
   const [selectedModel, setSelectedModel] = useState<ModelSpec | undefined>(undefined)
-  const [modelSpesificSelectedDataElements, setModelSpesificSelectedDataElements] = useState<any>({})
+  const [modelSpesificSelectedDataElements, setModelSpesificSelectedDataElements] = useState<ModelFeatureDataElementMap>(new Map())
   const [request, setRequest] = useState<RequestV1 | undefined>(undefined)
   const [geoJson, setGeoJson] = useState<any>(undefined)
 
@@ -56,17 +59,12 @@ const PredictionPage = () => {
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([]);
   const [sendingDataToChap, setSendingDataToChap] = useState<boolean>(false);
 
-  const [zipResult, setZipResult] = useState<any>(undefined);
+  const [jsonResult, setJsonResult] = useState<RequestV1 | undefined>(undefined);
   const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
-  const [startDownload, setStartDownload] = useState<{
-    downloadLocal: boolean;
-    startDownlaod: boolean;
-  }>({ downloadLocal: true, startDownlaod: false });
+  const [startDownload, setStartDownload] = useState<{action: "download" | "post", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
 
   const isValid = Boolean(
-    //false &&
-      //false &&
       selectedPeriodItems &&
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
@@ -77,46 +75,35 @@ const PredictionPage = () => {
   };
 
   const onSelectModel = (selected : ModelSpec) => {
-    setModelSpesificSelectedDataElements({})
-    
-    //overwriting these temporarly
-    selected = {
-      features : [
-        {
-          id : "diseases", 
-          description : "Select DataElement to predict",
-          name : "Disease to predict"
-        },
-        {
-          id : "population", 
-          description : "Select population element",
-          name : "Select population dataElement"
-        }
-      ],
-      name : selected.name,
-      parameters : [],      
-    } as ModelSpec
-    
+    setModelSpesificSelectedDataElements(new Map())
     setSelectedModel(selected)
   }
 
-  const onClickDownloadData = () => {
-    setZipResult(undefined);
-    setStartDownload({ downloadLocal: true, startDownlaod: true });
-  };
+  const onClickDownloadOrPostData = (action : "download" | "post") => {
+    setJsonResult(undefined);
+    setStartDownload({ action: action, startDownlaod: true });
+  }
 
-  const onClickSendDataToChap = () => {
-    setZipResult(undefined);
-    setStartDownload({ downloadLocal: false, startDownlaod: true });
-    setSendingDataToChap(true);
-  };
+  //triggers when chap-content is fetched
+  useEffect(() => {
+    if (jsonResult) {
+      setStartDownload(prev => ({ ...prev, startDownlaod: false }));
+      if(startDownload.action === "download") downloadData();
+      if(startDownload.action === "post") sendToChap();     
+    }
+  }, [jsonResult]);
 
+  const downloadData = () => {
+    var fileToSave = new Blob([JSON.stringify(jsonResult, null, 2)], {
+      type: 'application/json'
+    });
+
+    const today = new Date();
+    saveAs(fileToSave, "chap_request_data_"+ today.toJSON() + '.json');
+  }
 
   const sendToChap = async () => {
-
-    
-
-    await DefaultService.predictFromJsonPredictFromJsonPost(request as RequestV1)
+    await DefaultService.predictFromJsonPredictFromJsonPost(jsonResult as RequestV1)
       .then((response: any) => {
         setErrorChapMsg('');
         setSendingDataToChap(false);
@@ -128,12 +115,6 @@ const PredictionPage = () => {
         setErrorChapMsg(error?.body?.detail);
       });
   };
-
-  useEffect(() => {
-    if (zipResult) {
-      sendToChap();
-    }
-  }, [zipResult]);
 
   //checks that all selected orgUnits are on the same level
   function orgUnitsSelectedIsValid() {
@@ -151,21 +132,14 @@ const PredictionPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>{i18n.t('Make prediction data')}</h1>
+      <h1>{i18n.t('Select training data')}</h1>
 
       <SelectModel selectedModel={selectedModel} setSelectedModel={onSelectModel}/>
-
       <ModelFeatures features={selectedModel?.features} setModelSpesificSelectedDataElements={setModelSpesificSelectedDataElements} modelSpesificSelectedDataElements={modelSpesificSelectedDataElements} />
 
-      {/*<DataElement
-        title={i18n.t('Prediction target')}
-        label={i18n.t('Select data element')}
-        selected={predictionTarget}
-        onChange={setPredictionTarget}
-      />*/}
-
-      {selectedModel?.features.length === Object.keys(modelSpesificSelectedDataElements).length &&
+      {selectedModel?.features.length === modelSpesificSelectedDataElements?.size &&
       <>
+        <SwitchClimateSources/>
         <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} />
         {!orgUnitsSelectedIsValid() && (
           <p className={styles.error}>
@@ -196,7 +170,7 @@ const PredictionPage = () => {
               startDownload.startDownlaod ||
               !orgUnitsSelectedIsValid()
             }
-            onClick={onClickDownloadData}
+            onClick={() =>onClickDownloadOrPostData("download")}
           >
             Download data
           </Button>
@@ -205,7 +179,7 @@ const PredictionPage = () => {
             primary
             loading={sendingDataToChap}
             disabled={!isValid || sendingDataToChap || !orgUnitsSelectedIsValid()}
-            onClick={onClickSendDataToChap}
+            onClick={() =>onClickDownloadOrPostData("post")}
           >
             Send data to CHAP
           </Button>
@@ -213,8 +187,8 @@ const PredictionPage = () => {
         {<p className={styles.errorChap}>{errorChapMsg}</p>}
         {startDownload.startDownlaod && isValid && (
           <DownloadData
-            setZipResult={setZipResult}
-            setRequest={setRequest}
+            modelId={selectedModel?.name}
+            setJsonResult={setJsonResult}
             modelSpesificSelectedDataElements={modelSpesificSelectedDataElements}
             startDownload={startDownload}
             setStartDownload={setStartDownload}
@@ -231,14 +205,11 @@ const PredictionPage = () => {
               <span>{error.element} request failed</span>
             </div>
             <span className={styles.detailedError}>
-              {JSON.stringify(error.error, null, 2)}
+
             </span>
           </div>
-        ))}
-        
-      
+        ))}        
       </>}
-      
     </div>
   );
 };

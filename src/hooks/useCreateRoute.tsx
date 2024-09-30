@@ -10,7 +10,8 @@ const REQUEST = (url : string) => {
       name: "chap",
       code: "chap",
       disabled: false,
-      url: url
+      url: url,
+      //authorities: ["MY_CUSTOM_APP"]
     }
   }
 };

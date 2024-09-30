@@ -5,21 +5,22 @@ import styles from './styles/Period.module.css';
 import { DataProvider } from '@dhis2/app-runtime';
 import { PeriodDimension } from '@dhis2/analytics';
 import { useState } from 'react';
+import React from 'react';
 
-const Period = ({ calendar, period, onChange }) => {
+const Period = ({ calendar, period, onChange }  : any) => {
   //useState, useEffect
   const [selectedItems, setselectedItems] = useState();
 
-  const handleStartDateChange = (selectedDate) => {
+  const handleStartDateChange = (selectedDate  : any) => {
     period.startDate = selectedDate?.calendarDateString;
     onChange({ ...period, selectedDate });
   };
 
-  const handleSelectedPeriod = (selectedPeriods) => {
+  const handleSelectedPeriod = (selectedPeriods : any) => {
     setselectedItems(selectedPeriods.items);
   };
 
-  const handleEndDateChange = (selectedDate) => {
+  const handleEndDateChange = (selectedDate  : any) => {
     period.endDate = selectedDate?.calendarDateString;
     onChange({ ...period, selectedDate });
   };

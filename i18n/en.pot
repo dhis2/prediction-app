@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-08-19T08:42:31.302Z\n"
-"PO-Revision-Date: 2024-08-19T08:42:31.305Z\n"
+"POT-Creation-Date: 2024-09-27T10:58:20.698Z\n"
+"PO-Revision-Date: 2024-09-27T10:58:20.699Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -38,14 +38,8 @@ msgstr "Start date"
 msgid "End date"
 msgstr "End date"
 
-msgid "Make prediction data"
-msgstr "Make prediction data"
-
-msgid "Prediction target"
-msgstr "Prediction target"
-
-msgid "Select data element"
-msgstr "Select data element"
+msgid "Select training data"
+msgstr "Select training data"
 
 msgid "Select a model"
 msgstr "Select a model"
@@ -130,6 +124,9 @@ msgstr "Import prediction"
 
 msgid "Prediction has been imported."
 msgstr "Prediction has been imported."
+
+msgid "Select data element"
+msgstr "Select data element"
 
 msgid "It seems like you missing Data Elements for CHAP prediction."
 msgstr "It seems like you missing Data Elements for CHAP prediction."

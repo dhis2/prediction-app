@@ -56,25 +56,9 @@ const router = createBrowserRouter([
 
 const App = () => {
 
-
-
-  const { loading, routeId, error } = useGetRoute();
   const config = useConfig()
-
-  if(loading){
-    return <></>
-  }
-
-  if(!routeId && !loading && window.location.pathname.split("/")[1] != "route"){
-    window.location.replace('/route/create-route')
-  }
-  else{
-    OpenAPI.BASE = 'http://localhost:8000/v1'
-    //OpenAPI.BASE = config.baseUrl+'/api/routes/'+routeId+"/run"
+    OpenAPI.BASE = config.baseUrl+'/api/routes/'+"chap"+"/run"
     OpenAPI.WITH_CREDENTIALS = true
-  }
-
-
 
   return (
     <RouterProvider router={router}></RouterProvider>
