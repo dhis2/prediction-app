@@ -1,5 +1,18 @@
 This project was bootstrapped with [DHIS2 Application Platform](https://github.com/dhis2/app-platform).
 
+## Prediction app - a tool for sharing data between chap
+
+## Supported
+
+ - **Opt 1:** Using prediction app to download data, and run CHAP locally
+ - **Opt. 2:** Prediction app configured with CHAP running as a backend service (not yet supported)
+
+
+
+
+
+## Development
+
 ## Available Scripts
 
 In the project directory, you can run:

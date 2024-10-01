@@ -13,10 +13,8 @@ import useDataElements from "../../hooks/useDataElements";
 import useDataElement from "../../hooks/useDataElement";
 import { useLocation } from "react-router-dom";
 
-
 const ResultsPage = () => {
-
-  
+ 
   const location = useLocation();
 
   const [prediction, setPrediction] = useState<any>();

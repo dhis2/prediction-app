@@ -8,9 +8,9 @@ import React from "react";
 import WarnRouteNotExists from "./setup/WarnRouteNotExists";
 
 export const appPages = [
-  { path: "/", name: "1 | Make prediction data" },
-  //{ path: "/status", name: "2 | Upload data to CHAP Core" },
-  //{ path: "/results", name: "3 | See prediction" },
+  { path: "/", name: "1 | Select training data" },
+  { path: "/status", name: "2 | Upload data to CHAP Core" },
+  { path: "/results", name: "3 | See prediction" },
   { path: "/settings", name: "Settings" },
 ];
 

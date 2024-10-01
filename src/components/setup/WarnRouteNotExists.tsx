@@ -14,7 +14,7 @@ const WarnRouteNotExists = () => {
     return (
       <div className={style.warningMargin}>
         <NoticeBox warning title="Missing route">
-          No route for CHAP where found. Functionality is limited. Create route here <Link to="/route/create-route">Create route ➔</Link>
+          No route for CHAP was found. Functionality is limited. <Link to="/route/create-route">Create route ➔</Link>
         </NoticeBox>
 
       

@@ -9,7 +9,7 @@ interface SelectModelProps {
 }
 
 const offlineModel : ModelSpec = {
-  name : "Download data (use this option when you run CHAP locally or would like to share data with others)",
+  name : "EWARS - monthly data",
   parameters : [],
   features : [
   {
@@ -33,8 +33,8 @@ const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
   const getModels = async () => {
     await DefaultService.listModelsListModelsGet()
       .then((response : ModelSpec[]) => {
-        const models = [offlineModel].concat(response)
-        setModels(models)
+        //const models = [offlineModel].concat(response)
+        setModels(response)
       }).catch((error : any) => {
         //route probarly not set up, warning should be shown
         setModels([offlineModel])
