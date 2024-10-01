@@ -6,7 +6,8 @@ Prediction App offers the possibility to download disease data from DHIS2 into a
 ## Install Prediction App
 To install the Prediction App, follow these steps:
 
-1. Download Prediction App [from here](static/prediction-app-1.0.0.zip), by clicking "Download raw file" ![Prediction App Screenshot](static/how_to_download.png)
+1. Download Prediction App [from here](static/prediction-app-1.0.0.zip), by clicking "Download raw file" 
+![Prediction App Screenshot](static/how_to_download.png)
 
 2. Install the app manually on your DHIS2 instance ([Learn how to install a custom DHIS2 app](https://dhis2-app-course.ifi.uio.no/learn/dhis2/app-development-guides/build-publish-app-platform-app/manual-install/))
 
