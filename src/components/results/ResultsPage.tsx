@@ -161,7 +161,7 @@ const ResultsPage = () => {
           <SelectDataValues label={i18n.t("Select data element for medium quantile")} dataElements={dataElementsMedian} onChange={setqMedianDataElementId} value={qMedianDataElement} />
           <SelectDataValues label={i18n.t("Select data element for high quantile")} dataElements={dataElementsHigh} onChange={setqHighDataElementId} value={qHighDataElement} />
 
-          {warnAboutUnequalDiseaseAndDataElement() && <p className={styles.warning}>{i18n.t("Warning: It seems like selected data elements do not match the disease of prediction.")}</p>}
+          {warnAboutUnequalDiseaseAndDataElement() && <p className={styles.warning}>Warning: It seems like selected data elements do not match the disease of prediction.</p>}
 
           <div className={styles.footer}>
             <Button onClick={() => setPostStatus("loading")} loading={postStatus === "loading"} disabled={postStatus === "finish" || postStatus === "loading" || !validateForm()} icon={<IconArrowRight24 />} primary>{i18n.t("Import prediction")}</Button>

@@ -14,7 +14,7 @@ import useGetRoute from "./hooks/useGetRoute";
 import { useConfig } from "@dhis2/app-runtime";
 import React from "react";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "route",
     errorElement: <ErrorPage />,
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "",
+    path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [

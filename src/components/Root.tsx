@@ -30,7 +30,7 @@ const Root = () => {
               <Fragment key={path}>
                 <MenuItem
                   label={name}
-                  href={`${path}`}
+                  href={`#${path}`}
                   active={
                     pathname === path ||
                     (path !== "/" && pathname.startsWith(path))
