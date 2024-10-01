@@ -1,6 +1,5 @@
 import { createBrowserRouter, createHashRouter, RouterProvider, useNavigate } from "react-router-dom";
 import Root from "./components/Root";
-import AboutPage from "./components/AboutPage";
 import PredictionPage from "./components/prediction/PredictionPage";
 import ResultsPage from "./components/results/ResultsPage";
 import SettingsPage from "./components/settings/SettingsPage";
@@ -13,6 +12,7 @@ import { OpenAPI } from './httpfunctions';
 import useCreateRouterIfNotExists from "./hooks/useGetRoute";
 import useGetRoute from "./hooks/useGetRoute";
 import { useConfig } from "@dhis2/app-runtime";
+import React from "react";
 
 const router = createBrowserRouter([
   {

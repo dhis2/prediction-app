@@ -1,6 +1,6 @@
 {
-  "name": "prediction-app",
-  "version": "0.0.1",
+  "name": "test-d2-again",
+  "version": "1.0.0",
   "description": "",
   "license": "BSD-3-Clause",
   "private": true,
@@ -8,31 +8,12 @@
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
-    "deploy": "d2-app-scripts deploy",
-    "generate": "yarn openapi --input ./public/openapi.json --output ./src/httpfunctions"
+    "deploy": "d2-app-scripts deploy"
   },
   "devDependencies": {
-    "@dhis2/cli-app-scripts": "^11.1.1"
+    "@dhis2/cli-app-scripts": "^11.7.2"
   },
   "dependencies": {
-    "@dhis2/analytics": "^26.8.5",
-    "@dhis2/app-runtime": "^3.10.4",
-    "@dhis2/multi-calendar-dates": "^1.1.1",
-    "@dhis2/ui": "^9.8.0",
-    "@types/file-saver": "^2.0.7",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.7",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
-    "file-saver": "^2.0.5",
-    "highcharts": "^11.4.1",
-    "highcharts-react-official": "^3.2.1",
-    "jszip": "^3.10.1",
-    "openapi-typescript-codegen": "^0.29.0",
-    "react-dropzone": "^14.2.3",
-    "react-router-dom": "^6.23.0"
-  },
-  "resolutions": {
-    "@js-temporal/polyfill": "0.4.3"
+    "@dhis2/app-runtime": "^3.11.0"
   }
 }

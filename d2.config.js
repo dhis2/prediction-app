@@ -1,8 +1,8 @@
 const config = {
   type: "app",
-  title: "Preditction",
+  title: "Preditction App",
   entryPoints: {
-    app: "./src/App.jsx",
+    app: "./src/App.js",
   },
 };
 

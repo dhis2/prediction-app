@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import styles from "./styles/AboutPage.module.css";
+import React from "react";
 
 const AboutPage = () => {
 
