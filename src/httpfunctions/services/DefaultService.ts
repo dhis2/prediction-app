@@ -6,6 +6,7 @@ import type { Body_post_zip_file_zip_file__post } from '../models/Body_post_zip_
 import type { Feature } from '../models/Feature';
 import type { FullPredictionResponse } from '../models/FullPredictionResponse';
 import type { ModelSpec } from '../models/ModelSpec';
+import type { RequestV1 } from '../models/RequestV1';
 import type { State } from '../models/State';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -35,7 +36,7 @@ export class DefaultService {
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/set-model-path/',
+            url: '/set-model-path',
             query: {
                 'model_path': modelPath,
             },
@@ -59,6 +60,26 @@ export class DefaultService {
             url: '/zip-file/',
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
+     * Predict From Json
+     * Post a json file containing the data needed for prediction
+     * @param requestBody
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static predictFromJsonPredictFromJsonPost(
+        requestBody: RequestV1,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/predict-from-json/',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },
@@ -97,7 +118,7 @@ export class DefaultService {
     public static getResultsGetResultsGet(): CancelablePromise<FullPredictionResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/get-results/',
+            url: '/get-results',
         });
     }
     /**
@@ -109,7 +130,7 @@ export class DefaultService {
     public static cancelCancelPost(): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/cancel/',
+            url: '/cancel',
         });
     }
     /**
@@ -121,7 +142,7 @@ export class DefaultService {
     public static getStatusStatusGet(): CancelablePromise<State> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/status/',
+            url: '/status',
         });
     }
 }

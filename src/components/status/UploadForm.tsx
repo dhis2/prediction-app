@@ -11,13 +11,23 @@ interface UploadFormProps {
 }
 
 const UploadForm = ({isReady, setUpload ,upload} : UploadFormProps) => {
-  //const [file, setFile] = useState<any>(null)
+
+  const [request, setRequest] = useState<any>(undefined)
   const [file, setFile] = useState<any>(undefined)
   const [errorMessage, setErrorMessage] = useState<string>("")
   
   const handleFileSelect = (event : any) => {
-    console.log(event)
     setFile(event.files[0])
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const json = JSON.parse(e.target?.result as string);
+        setRequest(json);
+      } catch (err) {
+        setErrorMessage("Failed to parse JSON file");
+      }
+    };
+    reader.readAsText(event.files[0]);
   }
 
   const handleUpload = async () => {
@@ -28,15 +38,15 @@ const UploadForm = ({isReady, setUpload ,upload} : UploadFormProps) => {
     <div>
       <div className={styles.container}>   
         <div>
-          <FileInput buttonLabel='Upload file (.zip)' disabled={!isReady} onChange={handleFileSelect}/>
+          <FileInput buttonLabel='Upload JSON-file'  onChange={handleFileSelect}/>
           <div className={styles.selectedFile}><i>{file?.name}</i></div>
         </div>
         <div>
-          <Button icon={<IconArrowRight24/>} disabled={file == undefined || !isReady} onClick={() => handleUpload()}>Send to CHAP</Button>          
+          <Button icon={<IconArrowRight24/>} disabled={request == undefined} onClick={() => handleUpload()}>Send to CHAP</Button>          
         </div>
       
       </div>
-      {upload && file && <SendForm formData={{file : file} as any} setErrorMessage={setErrorMessage} setUpload={setUpload}/>}
+      {upload && request && <SendForm request={request} setErrorMessage={setErrorMessage} setUpload={setUpload}/>}
       <p className={styles.error}>{errorMessage}</p>
       
     </div>

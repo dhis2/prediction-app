@@ -10,9 +10,9 @@ const StatusPage = () => {
 
   return (
     <div className={styles.statusContainer}>
-      <h2>CHAP - Upload data</h2>
+      <h2>CHAP - traning/prediction status</h2>
       <p>
-        <i>On this page, you could upload data to CHAP and download the latest prediction result. To use this feature, it requires you to run CHAP locally on URL "http://localhost:8000".</i>
+        <i>On this page, you could upload data to CHAP and download the latest prediction result.</i>
       </p>
       
       

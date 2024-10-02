@@ -21,13 +21,27 @@ const parseOrgUnits = (data : any) => {
   ...data,}
 }
 
-const useGeoJson = (level : number) => {
+//Avoid to export all the orgUnits to JSON, only inlcude those returned from one of the analytic requests (precipitation)
+const filterOrgUnits = (geoJson : any, orgUnits : { id: string, displayName : string }[]) => {
+
+  return {
+    type: 'FeatureCollection',
+    features: (geoJson as any).features.filter((o: any) => {
+      return orgUnits.some(
+        (id: { id: string, displayName : string }) => id.id === o.id
+      );
+    }),
+  };
+};
+
+
+const useGeoJson = (level : number, orgUnits : any[]) => {
 
     const { data, loading, error } = useDataQuery(ORG_UNITS_QUERY as any, {
       variables: { level }});
 
     return {
-      data : data ? parseOrgUnits(data) : data,
+      data : data ? filterOrgUnits(parseOrgUnits(data), orgUnits) : data,
       error,
       loading,
     };

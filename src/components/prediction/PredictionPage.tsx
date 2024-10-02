@@ -15,10 +15,16 @@ import OrgUnitLevel from './OrgUnitLevel';
 import { ErrorResponse } from './DownloadData';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DefaultService } from '../../httpfunctions';
+import { DefaultService, Feature, ModelSpec, OpenAPI, RequestV1 } from '../../httpfunctions';
 import { useConfig } from '@dhis2/app-runtime';
 import Period from './Periods';
 import { PeriodDimension } from '@dhis2/analytics';
+import useGetRoute from '../../hooks/useGetRoute';
+import SelectModel from './SelectModel';
+import ModelFeatures from './ModelFeatures';
+import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
+import SwitchClimateSources from '../climateSource/SwitchClimateSources';
+import saveAs from 'file-saver';
 
 const defaultPeriod = {
   startMonth: '2023-04',
@@ -26,16 +32,22 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
+  const { loading, routeId, error } = useGetRoute();
+  const config = useConfig()
+
+  const navigate = useNavigate();
+
+  //IF NOT SUCCESSFUL STATS, SEND USER TO PAGE WHERE ROUTE IS CONFIGURED, BUT NO CONNECTION TO CHAP
+
   const { systemInfo = {} } = useConfig();
 
-  const { calendar = 'gregory' } = systemInfo;
+  //const { calendar = 'gregory' } = systemInfo;
 
-  const [predictionTarget, setPredictionTarget] =
-    useState(/*{displayName: 'IDSR Malaria', id: 'vq2qO3eTrNi'}*/);
-  const [populationData, setPopulationData] =
-    useState(/*{"code":"DE_5808","displayName":"Total Population","id":"WUg3MYWQ7pt"}*/);
-  const [temperatureData, setTemperatureData] = useState();
-  const [precipitationData, setPrecipitationData] = useState();
+  const [selectedModel, setSelectedModel] = useState<ModelSpec | undefined>(undefined)
+  const [modelSpesificSelectedDataElements, setModelSpesificSelectedDataElements] = useState<ModelFeatureDataElementMap>(new Map())
+  const [request, setRequest] = useState<RequestV1 | undefined>(undefined)
+  const [geoJson, setGeoJson] = useState<any>(undefined)
+
   const [period, setPeriod] = useState(defaultPeriod);
   const [orgUnits, setOrgUnits] = useState([]);
   const [orgUnitLevel, setOrgUnitLevel] = useState<{
@@ -47,41 +59,51 @@ const PredictionPage = () => {
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([]);
   const [sendingDataToChap, setSendingDataToChap] = useState<boolean>(false);
 
-  const [zipResult, setZipResult] = useState<any>(undefined);
+  const [jsonResult, setJsonResult] = useState<RequestV1 | undefined>(undefined);
   const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
-  const [startDownload, setStartDownload] = useState<{
-    downloadLocal: boolean;
-    startDownlaod: boolean;
-  }>({ downloadLocal: true, startDownlaod: false });
+  const [startDownload, setStartDownload] = useState<{action: "download" | "post", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
 
   const isValid = Boolean(
-    predictionTarget &&
-      populationData &&
-      temperatureData &&
-      precipitationData &&
       selectedPeriodItems &&
       (orgUnits.length > 0 || orgUnitLevel == undefined)
   );
 
-  const handleSelectedPeriod = (selectedPeriods) => {
+  const handleSelectedPeriod = (selectedPeriods : any) => {
     setSelectedPeriodItems(selectedPeriods.items);
     console.log('selectedPeriods', selectedPeriods.items);
   };
 
-  const onClickDownloadData = () => {
-    setZipResult(undefined);
-    setStartDownload({ downloadLocal: true, startDownlaod: true });
-  };
+  const onSelectModel = (selected : ModelSpec) => {
+    setModelSpesificSelectedDataElements(new Map())
+    setSelectedModel(selected)
+  }
 
-  const onClickSendDataToChap = () => {
-    setZipResult(undefined);
-    setStartDownload({ downloadLocal: false, startDownlaod: true });
-    setSendingDataToChap(true);
-  };
-  let navigate = useNavigate();
+  const onClickDownloadOrPostData = (action : "download" | "post") => {
+    setJsonResult(undefined);
+    setStartDownload({ action: action, startDownlaod: true });
+  }
+
+  //triggers when chap-content is fetched
+  useEffect(() => {
+    if (jsonResult) {
+      setStartDownload(prev => ({ ...prev, startDownlaod: false }));
+      if(startDownload.action === "download") downloadData();
+      if(startDownload.action === "post") sendToChap();     
+    }
+  }, [jsonResult]);
+
+  const downloadData = () => {
+    var fileToSave = new Blob([JSON.stringify(jsonResult, null, 2)], {
+      type: 'application/json'
+    });
+
+    const today = new Date();
+    saveAs(fileToSave, "chap_request_data_"+ today.toJSON() + '.json');
+  }
+
   const sendToChap = async () => {
-    await DefaultService.postZipFilePostZipFilePost({ file: zipResult })
+    await DefaultService.predictFromJsonPredictFromJsonPost(jsonResult as RequestV1)
       .then((response: any) => {
         setErrorChapMsg('');
         setSendingDataToChap(false);
@@ -93,12 +115,6 @@ const PredictionPage = () => {
         setErrorChapMsg(error?.body?.detail);
       });
   };
-
-  useEffect(() => {
-    if (zipResult) {
-      sendToChap();
-    }
-  }, [zipResult]);
 
   //checks that all selected orgUnits are on the same level
   function orgUnitsSelectedIsValid() {
@@ -113,107 +129,89 @@ const PredictionPage = () => {
     );
   }
 
+
   return (
     <div className={styles.container}>
-      <h1>{i18n.t('Make prediction data')}</h1>
-      <DataElement
-        title={i18n.t('Prediction target')}
-        label={i18n.t('Select data element')}
-        selected={predictionTarget}
-        onChange={setPredictionTarget}
-      />
-      <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} />
-      {!orgUnitsSelectedIsValid() && (
-        <p className={styles.error}>
-          Only select organization units that are one the same level.
-        </p>
-      )}
-      <OrgUnitLevel orgUnitLevels={orgUnitLevel} onChange={setOrgUnitLevel} />
-      <DataElement
-        title={i18n.t('Population data')}
-        label={i18n.t('Select population data element')}
-        selected={populationData}
-        onChange={setPopulationData}
-      />
-      <DataElement
-        title={i18n.t('Temperature data')}
-        label={i18n.t('Select temperature data element')}
-        dataElementCode={'ERA5_LAND_TEMPERATURE'}
-        selected={temperatureData}
-        onChange={setTemperatureData}
-      />
-      <DataElement
-        title={i18n.t('Precipitation data')}
-        label={i18n.t('Select precipitation data element')}
-        dataElementCode={'ERA5_LAND_PRECIPITATION'}
-        selected={precipitationData}
-        onChange={setPrecipitationData}
-      />
+      <h1>{i18n.t('Select training data')}</h1>
 
-      <div className={styles.container}>
-        <h2>{i18n.t('Period')}</h2>
+      <SelectModel selectedModel={selectedModel} setSelectedModel={onSelectModel}/>
+      <ModelFeatures features={selectedModel?.features} setModelSpesificSelectedDataElements={setModelSpesificSelectedDataElements} modelSpesificSelectedDataElements={modelSpesificSelectedDataElements} />
 
-        <div className={styles.pickers}>
-          <PeriodDimension
-            selectedPeriods={selectedPeriodItems}
-            onSelect={handleSelectedPeriod}
-            excludedPeriodTypes={[]}
-          />
-        </div>
-      </div>
+      {selectedModel?.features.length === modelSpesificSelectedDataElements?.size &&
+      <>
+        <SwitchClimateSources/>
+        <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} />
+        {!orgUnitsSelectedIsValid() && (
+          <p className={styles.error}>
+            Only select organization units that are one the same level.
+          </p>
+        )}
+        <OrgUnitLevel orgUnitLevels={orgUnitLevel} onChange={setOrgUnitLevel} />
 
-      <div className={styles.buttons}>
-        <Button
-          icon={<IconDownload24 />}
-          loading={startDownload.startDownlaod}
-          disabled={
-            !isValid ||
-            startDownload.startDownlaod ||
-            !orgUnitsSelectedIsValid()
-          }
-          onClick={onClickDownloadData}
-        >
-          Download data
-        </Button>
-        <Button
-          icon={<IconArrowRight24 />}
-          primary
-          loading={sendingDataToChap}
-          disabled={!isValid || sendingDataToChap || !orgUnitsSelectedIsValid()}
-          onClick={onClickSendDataToChap}
-        >
-          Send data to CHAP
-        </Button>
-      </div>
-      {<p className={styles.errorChap}>{errorChapMsg}</p>}
-      {startDownload.startDownlaod && isValid && (
-        <DownloadData
-          setZipResult={setZipResult}
-          startDownload={startDownload}
-          setStartDownload={setStartDownload}
-          predictionData={predictionTarget}
-          populationData={populationData}
-          temperatureData={temperatureData}
-          precipitationData={precipitationData}
-          period={selectedPeriodItems}
-          setErrorMessages={setErrorMessages}
-          orgUnits={orgUnits}
-          orgUnitLevel={orgUnitLevel as { id: string; level: number }}
-        />
-      )}
-      {errorMessages.map((error: ErrorResponse, index) => (
-        <div key={index} className={styles.errorBar}>
-          <div className={styles.errorHeader}>
-            <IconError24 />
-            <span>{error.element} request failed</span>
+
+        <div className={styles.container}>
+          <h2>{i18n.t('Period')}</h2>
+
+          <div className={styles.pickers}>
+            <PeriodDimension
+              selectedPeriods={selectedPeriodItems}
+              onSelect={handleSelectedPeriod}
+              excludedPeriodTypes={[]}
+            />
           </div>
-          <span className={styles.detailedError}>
-            {JSON.stringify(error.error, null, 2)}
-          </span>
         </div>
-      ))}
+
+        <div className={styles.buttons}>
+          <Button
+            icon={<IconDownload24 />}
+            loading={startDownload.startDownlaod}
+            disabled={
+              !isValid ||
+              startDownload.startDownlaod ||
+              !orgUnitsSelectedIsValid()
+            }
+            onClick={() =>onClickDownloadOrPostData("download")}
+          >
+            Download data
+          </Button>
+          <Button
+            icon={<IconArrowRight24 />}
+            primary
+            loading={sendingDataToChap}
+            disabled={!isValid || sendingDataToChap || !orgUnitsSelectedIsValid()}
+            onClick={() =>onClickDownloadOrPostData("post")}
+          >
+            Send data to CHAP
+          </Button>
+        </div>
+        {<p className={styles.errorChap}>{errorChapMsg}</p>}
+        {startDownload.startDownlaod && isValid && (
+          <DownloadData
+            modelId={selectedModel?.name}
+            setJsonResult={setJsonResult}
+            modelSpesificSelectedDataElements={modelSpesificSelectedDataElements}
+            startDownload={startDownload}
+            setStartDownload={setStartDownload}
+            period={selectedPeriodItems}
+            setErrorMessages={setErrorMessages}
+            orgUnits={orgUnits}
+            orgUnitLevel={orgUnitLevel as { id: string; level: number }}
+          />
+        )}
+        {errorMessages.map((error: ErrorResponse, index) => (
+          <div key={index} className={styles.errorBar}>
+            <div className={styles.errorHeader}>
+              <IconError24 />
+              <span>{error.element} request failed</span>
+            </div>
+            <span className={styles.detailedError}>
+
+            </span>
+          </div>
+        ))}        
+      </>}
     </div>
   );
 };
 
-export default PredictionPage;
+export default PredictionPage

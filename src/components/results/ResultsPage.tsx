@@ -13,10 +13,8 @@ import useDataElements from "../../hooks/useDataElements";
 import useDataElement from "../../hooks/useDataElement";
 import { useLocation } from "react-router-dom";
 
-
 const ResultsPage = () => {
-
-  
+ 
   const location = useLocation();
 
   const [prediction, setPrediction] = useState<any>();
@@ -54,14 +52,19 @@ const ResultsPage = () => {
 
   //if id is passed in
   useEffect(() => {
-    if(location?.state?.data && orgUnits){
-      onFileUpload(location.state.data)
-      
+    //if(location?.state?.data && orgUnits){
 
+      const fetchData = async () => {
+        try {
+          const response = await fetch("/override_respons.json");
+          const data = await response.json();
+          onFileUpload(data)
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
 
-
-      
-    }
   }, [location?.state?.data, orgUnits])
   
 
@@ -91,7 +94,8 @@ const ResultsPage = () => {
   }
 
   const onFileUpload = (data : any) => {
-    setPredictionTarget(data.diseaseId);
+    setPredictionTarget("GPEAQwddr16")
+    //setPredictionTarget(data.diseaseId);
     setPostHttpError("");
     setPostStatus("initial");
     setPrediction(fillWithOrgUnit(data))
@@ -137,9 +141,6 @@ const ResultsPage = () => {
             <Tab selected={selectedTab === "chart"} onClick={() => setSelectedTab("chart")}>
               Chart
             </Tab>
-            {/*<Tab selected={selectedTab === "table"} onClick={() => setSelectedTab("table")}>
-              Table
-            </Tab>*/}
           </TabBar>
 
           <div className={styles.prediction}>
@@ -158,7 +159,7 @@ const ResultsPage = () => {
           <SelectDataValues label={i18n.t("Select data element for medium quantile")} dataElements={dataElementsMedian} onChange={setqMedianDataElementId} value={qMedianDataElement} />
           <SelectDataValues label={i18n.t("Select data element for high quantile")} dataElements={dataElementsHigh} onChange={setqHighDataElementId} value={qHighDataElement} />
 
-          {warnAboutUnequalDiseaseAndDataElement() && <p className={styles.warning}>{i18n.t("Warning: It seems like selected data elements do not match the disease of prediction.")}</p>}
+          {warnAboutUnequalDiseaseAndDataElement() && <p className={styles.warning}>Warning: It seems like selected data elements do not match the disease of prediction.</p>}
 
           <div className={styles.footer}>
             <Button onClick={() => setPostStatus("loading")} loading={postStatus === "loading"} disabled={postStatus === "finish" || postStatus === "loading" || !validateForm()} icon={<IconArrowRight24 />} primary>{i18n.t("Import prediction")}</Button>

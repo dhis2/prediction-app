@@ -2,16 +2,22 @@ import { Fragment } from "react";
 import { CssVariables, CssReset, Menu, MenuItem } from "@dhis2/ui";
 import { Outlet, useResolvedPath } from "react-router-dom";
 import styles from "./styles/Root.module.css";
+import { useConfig } from "@dhis2/app-runtime";
+import useGetRoute from "../hooks/useGetRoute";
+import React from "react";
+import WarnRouteNotExists from "./setup/WarnRouteNotExists";
 
 export const appPages = [
-  { path: "/", name: "1 | Make prediction data" },
-  { path: "/status", name: "2 | Upload data to CHAP" },
+  { path: "/", name: "1 | Select training data" },
+  { path: "/status", name: "2 | Upload data to CHAP Core" },
   { path: "/results", name: "3 | See prediction" },
   { path: "/settings", name: "Settings" },
 ];
 
 const Root = () => {
-  const { pathname } = useResolvedPath();
+  const { pathname } = useResolvedPath({});
+
+
 
   return (
     <>
@@ -35,6 +41,7 @@ const Root = () => {
           </Menu>
         </div>
         <main className={styles.content}>
+          <WarnRouteNotExists/>
           <Outlet />
         </main>
       </div>
