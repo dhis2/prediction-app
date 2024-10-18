@@ -4,6 +4,6 @@ Prediction App enable integration between [CHAP Core](https://github.com/dhis2-c
 
 
 
-- [Install Prediction App on a DHIS2-instance ➔](doc\chap_locally.md)
-- [Development documentation ➔](doc\development\README.md) 
+- [Install Prediction App on a DHIS2-instance ➔](doc/chap_locally.md)
+- [Development documentation ➔](doc/development/README.md) 
 
