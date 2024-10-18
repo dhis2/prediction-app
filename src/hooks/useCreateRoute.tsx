@@ -12,6 +12,9 @@ const REQUEST = (url : string) => {
       disabled: false,
       url: url,
       //authorities: ["MY_CUSTOM_APP"]
+    },
+    headers: {
+      "Content-Type": "application/json"
     }
   }
 };

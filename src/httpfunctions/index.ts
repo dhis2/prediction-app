@@ -7,7 +7,6 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { Body_post_zip_file_zip_file__post } from './models/Body_post_zip_file_zip_file__post';
 export type { Coordinates } from './models/Coordinates';
 export type { DataElement } from './models/DataElement';
 export type { DataList } from './models/DataList';
@@ -24,8 +23,8 @@ export type { MultiPolygonModel } from './models/MultiPolygonModel';
 export { PeriodType } from './models/PeriodType';
 export type { PointModel } from './models/PointModel';
 export type { PolygonModel } from './models/PolygonModel';
+export type { PredictionRequest } from './models/PredictionRequest';
 export type { PredictionResponse } from './models/PredictionResponse';
-export type { RequestV1 } from './models/RequestV1';
 export type { State } from './models/State';
 export type { ValidationError } from './models/ValidationError';
 

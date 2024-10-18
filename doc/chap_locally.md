@@ -33,7 +33,7 @@ The JSON-file should look similar to this:
 ```json
 {
   {
-  "modelId": "EWARS-month",
+  "model_id": "EWARS-month",
   "features": [
     {
       "featureId": "population",

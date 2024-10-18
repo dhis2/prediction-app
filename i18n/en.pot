@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-09-27T10:58:20.698Z\n"
-"PO-Revision-Date: 2024-09-27T10:58:20.699Z\n"
+"POT-Creation-Date: 2024-10-17T08:08:59.986Z\n"
+"PO-Revision-Date: 2024-10-17T08:08:59.988Z\n"
 
 msgid "About this app"
 msgstr "About this app"
@@ -95,8 +95,8 @@ msgstr "Assign all org unit levels"
 msgid "Quantile median"
 msgstr "Quantile median"
 
-msgid "Quantile high"
-msgstr "Quantile high"
+msgid "Range"
+msgstr "Range"
 
 msgid "Quantile low"
 msgstr "Quantile low"
@@ -106,6 +106,9 @@ msgstr "Org unit"
 
 msgid "Median"
 msgstr "Median"
+
+msgid "Quantile high"
+msgstr "Quantile high"
 
 msgid "Prediction results"
 msgstr "Prediction results"

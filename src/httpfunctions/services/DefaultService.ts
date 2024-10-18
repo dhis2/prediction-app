@@ -2,11 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Body_post_zip_file_zip_file__post } from '../models/Body_post_zip_file_zip_file__post';
 import type { Feature } from '../models/Feature';
 import type { FullPredictionResponse } from '../models/FullPredictionResponse';
 import type { ModelSpec } from '../models/ModelSpec';
-import type { RequestV1 } from '../models/RequestV1';
+import type { PredictionRequest } from '../models/PredictionRequest';
 import type { State } from '../models/State';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -24,60 +23,19 @@ export class DefaultService {
         });
     }
     /**
-     * Set Model Path
-     * Set the model to be used for training and evaluation
-     * https://github.com/knutdrand/external_rmodel_example.git
-     * @param modelPath
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static setModelPathSetModelPathPost(
-        modelPath: string,
-    ): CancelablePromise<Record<string, any>> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/set-model-path',
-            query: {
-                'model_path': modelPath,
-            },
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-    /**
-     * Post Zip File
-     * Post a zip file containing the data needed for training and evaluation, and start the training
-     * @param formData
-     * @returns any Successful Response
-     * @throws ApiError
-     */
-    public static postZipFileZipFilePost(
-        formData?: Body_post_zip_file_zip_file__post,
-    ): CancelablePromise<Record<string, any>> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/zip-file/',
-            formData: formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                422: `Validation Error`,
-            },
-        });
-    }
-    /**
-     * Predict From Json
-     * Post a json file containing the data needed for prediction
+     * Predict
+     * Start a prediction task using the given data as training data.
+     * Results can be retrieved using the get-results endpoint.
      * @param requestBody
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static predictFromJsonPredictFromJsonPost(
-        requestBody: RequestV1,
+    public static predictPredictPost(
+        requestBody: PredictionRequest,
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/predict-from-json/',
+            url: '/predict',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

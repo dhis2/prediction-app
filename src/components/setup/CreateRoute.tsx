@@ -23,7 +23,7 @@ const Setup = () => {
   let naviagte = useNavigate()
   const naviagteToTestRoute = () => {
     
-    window.location.replace('/route/test-route')
+    window.location.replace('#/route/test-route')
   }
 
   

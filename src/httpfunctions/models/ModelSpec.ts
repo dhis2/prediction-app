@@ -11,5 +11,6 @@ export type ModelSpec = {
     period?: PeriodType;
     description?: string;
     author?: string;
+    targets?: string;
 };
 
