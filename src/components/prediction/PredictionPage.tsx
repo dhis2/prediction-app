@@ -15,7 +15,7 @@ import OrgUnitLevel from './OrgUnitLevel';
 import { ErrorResponse } from './DownloadData';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DefaultService, Feature, ModelSpec, OpenAPI, RequestV1 } from '../../httpfunctions';
+import { DefaultService, Feature, ModelSpec, OpenAPI, PredictionRequest } from '../../httpfunctions';
 import { useConfig } from '@dhis2/app-runtime';
 import Period from './Periods';
 import { PeriodDimension } from '@dhis2/analytics';
@@ -45,7 +45,7 @@ const PredictionPage = () => {
 
   const [selectedModel, setSelectedModel] = useState<ModelSpec | undefined>(undefined)
   const [modelSpesificSelectedDataElements, setModelSpesificSelectedDataElements] = useState<ModelFeatureDataElementMap>(new Map())
-  const [request, setRequest] = useState<RequestV1 | undefined>(undefined)
+  const [request, setRequest] = useState<PredictionRequest | undefined>(undefined)
   const [geoJson, setGeoJson] = useState<any>(undefined)
 
   const [period, setPeriod] = useState(defaultPeriod);
@@ -59,7 +59,7 @@ const PredictionPage = () => {
   const [errorMessages, setErrorMessages] = useState<ErrorResponse[]>([]);
   const [sendingDataToChap, setSendingDataToChap] = useState<boolean>(false);
 
-  const [jsonResult, setJsonResult] = useState<RequestV1 | undefined>(undefined);
+  const [jsonResult, setJsonResult] = useState<PredictionRequest | undefined>(undefined);
   const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
   const [startDownload, setStartDownload] = useState<{action: "download" | "post", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
@@ -103,7 +103,11 @@ const PredictionPage = () => {
   }
 
   const sendToChap = async () => {
-    await DefaultService.predictFromJsonPredictFromJsonPost(jsonResult as RequestV1)
+
+    let request : PredictionRequest = jsonResult as PredictionRequest
+    request.n_periods = 3
+
+    await DefaultService.predictPredictPost(request)
       .then((response: any) => {
         setErrorChapMsg('');
         setSendingDataToChap(false);
@@ -167,7 +171,7 @@ const PredictionPage = () => {
             loading={startDownload.startDownlaod}
             disabled={
               !isValid ||
-              startDownload.startDownlaod ||
+              (startDownload.startDownlaod && startDownload.action === "download") ||
               !orgUnitsSelectedIsValid()
             }
             onClick={() =>onClickDownloadOrPostData("download")}
@@ -178,7 +182,7 @@ const PredictionPage = () => {
             icon={<IconArrowRight24 />}
             primary
             loading={sendingDataToChap}
-            disabled={!isValid || sendingDataToChap || !orgUnitsSelectedIsValid()}
+            disabled={!isValid || (startDownload.startDownlaod && startDownload.action === "post") || !orgUnitsSelectedIsValid()}
             onClick={() =>onClickDownloadOrPostData("post")}
           >
             Send data to CHAP
@@ -187,7 +191,7 @@ const PredictionPage = () => {
         {<p className={styles.errorChap}>{errorChapMsg}</p>}
         {startDownload.startDownlaod && isValid && (
           <DownloadData
-            modelId={selectedModel?.name}
+            model_id={selectedModel?.name}
             setJsonResult={setJsonResult}
             modelSpesificSelectedDataElements={modelSpesificSelectedDataElements}
             startDownload={startDownload}

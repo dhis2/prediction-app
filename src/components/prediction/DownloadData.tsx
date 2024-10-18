@@ -3,7 +3,6 @@ import JSZip from 'jszip';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useAnalyticRequest from '../../hooks/useAnalyticRequest';
 import useGeoJson from '../../hooks/useGeoJson';
-import { RequestV1 } from '../../httpfunctions';
 import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
 import styles from './styles/DownloadData.module.css';
 
@@ -11,7 +10,7 @@ interface DownloadDataProps {
   period: any;
   orgUnitLevel: { id: string; level: number };
   orgUnits: { id: string, displayName : string }[];
-  modelId : string;
+  model_id : string;
   modelSpesificSelectedDataElements : ModelFeatureDataElementMap;
   
   setStartDownload : Dispatch<SetStateAction<{ action: "download" | "post"; startDownlaod: boolean; }>>,
@@ -27,7 +26,7 @@ export interface ErrorResponse {
 
 const DownloadData = ({
   period,
-  modelId,
+  model_id,
   setStartDownload,
   orgUnitLevel,
   orgUnits,
@@ -48,7 +47,7 @@ const DownloadData = ({
 
   const createRequest = () => {
     return {
-      modelId : modelId,
+      model_id : model_id,
       features : analyticData,
       orgUnitsGeoJson : geoJson,
     }

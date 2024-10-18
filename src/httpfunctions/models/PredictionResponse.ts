@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PredictionResponse = {
-    value: number;
     orgUnit: string;
     dataElement: string;
     period: string;
+    value: number;
 };
 

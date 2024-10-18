@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DefaultService, ModelSpec } from '../../httpfunctions';
+import { DefaultService, Feature, ModelSpec } from '../../httpfunctions';
 import { SingleSelectField, SingleSelectOption } from '@dhis2/ui';
 import i18n from "@dhis2/d2-i18n";
 
@@ -9,7 +9,7 @@ interface SelectModelProps {
 }
 
 const offlineModel : ModelSpec = {
-  name : "EWARS - monthly data",
+  name : "EWARS - monthly data (offline)",
   parameters : [],
   features : [
   {
@@ -25,21 +25,50 @@ const offlineModel : ModelSpec = {
 ]
 }
 
+const filterOutOptionalFeatures = (features : Feature[]) : Feature[] => {
+  return features.filter((d : Feature) => d.optional == false)
+}
+
+const createTargetAsFeature = (target_name : string) : Feature => {
+  return {
+    id : target_name,
+    description : "",
+    optional : false,
+    name : target_name.replaceAll("_", " ")
+  }
+
+}
+
 const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
 
   const [models, setModels] = useState<ModelSpec[]>([])
+  const [isLoadingModels, setIsLoadingModels] = useState(true)
   
     
   const getModels = async () => {
     await DefaultService.listModelsListModelsGet()
       .then((response : ModelSpec[]) => {
-        //const models = [offlineModel].concat(response)
-        setModels(response)
+
+        //turn target_name into a feature
+        let models : ModelSpec[] = response.map((d : ModelSpec) => {
+          d.features = d.features.concat(d.targets ? [createTargetAsFeature(d.targets)] : [])
+          return d
+        })
+
+        //filter out optional features
+        models = models.map((d : ModelSpec) => {
+          d.features = filterOutOptionalFeatures(d.features)
+          return d
+        })
+
+        setIsLoadingModels(false)
+        setModels(models)
       }).catch((error : any) => {
         //route probarly not set up, warning should be shown
         setModels([offlineModel])
         setSelectedModel(offlineModel)
-    })
+        setIsLoadingModels(false)
+      })
   }
 
   const onChangeModel = (event : any) => {
@@ -54,7 +83,7 @@ const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
   
   return (
     <div>
-      <SingleSelectField label={i18n.t('Select a model')} onChange={onChangeModel} selected={selectedModel?.name}>
+      <SingleSelectField label={i18n.t('Select a model')} loading={isLoadingModels} placeholder='Select the model to use in prediction' onChange={onChangeModel} selected={selectedModel?.name}>
         {models?.map((d : ModelSpec) => (
           <SingleSelectOption key={d.name} value={d.name} label={d.name}  />
         ))}

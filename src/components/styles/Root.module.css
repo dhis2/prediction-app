@@ -21,3 +21,9 @@ body {
   grid-column: content;
   background-color: inherit;
 }
+
+.menuTitle {
+  margin-left: 12px;
+  margin-top: 16px;
+  font-weight: 600;
+}

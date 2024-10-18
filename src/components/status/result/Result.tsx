@@ -4,6 +4,7 @@ import { DefaultService } from '../../../httpfunctions';
 import { saveAs } from 'file-saver';
 import styles from '../../styles/Result.module.css'
 import { useNavigate } from 'react-router-dom';
+import { IconArrowRight24 } from '@dhis2/ui';
 
 interface ResultProps {
   isReady: boolean
@@ -42,7 +43,7 @@ const Result = ({ isReady }: ResultProps) => {
     <>
       <div className={styles.buttonContainer}>
         <Button className={styles.result} onClick={downloadLocaly} icon={<IconDownload24 />}>Download latest result</Button>
-        <Button className={styles.result} primary onClick={sendToPredictionPage} icon={<IconView24 />}>Show latest result</Button>
+        <Button className={styles.result} primary onClick={sendToPredictionPage} icon={<IconArrowRight24 />}>Import latest prediction</Button>
         
       </div>
       <span>{errorMessage}</span>

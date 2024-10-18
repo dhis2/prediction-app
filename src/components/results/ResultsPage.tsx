@@ -12,6 +12,7 @@ import SetupInstruction from './SetupInstruction';
 import useDataElements from "../../hooks/useDataElements";
 import useDataElement from "../../hooks/useDataElement";
 import { useLocation } from "react-router-dom";
+import { DefaultService } from "../../httpfunctions";
 
 const ResultsPage = () => {
  
@@ -56,8 +57,9 @@ const ResultsPage = () => {
 
       const fetchData = async () => {
         try {
-          const response = await fetch("/override_respons.json");
-          const data = await response.json();
+          //const response = (await fetch("/override_respons.json")).json();
+          const response = await DefaultService.getResultsGetResultsGet();
+          const data = await response
           onFileUpload(data)
         } catch (error) {
           console.error("Error fetching data:", error);

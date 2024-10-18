@@ -23,16 +23,10 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
     d.value
   ]));
 
-  const quantile_high = data.filter((d : any) => d.dataElement === "quantile_high").map((d : any) => ([
+  const range = data.filter((d : any) => d.dataElement === "quantile_low").map((d : any) => ([
     d.period,
     d.value,
-    data.filter((x : any) => x.dataElement === "median" && x.period === d.period)[0].value
-  ]));
-
-  const quantile_low = data.filter((d : any) => d.dataElement === "quantile_low").map((d : any) => ([
-    d.period,
-    data.filter((x : any) => x.dataElement === "median" && x.period === d.period)[0].value,
-    d.value,
+    data.filter((x : any) => x.dataElement === "quantile_high" && x.period === d.period)[0].value
   ]));
 
 
@@ -64,20 +58,21 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
         type: "line",
         data: median,
         name: i18n.t("Quantile median"),
+        color : "#004bbd",
         zIndex: 2,   
       },
       //high
       {
         type: "arearange",   
-        name: i18n.t("Quantile high"),
-        data: quantile_high,
+        name: i18n.t("Range"),
+        data: range,
         zIndex: 1,
         lineWidth: 0,
-        color : colors[7],
+        color : "#004bbd",
         fillOpacity: 0.4,
       },
       //low
-      {
+      /*{
         type: "arearange",   
         name: i18n.t("Quantile low"),
         data: quantile_low,
@@ -85,7 +80,7 @@ const getChartOptions = (data : any, period : string, predictionTargetName : str
         lineWidth: 0,
         color : colors[7],
         fillOpacity: 0.4,
-      }
+      }*/
     ],
   };
 };
