@@ -1,1 +1,0 @@
-## Use Prediction App to comunicate with CHAP Core locally over HTTP
