@@ -51,7 +51,7 @@ const SetOpenApiUrl = ({setOpen, existingUrl, loading, fetching} : SetOpenApiUrl
 
       <div className={styles.title}>Edit url to CHAP-Core backend server</div>
       <p>
-        Use these settings when you do not have CHAP installed as a backend server,
+        Use this setting when you do not have CHAP installed as a backend server,
         but have a running instance of CHAP Core on the local machine. If not set, Prediction App use the default value: <i>{baseUrl}</i>
       </p>
       <InputField disabled={fetching} value={baseURL} onChange={(e : any) => onChangeUrl(e.value)} placeholder={fetching ? "Loading.." : 'http://localhost:8000'} />

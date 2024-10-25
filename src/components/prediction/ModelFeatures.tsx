@@ -43,7 +43,7 @@ const ModelFeatures = ({features, modelSpesificSelectedDataElements, setModelSpe
     <div>
       {features.map((f : Feature) => (
         <div key={f.id} className={styles.selectField}>
-          <SingleSelectField filterable noMatchText={i18n.t("No match found")} onChange={(e : any) => onChangeSelectField(f, e)} label={f.name} helpText={f.description} selected={modelSpesificSelectedDataElements.get(f.id)?.selected_data_element}>
+          <SingleSelectField tabIndex='1' filterable noMatchText={i18n.t("No match found")} onChange={(e : any) => onChangeSelectField(f, e)} label={f.name} helpText={f.description} selected={modelSpesificSelectedDataElements.get(f.id)?.selected_data_element}>
               {dataElements?.map((d : any) => (
                 <SingleSelectOption key={d.id} value={d.id} label={d.displayName} />
               ))}

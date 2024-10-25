@@ -1,5 +1,5 @@
 import React from 'react';
-import { SingleSelect, SingleSelectOption } from "@dhis2/ui";
+import { SingleSelect, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
 import styles from "./styles/SelectDataValues.module.css";
 import i18n from "@dhis2/d2-i18n";
 
@@ -24,11 +24,11 @@ const SelectDataValues = ({value, onChange, label, dataElements} : SelectDataVal
         <div className={styles.select}>
           <div className={styles.selectWrapper}>   
             <span>{label}</span>
-            <SingleSelect placeholder={i18n.t('Select data element')} disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
+            <SingleSelectField tabIndex='1' placeholder={i18n.t('Select data element')} disabled={noDataElements} selected={value ? value.id : ""} warning={noDataElements} onChange={onChangeSelect}>
               {dataElements?.map((de : any) => (
                 <SingleSelectOption key={de.id} label={de.displayName} value={de.id} />
               ))}
-            </SingleSelect>
+            </SingleSelectField>
           </div>
         </div>
       </div>

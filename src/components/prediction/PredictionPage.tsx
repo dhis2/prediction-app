@@ -158,6 +158,7 @@ const PredictionPage = () => {
 
           <div className={styles.pickers}>
             <PeriodDimension
+              
               selectedPeriods={selectedPeriodItems}
               onSelect={handleSelectedPeriod}
               excludedPeriodTypes={[]}

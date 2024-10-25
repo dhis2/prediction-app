@@ -28,11 +28,17 @@ const Root = () => {
   }
 
   else{
-    OpenAPI.WITH_CREDENTIALS = true
+    //if url is not set OR url is set do DHIS2 instance (using route api) add credentials
+    if (!existingUrl || URL.parse(existingUrl)?.origin === config.baseUrl) {
+      console.log("Adding credentials to OpenAPI")
+      OpenAPI.WITH_CREDENTIALS = true
+    }
+
     if(existingUrl){
       OpenAPI.BASE = existingUrl
     }
     else{
+
       OpenAPI.BASE = config.baseUrl+'/api/routes/chap/run'
     }
   }
