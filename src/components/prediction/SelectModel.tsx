@@ -83,7 +83,7 @@ const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
   
   return (
     <div>
-      <SingleSelectField label={i18n.t('Select a model')} loading={isLoadingModels} placeholder='Select the model to use in prediction' onChange={onChangeModel} selected={selectedModel?.name}>
+      <SingleSelectField tabIndex='1' label={i18n.t('Select a model')} loading={isLoadingModels} placeholder='Select the model to use in prediction' onChange={onChangeModel} selected={selectedModel?.name}>
         {models?.map((d : ModelSpec) => (
           <SingleSelectOption key={d.name} value={d.name} label={d.name}  />
         ))}

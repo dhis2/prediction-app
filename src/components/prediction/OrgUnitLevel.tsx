@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { useEffect } from "react";
-import { SingleSelect, SingleSelectOption  } from "@dhis2/ui";
+import { SingleSelect, SingleSelectField, SingleSelectOption  } from "@dhis2/ui";
 import  useOrgUnitLevels from "../../hooks/useOrgUnitLevels";
 import React from "react";
 
@@ -28,7 +28,8 @@ const OrgUnitLevel = ({ orgUnitLevels, onChange } : OrgUnitLevelProps) => {
     <div>
       <h2>{i18n.t("Organisation unit level")}</h2>
       <span>{i18n.t("Organisation unit level to import data to")}</span>
-      <SingleSelect
+      <SingleSelectField
+        tabIndex="1"
         selected={orgUnitLevels?.id}
         loading={loading}
         error={!!error}
@@ -37,7 +38,7 @@ const OrgUnitLevel = ({ orgUnitLevels, onChange } : OrgUnitLevelProps) => {
         {levels.map((l : any, i : any) => (
           <SingleSelectOption key={l.id} value={l.id} label={l.name} />
         ))}
-      </SingleSelect>
+      </SingleSelectField>
     </div>
   ) : null;
 };

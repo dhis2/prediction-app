@@ -12,6 +12,7 @@ declare module "@types/react-dom";
 declare module "file-saver";
 declare module "highcharts";
 declare module "highcharts-react-official";
+
 declare module "jszip";
 declare module "openapi-typescript-codegen";
 declare module "react-router-dom";
