@@ -28,7 +28,7 @@ const filterOrgUnits = (geoJson : any, orgUnits : { id: string, displayName : st
     type: 'FeatureCollection',
     features: (geoJson as any).features.filter((o: any) => {
       return orgUnits.some(
-        (id: { id: string, displayName : string }) => id.id === o.id
+        (id: { id: string, displayName : string }) => id.id === o.id || o.properties.parentGraph.includes(id.id)
       );
     }),
   };

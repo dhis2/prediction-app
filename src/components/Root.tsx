@@ -12,7 +12,7 @@ import { OpenAPI } from "../httpfunctions";
 export const appPages = [
   { path: "/", name: "1 | Select training data" },
   { path: "/status", name: "2 | CHAP Core status" },
-  { path: "/results", name: "3 | Import latest prediction" },
+  { path: "/results", name: "3 | Import prediction" },
 ];
 
 const Root = () => {
