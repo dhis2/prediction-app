@@ -10,7 +10,7 @@ import useGetDataStore from "../hooks/useGetDataStore";
 import { OpenAPI } from "../httpfunctions";
 
 export const appPages = [
-  { path: "/", name: "1 | Select training data" },
+  { path: "/", name: "1 | Train and predict" },
   { path: "/status", name: "2 | CHAP Core status" },
   { path: "/results", name: "3 | Import prediction" },
 ];
@@ -38,7 +38,6 @@ const Root = () => {
       OpenAPI.BASE = existingUrl
     }
     else{
-
       OpenAPI.BASE = config.baseUrl+'/api/routes/chap/run'
     }
   }

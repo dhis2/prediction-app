@@ -15,13 +15,27 @@ const offlineModel : ModelSpec = {
   {
     id : "population",
     description : "Select the data element for population",
-    name : "Population"
+    name : "Population",
+    optional : false
   },
   {
     id : "disease",
     description : "Select the data element for disease cases",
-    name : "Disease cases"
-  }
+    name : "Disease cases",
+    optional : false
+  },
+  {
+    id: "rainfall",
+    name: "Rainfall",
+    description: "The amount of rainfall in mm",
+    optional: true
+  },
+  {
+    id: "mean_temperature",
+    name: "Mean Temperature",
+    description: "The average temperature in degrees Celsius",
+    optional: true
+  },
 ]
 }
 
@@ -55,11 +69,6 @@ const SelectModel = ({selectedModel, setSelectedModel} : SelectModelProps) => {
           return d
         })
 
-        //filter out optional features
-        models = models.map((d : ModelSpec) => {
-          d.features = filterOutOptionalFeatures(d.features)
-          return d
-        })
 
         setIsLoadingModels(false)
         setModels(models)

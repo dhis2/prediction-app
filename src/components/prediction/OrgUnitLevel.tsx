@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { SingleSelect, SingleSelectField, SingleSelectOption  } from "@dhis2/ui";
 import  useOrgUnitLevels from "../../hooks/useOrgUnitLevels";
 import React from "react";
+import styles from './styles/OrgUnitLevel.module.css';
 
 interface OrgUnitLevelProps {
   orgUnitLevels : {id : string, level : number} | undefined,
@@ -25,10 +26,10 @@ const OrgUnitLevel = ({ orgUnitLevels, onChange } : OrgUnitLevelProps) => {
   }, [levels, orgUnitLevels, onChange]);
 
   return levels ? (
-    <div>
-      <h2>{i18n.t("Organisation unit level")}</h2>
-      <span>{i18n.t("Organisation unit level to import data to")}</span>
+    <div className={styles.selectField}>
       <SingleSelectField
+        label={i18n.t("Organisation unit level")}
+        helpText={i18n.t("Organisation unit level to import data to")}
         tabIndex="1"
         selected={orgUnitLevels?.id}
         loading={loading}
