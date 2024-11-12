@@ -10,7 +10,7 @@ interface DownloadDataProps {
   period: any;
   orgUnitLevel: { id: string; level: number };
   orgUnits: { id: string, displayName : string }[];
-  model_id : string;
+  model_id : string | undefined;
   modelSpesificSelectedDataElements : ModelFeatureDataElementMap;
   
   setStartDownload : Dispatch<SetStateAction<{ action: "download" | "post"; startDownlaod: boolean; }>>,

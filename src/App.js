@@ -8,6 +8,7 @@ import TestRoutePage from "./components/TestRoutePage";
 import ErrorPage from "./components/ErrorPage";
 import StatusPage from "./components/StatusPage";
 import React from "react";
+import "./App.css";
 
 const router = createHashRouter([
   {

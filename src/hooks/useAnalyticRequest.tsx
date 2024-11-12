@@ -18,7 +18,7 @@ const convertDhis2AnlyticsToChap = (data: [[string, string, string, string]], da
     return {
       ou: row[1],
       pe: row[2],
-      value: parseInt(row[3])
+      value: parseFloat(row[3])
     };
   })
 }
