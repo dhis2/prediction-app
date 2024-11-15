@@ -96,8 +96,8 @@ const ResultsPage = () => {
   }
 
   const onFileUpload = (data : any) => {
-    setPredictionTarget("GPEAQwddr16")
-    //setPredictionTarget(data.diseaseId);
+    
+    setPredictionTarget(data.diseaseId);
     setPostHttpError("");
     setPostStatus("initial");
     setPrediction(fillWithOrgUnit(data))
@@ -108,7 +108,7 @@ const ResultsPage = () => {
     return ({dataValues : data.dataValues.map((d: any) => {  
       return {
         ...d,
-        displayName : (orgUnits?.organisationUnits.find((ou: any) => ou.id === d.orgUnit) as any).displayName
+        displayName : (orgUnits?.organisationUnits.find((ou: any) => ou.id === d.orgUnit) as any)?.displayName
         }
       })
     })
