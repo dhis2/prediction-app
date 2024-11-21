@@ -50,7 +50,7 @@ const TestRoute = () => {
                 <Button primary onClick={naviagteToTestRoute}>Create/edit route ➔</Button>
             </div>
 
-            <p><b>Preidction App is connecting to CHAP Core trough: </b>{OpenAPI.BASE}</p>
+            <p><b>Prediction App is connecting to CHAP Core trough: </b>{OpenAPI.BASE}</p>
 
 
          
