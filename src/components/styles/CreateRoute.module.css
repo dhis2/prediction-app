@@ -14,7 +14,16 @@
 }
 
 .error{
+    max-width: 800px;
+    margin: auto;
     color: red;
+    overflow-x: auto;
+    border: 1px solid black;
+    padding: 0.5rem;
+    max-height: 500px;
+    width: 900px;
+    overflow-y: scroll;
+    margin-bottom: 2rem;
 }
 
 .ok{

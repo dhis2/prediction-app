@@ -19,7 +19,6 @@ import { DefaultService, Feature, ModelSpec, OpenAPI, PredictionRequest } from '
 import { useConfig } from '@dhis2/app-runtime';
 import Period from './Periods';
 import { PeriodDimension } from '@dhis2/analytics';
-import useGetRoute from '../../hooks/useGetRoute';
 import SelectModel from './SelectModel';
 import ModelFeatures from './ModelFeatures';
 import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
@@ -32,7 +31,7 @@ const defaultPeriod = {
 };
 
 const PredictionPage = () => {
-  const { loading, routeId, error } = useGetRoute();
+  
   const config = useConfig()
 
   const navigate = useNavigate();
