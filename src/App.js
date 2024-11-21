@@ -4,7 +4,7 @@ import PredictionPage from "./components/prediction/PredictionPage";
 import ResultsPage from "./components/results/ResultsPage";
 import SettingsPage from "./components/settings/SettingsPage";
 import CreateRoutePage from "./components/CreateRoutePage";
-import TestRoutePage from "./components/TestRoutePage";
+import RouteSettingsPage from "./components/RouteSettingsPage";
 import ErrorPage from "./components/ErrorPage";
 import StatusPage from "./components/StatusPage";
 import React from "react";
@@ -18,10 +18,7 @@ const router = createHashRouter([
         path: "create-route",
         element: <CreateRoutePage />,
       },
-      {
-        path: "test-route",
-        element: <TestRoutePage />,
-      },
+      
     ]
   },
   {
@@ -44,7 +41,11 @@ const router = createHashRouter([
       {
         path: "status",
         element: <StatusPage />,
-      }
+      },
+      {
+        path: "route-settings",
+        element: <RouteSettingsPage />,
+      },
     ],
   },
 ]);

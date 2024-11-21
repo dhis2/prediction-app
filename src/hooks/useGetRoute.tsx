@@ -6,7 +6,8 @@ const REQUEST = {
     resource: "routes",
     params: {
       paging : false,
-      filter : `code:eq:chap`
+      filter : `code:eq:chap`,
+      fields : "*"
     },
   }
 }
@@ -17,7 +18,7 @@ const useGetRoute = () => {
 
 
   return {
-    routeId : (route as any)?.routes?.routes[0]?.id,
+    route : (route as any)?.routes?.routes[0],
     error,
     loading,
   };

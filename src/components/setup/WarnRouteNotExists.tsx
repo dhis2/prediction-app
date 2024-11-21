@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import style from '../styles/WarnRouteNotExists.module.css'
 
 const WarnRouteNotExists = () => {
-  const { loading, routeId, error } = useGetRoute();
+  const { loading, route, error } = useGetRoute();
   const config = useConfig()
 
   
-  if(!routeId && !loading && window.location.pathname.split("/")[1] != "route"){
+  if(!route && !loading && window.location.pathname.split("/")[1] != "route"){
     return (
       <div className={style.warningMargin}>
         <NoticeBox warning title="Missing route">

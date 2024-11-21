@@ -35,10 +35,10 @@ const Root = () => {
     }
 
     if(existingUrl){
+      console.log("Setting OpenAPI url to: ", existingUrl)
       OpenAPI.BASE = existingUrl
     }
     else{
-
       OpenAPI.BASE = config.baseUrl+'/api/routes/chap/run'
     }
   }
@@ -80,6 +80,15 @@ const Root = () => {
               <MenuItem
                 onClick={() => setIsSetOpenApiUrlModalOpen(true)}
                 label="Edit CHAP-Core url"
+                />
+            </Fragment>
+            <Fragment key={"settings"}>
+              <MenuItem
+                label="Routes API settings"
+                href={`#/route-settings`}
+                  active={
+                    (pathname === "route-settings")
+                  }
                 />
             </Fragment>
             { isSetOpenApiUrlModalOpen && <SetOpenApiUrl existingUrl={existingUrl} fetching={fetching} loading={loading} setOpen={setIsSetOpenApiUrlModalOpen}/> }

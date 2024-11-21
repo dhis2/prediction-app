@@ -1,13 +1,17 @@
 import { Button, IconArrowRight24 } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
-import { DefaultService } from '../../httpfunctions'
+import { DefaultService, OpenAPI } from '../../httpfunctions'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from '../styles/TestRoute.module.css'
+import useGetRoute from '../../hooks/useGetRoute'
 
 const TestRoute = () => {
 
     const [status, setStatus] = useState(undefined)
     const [errorMessage, setErrorMessage] = useState("")
+
+
+    const {route} = useGetRoute()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -28,6 +32,10 @@ const TestRoute = () => {
         
         fetchStatus()
     }, [])
+
+    const naviagteToTestRoute = () => {
+        window.location.replace('#/route/create-route')
+    }
     
 
     const naviagteHome = () => {
@@ -38,23 +46,56 @@ const TestRoute = () => {
     <div className={styles.outerContainer}>
         <div className={styles.container}>
             <h2>Test connection to CHAP</h2>
+            <div className={styles.link}>
+                <Button primary onClick={naviagteToTestRoute}>Create/edit route ➔</Button>
+            </div>
+
+            <p><b>Preidction App is connecting to CHAP Core trough: </b>{OpenAPI.BASE}</p>
+
+
+         
+            {route && <>
+                <b>Current route</b>
+            
+            <table className={styles.table}> 
+                <tbody>
+                    <tr>
+                        <td>name</td>
+                        <td>{route?.name}</td>
+                    </tr>
+                    <tr>
+                        <td>url</td>
+                        <td>{route?.url}</td>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>{route?.id}</td>
+                    </tr>
+                    <tr>
+                        <td>headers</td>
+                        <td>{JSON.stringify(route?.headers)}</td>
+                    </tr>
+                    <tr>
+                        <td>code</td>
+                        <td>{route?.code}</td>
+                    </tr>
+                </tbody>
+            </table></> }
+
+            <h3>Test result:</h3>
 
             {isLoading && <p>Loading...</p>}
             
             {status &&
             <div className={styles.status_ok}>
-                <h4>Success!</h4>
                 {status && <pre >{JSON.stringify(status, null, 2)}</pre>}
-                <Button icon={<IconArrowRight24/>} primary color='blue' onClick={naviagteHome}>Continue to CHAP</Button>
             </div>
             }
             {errorMessage &&
-                <div>
+                <div className={styles.errorContainer}>
                     <p className={styles.status_not_ok}>
-                        ERROR
                         <pre>{JSON.stringify(errorMessage, null, 2)}</pre>
                     </p>
-                    <Button primary onClick={fetchStatus}>Retry</Button>
                 </div>
             }
 
@@ -63,6 +104,8 @@ const TestRoute = () => {
 
         
         </div>  
+
+
     </div>
   )
 }

@@ -6,9 +6,20 @@
     margin-top: 3rem;
 }
 
+.errorContainer{
+    margin-right: 4rem;
+    max-width: 900px;
+
+    overflow-x: auto;
+}
+
 .container{
-    max-width: 500px;
-    margin: auto;
+    padding: 0rem;
+}
+
+.link{
+    margin-top: 1rem;
+    font-size: 1.2rem;
 }
 
 
