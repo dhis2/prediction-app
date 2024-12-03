@@ -12,13 +12,13 @@
     "generate": "yarn openapi --input ./public/openapi.json --output ./src/httpfunctions"
   },
   "devDependencies": {
-    "@dhis2/cli-app-scripts": "^11.7.2"
+    "@dhis2/cli-app-scripts": "^11.7.5"
   },
   "dependencies": {
-    "@dhis2/analytics": "^26.8.5",
-    "@dhis2/app-runtime": "^3.11.0",
+    "@dhis2/analytics": "^26.9.0",
+    "@dhis2/app-runtime": "^3.11.2",
     "@dhis2/multi-calendar-dates": "^1.1.1",
-    "@dhis2/ui": "^9.11.6",
+    "@dhis2/ui": "^9.13.0",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",

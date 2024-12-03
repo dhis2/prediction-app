@@ -1,5 +1,5 @@
 declare module "*.module.css";
-//declare module "@dhis2/app-runtime";
+declare module "@dhis2/app-runtime";
 declare module "react-dropzone";
 //declare module "@dhis2/ui";
 declare module "@dhis2/multi-calendar-dates";

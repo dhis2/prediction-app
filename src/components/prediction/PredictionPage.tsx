@@ -27,7 +27,6 @@ import { PeriodDimension } from '@dhis2/analytics';
 import SelectModel from './SelectModel';
 import ModelFeatures from './ModelFeatures';
 import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
-import SwitchClimateSources from '../climateSource/SwitchClimateSources';
 import saveAs from 'file-saver';
 import PredictEvaluateHelp from './PredictEvaluateHelp';
 
@@ -68,6 +67,7 @@ const PredictionPage = () => {
   const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
   const [startDownload, setStartDownload] = useState<{action: "download" | "predict" | "evaluate", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
+  const [renderOptionalField, setRenderOptionalField] = useState<boolean | undefined>(false)
 
   const isValid = Boolean(
       selectedPeriodItems &&
@@ -156,18 +156,33 @@ const PredictionPage = () => {
     );
   }
 
+  const renderMainForm = () => {
+    //if select to use ERA5-Land, and all required fields are selected
+    if (selectedModel?.features.filter(f => !f.optional).length == [...modelSpesificSelectedDataElements].filter(([k, v]) => !v.optional).length && !renderOptionalField) {
+      return true
+    }
+    //if select to use climate data source from DHIS2, and all required fields are selected
+    if (modelSpesificSelectedDataElements?.size == selectedModel?.features.length) {
+      return true
+    }
+    return false
+  }
+
 
 
   return (
     <div className={styles.container}>
-      <h1>{i18n.t('Select training data')}</h1>
+
+      <h1>{i18n.t('Select training data and create prediction')}</h1>
 
       <SelectModel selectedModel={selectedModel} setSelectedModel={onSelectModel}/>
-      <ModelFeatures features={selectedModel?.features} setModelSpesificSelectedDataElements={setModelSpesificSelectedDataElements} modelSpesificSelectedDataElements={modelSpesificSelectedDataElements} />
 
-      {selectedModel?.features.length === modelSpesificSelectedDataElements?.size &&
+
+      <ModelFeatures setRenderOptionalField={setRenderOptionalField} renderOptionalField={renderOptionalField} features={selectedModel?.features} setModelSpesificSelectedDataElements={setModelSpesificSelectedDataElements} modelSpesificSelectedDataElements={modelSpesificSelectedDataElements} />
+
+      {renderMainForm() &&
       <>
-        <SwitchClimateSources/>
+        
         <OrgUnits orgUnits={orgUnits} setOrgUnits={setOrgUnits} />
         {!orgUnitsSelectedIsValid() && (
           <p className={styles.error}>
@@ -176,13 +191,11 @@ const PredictionPage = () => {
         )}
         <OrgUnitLevel orgUnitLevels={orgUnitLevel} onChange={setOrgUnitLevel} />
 
-
         <div className={styles.container}>
-          <h2>{i18n.t('Period')}</h2>
+          <h3>{i18n.t('Training period')}</h3>
 
           <div className={styles.pickers}>
-            <PeriodDimension
-              
+            <PeriodDimension     
               selectedPeriods={selectedPeriodItems}
               onSelect={handleSelectedPeriod}
               excludedPeriodTypes={[]}
@@ -198,7 +211,7 @@ const PredictionPage = () => {
               (startDownload.startDownlaod && startDownload.action === "download") ||
               !orgUnitsSelectedIsValid()
             }
-            onClick={() =>onClickDownloadOrPostData("download")}
+            onClick={() => onClickDownloadOrPostData("download")}
           >
             Download data
           </Button>
