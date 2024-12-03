@@ -12,7 +12,7 @@ import { OpenAPI } from "../httpfunctions";
 export const appPages = [
   { path: "/", name: "1 | Select training data" },
   { path: "/status", name: "2 | CHAP Core status" },
-  { path: "/results", name: "3 | Import prediction" },
+  { path: "/results", name: "3 | Results" },
 ];
 
 const Root = () => {
@@ -82,7 +82,7 @@ const Root = () => {
                 label="Edit CHAP-Core url"
                 />
             </Fragment>
-            <Fragment key={"settings"}>
+            <Fragment key={"route-settings"}>
               <MenuItem
                 label="Routes API settings"
                 href={`#/route-settings`}

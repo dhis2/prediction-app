@@ -10,6 +10,8 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 export type { Coordinates } from './models/Coordinates';
 export type { DataElement } from './models/DataElement';
 export type { DataList } from './models/DataList';
+export type { EvaluationEntry } from './models/EvaluationEntry';
+export type { EvaluationResponse } from './models/EvaluationResponse';
 export type { Feature } from './models/Feature';
 export type { FeatureCollectionModel } from './models/FeatureCollectionModel';
 export type { FeatureModel } from './models/FeatureModel';

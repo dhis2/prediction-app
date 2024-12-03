@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import i18n from '@dhis2/d2-i18n';
 import {
   Button,
   IconError24,
   IconDownload24,
   IconArrowRight24,
+  Popover,
+  Chip,
+  IconInfo16,
+  IconInfo24,
+  IconQuestion24,
 } from '@dhis2/ui';
 import OrgUnits from './OrgUnits';
 import DataElement from './DataElement';
@@ -24,6 +29,7 @@ import ModelFeatures from './ModelFeatures';
 import { ModelFeatureDataElementMap } from '../../interfaces/ModelFeatureDataElement';
 import SwitchClimateSources from '../climateSource/SwitchClimateSources';
 import saveAs from 'file-saver';
+import PredictEvaluateHelp from './PredictEvaluateHelp';
 
 const defaultPeriod = {
   startMonth: '2023-04',
@@ -61,7 +67,7 @@ const PredictionPage = () => {
   const [jsonResult, setJsonResult] = useState<PredictionRequest | undefined>(undefined);
   const [selectedPeriodItems, setSelectedPeriodItems] = useState();
 
-  const [startDownload, setStartDownload] = useState<{action: "download" | "post", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
+  const [startDownload, setStartDownload] = useState<{action: "download" | "predict" | "evaluate", startDownlaod: boolean}>({ action: "download", startDownlaod: false });
 
   const isValid = Boolean(
       selectedPeriodItems &&
@@ -78,17 +84,19 @@ const PredictionPage = () => {
     setSelectedModel(selected)
   }
 
-  const onClickDownloadOrPostData = (action : "download" | "post") => {
+  const onClickDownloadOrPostData = (action : "download" | "predict" | "evaluate") => {
     setJsonResult(undefined);
     setStartDownload({ action: action, startDownlaod: true });
   }
 
-  //triggers when chap-content is fetched
+  //triggers when anayltics content is fetched
   useEffect(() => {
+    console.log(jsonResult)
     if (jsonResult) {
       setStartDownload(prev => ({ ...prev, startDownlaod: false }));
       if(startDownload.action === "download") downloadData();
-      if(startDownload.action === "post") sendToChap();     
+      if(startDownload.action === "predict") predict();     
+      if(startDownload.action === "evaluate") evaluate();
     }
   }, [jsonResult]);
 
@@ -101,8 +109,24 @@ const PredictionPage = () => {
     saveAs(fileToSave, "chap_request_data_"+ today.toJSON() + '.json');
   }
 
-  const sendToChap = async () => {
+  const evaluate = async () => {
+    let request : PredictionRequest = jsonResult as PredictionRequest
+    request.n_periods = 3
 
+    await DefaultService.evaluateEvaluatePost(request)
+      .then((response: any) => {
+        setErrorChapMsg('');
+        setSendingDataToChap(false);
+        return navigate('/status');
+      })
+      .catch((error: any) => {
+        setSendingDataToChap(false);
+        console.log(error?.body?.detail);
+        setErrorChapMsg(error?.body?.detail);
+      });
+  }
+
+  const predict = async () => {
     let request : PredictionRequest = jsonResult as PredictionRequest
     request.n_periods = 3
 
@@ -131,6 +155,7 @@ const PredictionPage = () => {
         (innerArray as any).path.split('/').length === firstElement
     );
   }
+
 
 
   return (
@@ -164,8 +189,7 @@ const PredictionPage = () => {
             />
           </div>
         </div>
-
-        <div className={styles.buttons}>
+        <div className={styles.buttons} >
           <Button
             icon={<IconDownload24 />}
             loading={startDownload.startDownlaod}
@@ -182,12 +206,23 @@ const PredictionPage = () => {
             icon={<IconArrowRight24 />}
             primary
             loading={sendingDataToChap}
-            disabled={!isValid || (startDownload.startDownlaod && startDownload.action === "post") || !orgUnitsSelectedIsValid()}
-            onClick={() =>onClickDownloadOrPostData("post")}
+            disabled={!isValid || (startDownload.startDownlaod) || !orgUnitsSelectedIsValid()}
+            onClick={() =>onClickDownloadOrPostData("predict")}
           >
-            Send data to CHAP
+            Predict
+          </Button>
+          <Button
+            icon={<IconArrowRight24 />}
+            primary
+            loading={sendingDataToChap}
+            disabled={!isValid || (startDownload.startDownlaod) || !orgUnitsSelectedIsValid()}
+            onClick={() =>onClickDownloadOrPostData("evaluate")}
+          >
+            Evaluate
           </Button>
         </div>
+        <PredictEvaluateHelp/>
+
         {<p className={styles.errorChap}>{errorChapMsg}</p>}
         {startDownload.startDownlaod && isValid && (
           <DownloadData

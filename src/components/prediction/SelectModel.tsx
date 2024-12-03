@@ -9,7 +9,7 @@ interface SelectModelProps {
 }
 
 const offlineModel : ModelSpec = {
-  name : "EWARS - monthly data (offline)",
+  name : "Download data (CHAP is offline)",
   parameters : [],
   features : [
   {

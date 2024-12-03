@@ -1,0 +1,3 @@
+[submodule "src/components/chap-visual-analytics"]
+	path = src/components/chap-visual-analytics
+	url = https://github.com/dhis2-chap/chap_dashboard

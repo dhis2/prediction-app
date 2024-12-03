@@ -43,7 +43,7 @@ const Result = ({ isReady }: ResultProps) => {
     <>
       <div className={styles.buttonContainer}>
         <Button className={styles.result} onClick={downloadLocaly} icon={<IconDownload24 />}>Download latest result</Button>
-        <Button className={styles.result} primary onClick={sendToPredictionPage} icon={<IconArrowRight24 />}>Import prediction</Button>
+        <Button className={styles.result} primary onClick={sendToPredictionPage} icon={<IconArrowRight24 />}>Import result</Button>
         
       </div>
       <span>{errorMessage}</span>
